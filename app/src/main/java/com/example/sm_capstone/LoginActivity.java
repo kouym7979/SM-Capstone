@@ -8,25 +8,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity  {
 
-    private EditText id,pw;
-    private Button login;
-    private Button os;
+    private Button btn_login;
+    private Button btn_register;
+    private EditText idEdit;
+    private EditText passEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        id=findViewById(R.id.id);
-        pw=findViewById(R.id.password);
-       findViewById(R.id.login_btn).setOnClickListener(this);
+        btn_login = findViewById(R.id.btn_login);
+        btn_register = findViewById(R.id.btn_register);
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        startActivity(new Intent(this,MainActivity.class));
-        finish();
+        idEdit = findViewById(R.id.idEdit);
+        passEdit = findViewById(R.id.passEdit);
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent2);
+                finish();
+            }
+        });
     }
 }
