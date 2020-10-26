@@ -12,7 +12,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText id,pw;
     private Button login;
-
+    private Button os;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
