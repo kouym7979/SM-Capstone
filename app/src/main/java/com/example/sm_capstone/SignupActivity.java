@@ -59,6 +59,9 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         manager = (CheckBox) findViewById(R.id.manager);
         employee = (CheckBox) findViewById(R.id.employee);
 
+        manager.setOnCheckedChangeListener(this);
+        employee.setOnCheckedChangeListener(this);
+
         val_Button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,9 +108,9 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "현재 회원가입 중2", Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Map<String, Object> userMap = new HashMap<>();
+
                                 //EmploID란 클래스를 통해서 사용자별 정보를 객체별로 저장하는 클래스
                                 userMap.put(EmployID.documentId, user.getUid());//고유 식별번호
                                 userMap.put(EmployID.name,nameEdit.getText().toString());
