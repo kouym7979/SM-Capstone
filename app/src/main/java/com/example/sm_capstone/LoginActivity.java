@@ -3,6 +3,7 @@ package com.example.sm_capstone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.content.SharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,7 +28,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
 
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
     private FirebaseUser currentUser;
-    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private CheckBox autoCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +41,34 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
 
         emailEdit = findViewById(R.id.emailEdit);
         passEdit = findViewById(R.id.passEdit);
+        autoCheck=(CheckBox)findViewById(R.id.btn_chklogin);
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
+        autoCheck.setChecked(pref.getBoolean("autocheck",false));
 
     }
+    @Override// 자동로그인 메소드 추가예정->xml linearlayout형태로 바꿔야함
+    public void onStart(){
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
 
+        if(autoCheck.isChecked()==true)
+        {
+            if (currentUser != null) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
+        }
+    }
+    public void onStop()
+    {
+        super.onStop();
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        CheckBox autoCheck = (CheckBox)findViewById(R.id.btn_chklogin);
+        editor.putBoolean("autocheck", autoCheck.isChecked());
+        editor.commit();
+    }
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
@@ -81,18 +106,6 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
     }
 
 
-   /* @Override// 자동로그인 메소드 추가예정->xml linearlayout형태로 바꿔야함
-    public void onStart(){
-        super.onStart();
-        currentUser = mAuth.getCurrentUser();
-        autoLogin = (CheckBox)findViewById(R.id.chk_autologin);
-        if(autoLogin.isChecked()==true)
-        {
-            if (currentUser != null) {
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-            }
-        }
-    }*/
+
 
 }
