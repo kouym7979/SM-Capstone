@@ -28,7 +28,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
     private Button val_Button;//중복확인버튼
     private Button regButton;
-    
+
     private EditText nameEdit, passEdit,passChkEdit,phoneNumEdit,emailEdit;
 
     private FirebaseAuth mAuth= FirebaseAuth.getInstance();
