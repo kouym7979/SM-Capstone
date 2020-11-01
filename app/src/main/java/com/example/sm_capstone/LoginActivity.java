@@ -75,7 +75,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
             case R.id.btn_login:
                 String u_id=emailEdit.getText().toString();
                 String u_pw=passEdit.getText().toString();
-                if(u_id==null || u_pw==null)
+                if(u_id.equals("") || u_pw.equals(""))
                     Toast.makeText(LoginActivity.this,"Login Error",Toast.LENGTH_SHORT).show();
                 if(u_id!=null && u_pw!=null){
                     loginStart(u_id,u_pw);
