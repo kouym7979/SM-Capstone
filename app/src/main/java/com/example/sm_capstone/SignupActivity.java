@@ -110,7 +110,6 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Map<String, Object> userMap = new HashMap<>();
-
                                 //EmploID란 클래스를 통해서 사용자별 정보를 객체별로 저장하는 클래스
                                 userMap.put(EmployID.documentId, user.getUid());//고유 식별번호
                                 userMap.put(EmployID.name,nameEdit.getText().toString());
@@ -118,7 +117,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                                 userMap.put(EmployID.email, emailEdit.getText().toString());
                                 userMap.put(EmployID.password, passEdit.getText().toString());
                                 userMap.put(EmployID.type, type);
-                                mstore.collection(EmployID.user).document(user.getUid()).set(userMap, SetOptions.merge());
+                                mstore.collection("User").add(user);
                                 finish();
                             } else {
                                 Toast.makeText(SignupActivity.this, "error.",
