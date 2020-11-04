@@ -52,7 +52,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
         post_imageView.setVisibility(View.INVISIBLE);
         post_progressBar = findViewById(R.id.post_progressbar);
 
-        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
+        /*if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -67,7 +67,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                             }
                         }
                     });
-        }
+        }*/
 
     }
 
@@ -76,7 +76,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
         if(mAuth.getCurrentUser()!=null){
             String PostID=mStore.collection("Post").document().getId();//제목이 같아도 게시글이 겹치지않게
             Intent intent=getIntent();
-            post_num=intent.getStringExtra("post");
+            //post_num=intent.getStringExtra("post");
 
             Log.d("확인","여기는 게시글 작성:"+post_num);
             Map<String,Object> data=new HashMap<>();
@@ -84,10 +84,10 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             data.put(EmployID.title,mTitle.getText().toString());//게시글제목
             data.put(EmployID.contents,mContents.getText().toString());//게시글 내용
             data.put(EmployID.timestamp, FieldValue.serverTimestamp());//파이어베이스 시간을 저장 그래야 게시글 정렬이 시간순가능
-            data.put(EmployID.name,writer_name);
+           // data.put(EmployID.name,writer_name);
             data.put(EmployID.post_id,PostID);//게시글 ID번호
-            data.put(EmployID.post_num,post_num);
-            data.put(EmployID.writer_id,writer_id);
+            //data.put(EmployID.post_num,post_num);
+           // data.put(EmployID.writer_id,writer_id);
 
             mStore.collection("Post").document(PostID).set(data);//Post라는 테이블에 데이터를 입력하는것/
             finish();
