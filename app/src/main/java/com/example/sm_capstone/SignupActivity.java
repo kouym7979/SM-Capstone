@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,11 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -28,7 +32,6 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
     private Button val_Button;//중복확인버튼
     private Button regButton;
-
     private EditText nameEdit, passEdit,passChkEdit,phoneNumEdit,emailEdit;
 
     private FirebaseAuth mAuth= FirebaseAuth.getInstance();
@@ -109,16 +112,38 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Map<String, Object> userMap = new HashMap<>();
-                                //EmploID란 클래스를 통해서 사용자별 정보를 객체별로 저장하는 클래스
-                                userMap.put(EmployID.documentId, user.getUid());//고유 식별번호
-                                userMap.put(EmployID.name,nameEdit.getText().toString());
-                                userMap.put(EmployID.phone_number,phoneNumEdit.getText().toString());
-                                userMap.put(EmployID.email, emailEdit.getText().toString());
-                                userMap.put(EmployID.password, passEdit.getText().toString());
-                                userMap.put(EmployID.type, type);
-                                mstore.collection("User").add(user);
-                                finish();
+                                if(user!=null) {
+                                    Map<String, Object> userMap = new HashMap<>();
+                                    //EmploID란 클래스를 통해서 사용자별 정보를 객체별로 저장하는 클래스
+                                    userMap.put(EmployID.documentId, user.getUid());//고유 식별번호
+                                    userMap.put(EmployID.name, nameEdit.getText().toString());
+                                    userMap.put(EmployID.phone_number, phoneNumEdit.getText().toString());
+                                    userMap.put(EmployID.email, emailEdit.getText().toString());
+                                    userMap.put(EmployID.password, passEdit.getText().toString());
+                                    userMap.put(EmployID.type, type);
+                                    Log.d("확인","가입자 형식:"+type);
+                                    Log.d("확인","documentId:"+mAuth.getCurrentUser().getUid());
+                                    Log.d("확인","name:"+nameEdit.getText().toString());
+                                    Log.d("확인","phone_number:"+phoneNumEdit.getText().toString());
+                                    Log.d("확인","email:"+ emailEdit.getText().toString());
+                                    Log.d("확인","password:"+ passEdit.getText().toString());
+                                    Log.d("확인","employ:"+ EmployID.user);
+                                    mstore.collection(EmployID.user).document(user.getUid()).set(userMap, SetOptions.merge());
+                                    /*mstore.collection("User").add(userMap)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Log.d("확인","데이터 전송완료"+documentReference.getId());
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.d("확인","실패햇습니다",e);
+                                                }
+                                            });*/
+                                    finish();
+                                }
                             } else {
                                 Toast.makeText(SignupActivity.this, "error.",
                                         Toast.LENGTH_SHORT).show();
