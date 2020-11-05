@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.content.SharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +31,8 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
     private FirebaseUser currentUser;
     private CheckBox autoCheck;
+    Activity a;
+    ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,9 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_register).setOnClickListener(this);
 
-
+        a = LoginActivity.this;
+        loading = findViewById(R.id.loadingBar);
+        loading.setVisibility(View.INVISIBLE);
         emailEdit = findViewById(R.id.emailEdit);
         passEdit = findViewById(R.id.passEdit);
         autoCheck=(CheckBox)findViewById(R.id.btn_chklogin);
@@ -75,9 +81,10 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
             case R.id.btn_login:
                 String u_id=emailEdit.getText().toString();
                 String u_pw=passEdit.getText().toString();
-                if(u_id==null || u_pw==null)
-                    Toast.makeText(LoginActivity.this,"Login Error",Toast.LENGTH_SHORT).show();
-                if(u_id!=null && u_pw!=null){
+                if(u_id.equals("") || u_pw.equals(""))
+                    ((GlobalMethod)getApplicationContext()).LoginBlank(a);
+
+                else if(u_id!=null && u_pw!=null){
                     loginStart(u_id,u_pw);
                 }
                 break;
@@ -87,13 +94,13 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         }
     }
     public void loginStart(String id,String pw){
-        Toast.makeText(LoginActivity.this,"Login",Toast.LENGTH_SHORT).show();
+        loading.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(id,pw).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Toast.makeText(LoginActivity.this,"로그인 확인 중",Toast.LENGTH_SHORT).show();
                 if(!task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    loading.setVisibility(View.INVISIBLE);
+                    ((GlobalMethod)getApplicationContext()).LoginFail(a);
                 }
                 else{
                     currentUser =mAuth.getCurrentUser();//현재 유저확인
