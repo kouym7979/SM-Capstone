@@ -2,6 +2,7 @@ package com.example.sm_capstone.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -37,6 +38,10 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         holder.title.setText(datas.get(position).getTitle());
         holder.contents.setText(datas.get(position).getContents());
         holder.writer.setText(datas.get(position).getContents());
+
+
+
+
     }
 
     @Override
@@ -44,7 +49,10 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         return datas.size();
     }
 
-    public interface EventListener {
+    public interface  EventListener<QuerySnapshot>{
+        boolean onOptionItemSelected(MenuItem item);
+
+        void onItemClicked(int position);
     }
 
     class BoardViewHolder extends RecyclerView.ViewHolder{

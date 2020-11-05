@@ -81,7 +81,6 @@ public class Post {
                 "documentId='" + documentId + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
-
                 ", post_id='" + post_id + '\'' +
                 ", writer_name='" + writer_name + '\'' +
                 ", date=" + date +
