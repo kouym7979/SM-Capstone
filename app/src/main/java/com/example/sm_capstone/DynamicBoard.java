@@ -37,9 +37,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_board);
-
         Board=findViewById(R.id.recyclerview);
-
         FloatingActionButton fab=findViewById(R.id.edit_button);//글 작성
         fab.setOnClickListener(this);
 
@@ -77,7 +75,9 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(DynamicBoard.this,PostWrite.class));
+        Intent intent = new Intent(DynamicBoard.this,PostWrite.class);
+        intent.putExtra("post_num","1");
+        startActivity(intent);
         finish();
     }
 }
