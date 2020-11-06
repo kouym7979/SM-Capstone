@@ -68,7 +68,6 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                         }
                     });
         }
-
     }
 
     @Override
