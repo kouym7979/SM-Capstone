@@ -7,21 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sm_capstone.Board_Post.Post;
+import com.example.sm_capstone.Board_Post.Home_Post;
 import com.example.sm_capstone.DynamicBoard;
 import com.example.sm_capstone.EmployID;
-import com.example.sm_capstone.HomeActivity;
 import com.example.sm_capstone.R;
-import com.example.sm_capstone.adapter.BoardAdapter;
+import com.example.sm_capstone.adapter.HomeAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -40,9 +37,10 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth Auth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private Context context;
-    private RecyclerView dynamicBoard;//동적게시판
-    private BoardAdapter mAdapter;
-    private List<Post> mDatas;
+    private RecyclerView h_dynamicBoard;//동적게시판
+    private HomeAdapter mAdapter;
+    private List<Home_Post> mDatas;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class HomeFragment extends Fragment {
                 switch(v.getId()){
                     case R.id.btn_board:
                        Intent intent=new Intent(getActivity(),DynamicBoard.class);
-                       intent.putExtra("post_num","1");//1은 동적게시판,2는 정적게시판
+                       intent.putExtra("board_part","동적게시판");//1은 동적게시판,2는 정적게시판
                         startActivity(intent);
                         break;
 
@@ -68,16 +66,16 @@ public class HomeFragment extends Fragment {
         };
         Button D_board = (Button) root.findViewById(R.id.btn_board) ;
         D_board.setOnClickListener(onClickListener) ;
-        dynamicBoard=(RecyclerView)root.findViewById(R.id.recyclerview);
+        h_dynamicBoard=(RecyclerView)root.findViewById(R.id.home_recyclerview2);
 
         return root;
     }
     @Override
     public void onStart() {
         super.onStart();
-        mDatas = new ArrayList<>();//
+       mDatas = new ArrayList<>();//
         mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
-                //.whereEqualTo("post_num",)//후에 가게정보에 따른 비교를 추가해야함
+               // .whereEqualTo("board_part","동적게시판")//1은 동적, 2는 정적 게시판
                 .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
                 .addSnapshotListener(
                         new EventListener<QuerySnapshot>() {
@@ -87,18 +85,13 @@ public class HomeFragment extends Fragment {
                                     mDatas.clear();//미리 생성된 게시글들을 다시 불러오지않게 데이터를 한번 정리
                                     for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
                                         Map<String, Object> shot = snap.getData();
-                                        String documentId = String.valueOf(shot.get(EmployID.documentId));
                                         String title = String.valueOf(shot.get(EmployID.title));
-                                        String contents = String.valueOf(shot.get(EmployID.contents));
-                                        String writer_name = String.valueOf(shot.get(EmployID.writer_name));
-                                        String post_id=String.valueOf(shot.get(EmployID.post_id));
-
-                                        Post data = new Post(documentId, title, contents,post_id,writer_name);
+                                        String board_part=String.valueOf(shot.get(EmployID.board_part));
+                                        Home_Post data = new Home_Post(board_part,title);
                                         mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
-
                                     }
-                                    mAdapter = new BoardAdapter(getContext(),mDatas);//mDatas라는 생성자를 넣어줌
-                                    dynamicBoard.setAdapter(mAdapter);
+                                    mAdapter = new HomeAdapter(getContext(),mDatas);//mDatas라는 생성자를 넣어줌
+                                    h_dynamicBoard.setAdapter(mAdapter);
                                 }
                             }
                         });

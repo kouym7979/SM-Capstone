@@ -18,7 +18,12 @@ public class EmployID {
     public static String board_part="board_part";//어떤 게시판인지
 
     public static String post_num="post_num";//게시글 번호
-    public static String post_id="post_id";
+    public static String post_id="post_id";//게시글의 uid
     public static String writer_id="writer_id";//게시글 작성자 uid저장용
     public static String writer_name="writer_name";
+    public static String post_photo = "post_photo";
+    public static String post_url="post_url";
+    public static String comment="comment";//댓글
+    public static String comment_post="comment_post";
+
 }

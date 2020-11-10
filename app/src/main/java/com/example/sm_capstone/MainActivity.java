@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, BoardAdapter.EventListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private HomeViewModel homeViewModel;
@@ -105,14 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public boolean onOptionItemSelected(MenuItem item) {
-        return false;
-    }
 
-    @Override
-    public void onItemClicked(int position) {
-
-    }
 }
 
