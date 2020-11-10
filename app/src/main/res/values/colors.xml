@@ -7,4 +7,6 @@
     <color name="welcomeColor">#689302</color>
     <color name="warningColor">#FFE20A</color>
     <color name="loadingColor">#D81B60</color>
+    <color name="graybackground">#eeedeb</color>
+    <color name="emplobackground">#1b2d43</color>
 </resources>
