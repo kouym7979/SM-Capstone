@@ -2,6 +2,7 @@ package com.example.sm_capstone;
 
 import android.app.Activity;
 import android.app.Application;
+import android.graphics.Color;
 
 import org.aviran.cookiebar2.CookieBar;
 
@@ -19,6 +20,28 @@ public class GlobalMethod extends Application {
                 .setCookiePosition(CookieBar.BOTTOM)
                 .setBackgroundColor(R.color.warningColor)
                 .setMessage("아이디, 비밀번호를 확인하세요")
+                .show();
+    }
+    public void idDuplicate(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.warningColor)
+                .setMessage("이미 사용중인 아이디 입니다")
+                .show();
+    }
+
+    public void idPossible(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.welcomeColor)
+                .setMessage("사용 가능한 아이디 입니다")
+                .show();
+    }
+    public void idChkPlz(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.warningColor)
+                .setMessage("ID중복검사를 확인하세요")
                 .show();
     }
 }

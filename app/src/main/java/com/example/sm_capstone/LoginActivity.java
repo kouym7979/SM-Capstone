@@ -42,6 +42,8 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_register).setOnClickListener(this);
 
+        getSupportActionBar().hide();
+
         a = LoginActivity.this;
         loading = findViewById(R.id.loadingBar);
         loading.setVisibility(View.INVISIBLE);
