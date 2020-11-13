@@ -78,6 +78,9 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                     });
         }
 
+
+
+
         post_photo.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -91,6 +94,9 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
 
             if (user.getPhotoUrl() == null) {
                 Log.d("사진", "포토유알엘이 비어있어요.");
+
+
+
 
             }
             if (user.getPhotoUrl() != null) {
@@ -114,6 +120,13 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             data.put(EmployID.timestamp, FieldValue.serverTimestamp());//파이어베이스 시간을 저장 그래야 게시글 정렬이 시간순가능
             data.put(EmployID.name,writer_name);
             data.put(EmployID.post_id,PostID);//게시글 ID번호
+
+
+            data.put(EmployID.post_num,post_num);
+            data.put(EmployID.writer_id,writer_id);
+
+
+
             data.put(EmployID.board_part,board_part);
             data.put(EmployID.writer_id,writer_id);
             data.put(EmployID.post_url,photoUrl);
@@ -121,6 +134,9 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             {
                 data.put(EmployID.post_photo,postImageUrl);//게시글에 포함된 사진
             }
+
+
+
             mStore.collection("Post").document(PostID).set(data);//Post라는 테이블에 데이터를 입력하는것/
             finish();
         }
