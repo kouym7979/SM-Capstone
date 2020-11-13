@@ -43,6 +43,11 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         Post data=datas.get(position);
         holder.title.setText(datas.get(position).getTitle());
         holder.contents.setText(datas.get(position).getContents());
+
+        holder.writer.setText(datas.get(position).getContents());
+
+        ///////////////////////
+
         holder.writer.setText(datas.get(position).getWriter_name());
 
         if ( !datas.get(position).getPost_photo().isEmpty()) {
@@ -77,6 +82,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                 }
             }
         });
+
     }
 
     @Override
