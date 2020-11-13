@@ -44,9 +44,11 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         holder.title.setText(datas.get(position).getTitle());
         holder.contents.setText(datas.get(position).getContents());
 
+
         holder.writer.setText(datas.get(position).getContents());
 
         ///////////////////////
+
 
         holder.writer.setText(datas.get(position).getWriter_name());
 
@@ -82,6 +84,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                 }
             }
         });
+
+
 
     }
 
