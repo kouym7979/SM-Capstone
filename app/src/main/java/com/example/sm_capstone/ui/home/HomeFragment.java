@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sm_capstone.Board_Post.Home_Post;
+import com.example.sm_capstone.CalendarActivity;
 import com.example.sm_capstone.DynamicBoard;
 import com.example.sm_capstone.EmployID;
 import com.example.sm_capstone.R;
@@ -60,11 +61,16 @@ public class HomeFragment extends Fragment {
                        intent.putExtra("board_part","동적게시판");//1은 동적게시판,2는 정적게시판
                         startActivity(intent);
                         break;
-
+                    case R.id.btn_calendar:
+                        Intent intent2=new Intent(getActivity(), CalendarActivity.class);
+                        startActivity(intent2);
+                        break;
                 }
             }
         };
         Button D_board = (Button) root.findViewById(R.id.btn_board) ;
+        Button Calendar=(Button)root.findViewById(R.id.btn_calendar);
+        Calendar.setOnClickListener(onClickListener);
         D_board.setOnClickListener(onClickListener) ;
         h_dynamicBoard=(RecyclerView)root.findViewById(R.id.home_recyclerview2);
 

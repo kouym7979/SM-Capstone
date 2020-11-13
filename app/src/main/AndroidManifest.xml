@@ -13,12 +13,9 @@
 
 
         <activity android:name=".CalendarActivity"/>
-<!--         <activity android:name=".ui.Logout.Fragment_Logout"></activity>-->
 
-        <activity android:name=".Board_comment"></activity>
+        <activity android:name=".Board_comment"/>
         <activity android:name=".ui.Logout.Fragment_Logout" />
-
-
         <activity android:name=".DynamicBoard" />
         <activity android:name=".PostWrite" />
         <activity android:name=".HomeActivity" />

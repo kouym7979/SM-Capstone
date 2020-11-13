@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity  implements View.OnClickList
     private RecyclerView dynamicBoard;//동적게시판
     private BoardAdapter mAdapter;
     private List<Post> mDatas;
-    private Button btn_Dyboard,btn_logout;//동적게시판으로 이동하는 버튼
+    private Button btn_Dyboard,btn_logou;//동적게시판으로 이동하는 버튼
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     @Override
@@ -44,8 +44,9 @@ public class HomeActivity extends AppCompatActivity  implements View.OnClickList
         dynamicBoard=findViewById(R.id.recyclerview);
         btn_Dyboard=findViewById(R.id.btn_board);
 
+        btn_calendar=findViewById(R.id.btn_calendar);
         btn_Dyboard.setOnClickListener(this);
-
+        btn_calendar.setOnClickListener(this);
 
     }
 
@@ -55,6 +56,11 @@ public class HomeActivity extends AppCompatActivity  implements View.OnClickList
             case R.id.btn_board:
                 startActivity(new Intent(HomeActivity.this, DynamicBoard.class));
                 finish();
+                break;
+            case R.id.btn_calendar:
+                startActivity(new Intent(HomeActivity.this, CalendarActivity.class));
+                finish();
+                break;
         }
     }
 
