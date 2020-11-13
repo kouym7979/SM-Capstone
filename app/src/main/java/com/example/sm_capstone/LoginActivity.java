@@ -42,6 +42,8 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_register).setOnClickListener(this);
 
+        getSupportActionBar().hide();
+
         a = LoginActivity.this;
         loading = findViewById(R.id.loadingBar);
         loading.setVisibility(View.INVISIBLE);
@@ -105,7 +107,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
                 else{
                     currentUser =mAuth.getCurrentUser();//현재 유저확인
                     Toast.makeText(LoginActivity.this,"로그인 성공",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
                 }
             }

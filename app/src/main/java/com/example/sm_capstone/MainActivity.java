@@ -10,6 +10,7 @@ import com.example.sm_capstone.ui.home.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, BoardAdapter.EventListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private HomeViewModel homeViewModel;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupWithNavController(navigationView, navController);
 
         dynamicBoard=findViewById(R.id.recyclerview);
+
 
         btn_Dyboard=findViewById(R.id.btn_board);
         btn_Dyboard.setOnClickListener(this);
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                         });
+
     }
 
 
@@ -143,5 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+
 }
 

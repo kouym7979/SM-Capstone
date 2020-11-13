@@ -3,6 +3,7 @@ package com.example.sm_capstone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
     private FirebaseAuth mAuth= FirebaseAuth.getInstance();
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
-
+    Activity a;
     private CheckBox manager;//관리자인지 직원인지
     private CheckBox employee;
     int dep;
@@ -48,6 +49,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_acitivity);
         setTitle("회원가입");
+        a = SignupActivity.this;
+        getSupportActionBar().hide();
 
         val_Button = findViewById(R.id.valButton);
         regButton = findViewById(R.id.regButton);
@@ -88,13 +91,13 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                     @Override
                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                         if(task.getResult().getSignInMethods().size()==0){
-                            Toast.makeText(getApplicationContext(), "이 이메일을 사용할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                            ((GlobalMethod)getApplicationContext()).idPossible(a);
                             val_Button.setEnabled(false);
-                            val_Button.setBackgroundColor(Color.GREEN);
-                            val_Button.setText("success");
+                            val_Button.setTextColor(Color.GREEN);
+                            val_Button.setText("사용가능");
                         }
                         else{
-                            Toast.makeText(getApplicationContext(), "이 이메일은 이미 사용중입니다.", Toast.LENGTH_SHORT).show();
+                            ((GlobalMethod)getApplicationContext()).idDuplicate(a);
                         }
 
                     }
@@ -103,7 +106,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
     public void registerInfo() {//회원가입 등록 메소드
         if (val_Button.isEnabled()) {
-            Toast.makeText(getApplicationContext(), "ID중복검사를 해주세요", Toast.LENGTH_SHORT).show();
+            ((GlobalMethod)getApplicationContext()).idChkPlz(a);
         } else {
             Toast.makeText(getApplicationContext(), "현재 회원가입 중", Toast.LENGTH_SHORT).show();
             mAuth.createUserWithEmailAndPassword(emailEdit.getText().toString(), passEdit.getText().toString()).
