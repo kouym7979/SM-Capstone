@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BoardAdapter mAdapter;
     private List<Post> mDatas;
     private Button btn_Dyboard,btn_logout;//동적게시판으로 이동하는 버튼
+    private Button btn_calendar; //캘린더로 이동하는 버튼
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     @Override
@@ -74,9 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupWithNavController(navigationView, navController);
 
         dynamicBoard=findViewById(R.id.recyclerview);
-        btn_Dyboard=findViewById(R.id.btn_board);
 
+        btn_Dyboard=findViewById(R.id.btn_board);
         btn_Dyboard.setOnClickListener(this);
+
+        //네비게이션바 CALENDAR버튼 등록
+        btn_calendar=findViewById(R.id.btn_calendar);
+        btn_calendar.setOnClickListener(this);
+
     }
     @Override
     protected void onStart() {
@@ -130,7 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_board:
                 startActivity(new Intent(MainActivity.this, DynamicBoard.class));
-                finish();
+                break;
+            case R.id.btn_calendar:
+                startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                break;
 
         }
     }

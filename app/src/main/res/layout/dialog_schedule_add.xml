@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!--    헤더-->
+    <TextView
+        android:id="@+id/scheduleAdd_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Schedule Add"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--    X버튼-->
+    <Button
+        android:id="@+id/btn_add_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+<!--    그래픽-->
+    <ImageView
+        android:id="@+id/calendarIMG"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:background="#3F51B5"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleAdd_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+<!--    name텍스트-->
+    <TextView
+        android:id="@+id/txt_add_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarIMG"
+        android:text="NAME" />
+
+<!--    date버튼-->
+    <Button
+        android:id="@+id/btn_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_add_name"
+        android:text="Select Date" />
+
+<!--    time버튼-->
+    <Button
+        android:id="@+id/btn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_date"
+        android:text="Select Time" />
+
+<!--    설정된 date, time 표시-->
+    <TextView
+        android:id="@+id/dateAndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_time" />
+
+<!--    제출 버튼-->
+    <Button
+        android:id="@+id/btn_add_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateAndTime"
+        android:text="Add" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

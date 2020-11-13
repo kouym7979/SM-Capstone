@@ -21,4 +21,10 @@ public class EmployID {
     public static String post_id="post_id";
     public static String writer_id="writer_id";//게시글 작성자 uid저장용
     public static String writer_name="writer_name";
+
+
+        //캘린더에 사용할 객체입니다.
+
+
+
 }
