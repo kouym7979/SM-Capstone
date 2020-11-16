@@ -50,11 +50,11 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         Intent intent=getIntent();
-        board_part=intent.getStringExtra("board_part");
+        board_part=intent.getStringExtra("board_part");//정적 또는 동적게시판 데이터를 불러옴
         super.onStart();
         mDatas = new ArrayList<>();//
         mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
-                .whereEqualTo("board_part","동적게시판")//후에 가게정보에 따른 비교를 추가해야함
+                .whereEqualTo("board_part",board_part)//후에 가게정보에 따른 비교를 추가해야함
                 .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
                 .addSnapshotListener(
                         new EventListener<QuerySnapshot>() {
