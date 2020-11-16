@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -40,8 +41,8 @@ public class HomeFragment extends Fragment {
     private Context context;
     private RecyclerView h_dynamicBoard;//동적게시판
     private HomeAdapter mAdapter;
-    private List<Home_Post> mDatas;
-
+    private List<Home_Post> mDatas,sDatas;//동적게시판데이터와 정적게시판 데이터
+    private TextView dynamic,staticboard;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +51,8 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.activity_home, container, false);
 
         context =container.getContext();
-
+        dynamic=root.findViewById(R.id.dynamic);
+        staticboard=root.findViewById(R.id.staticboard);
         Button.OnClickListener onClickListener=new Button.OnClickListener(){
 
             @Override
@@ -84,7 +86,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-       mDatas = new ArrayList<>();//
+       mDatas = new ArrayList<>();//동적게시판 용
+        sDatas=new ArrayList<>();//정적게시판용
         mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
                // .whereEqualTo("board_part","동적게시판")//1은 동적, 2는 정적 게시판
                 .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
@@ -107,6 +110,27 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         });
-
+        mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
+                // .whereEqualTo("board_part","동적게시판")//1은 동적, 2는 정적 게시판
+                .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
+                .addSnapshotListener(
+                        new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                if (queryDocumentSnapshots != null) {
+                                    mDatas.clear();//미리 생성된 게시글들을 다시 불러오지않게 데이터를 한번 정리
+                                    for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
+                                        Map<String, Object> shot = snap.getData();
+                                        String title = String.valueOf(shot.get(EmployID.title));
+                                        //String board_part=String.valueOf(shot.get(EmployID.board_part));
+                                        String writer_name=String.valueOf(shot.get(EmployID.writer_name));
+                                        Home_Post data = new Home_Post(writer_name,title);
+                                        mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
+                                    }
+                                    mAdapter = new HomeAdapter(getContext(),mDatas);//mDatas라는 생성자를 넣어줌
+                                    h_dynamicBoard.setAdapter(mAdapter);
+                                }
+                            }
+                        });
     }
 }
