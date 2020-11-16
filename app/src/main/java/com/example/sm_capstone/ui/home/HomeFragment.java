@@ -61,6 +61,11 @@ public class HomeFragment extends Fragment {
                        intent.putExtra("board_part","동적게시판");//1은 동적게시판,2는 정적게시판
                         startActivity(intent);
                         break;
+                    case R.id.btn_staticboard:
+                        Intent intent3=new Intent(getActivity(),DynamicBoard.class);
+                        intent3.putExtra("board_part","정적게시판");//1은 동적게시판,2는 정적게시판
+                        startActivity(intent3);
+                        break;
                     case R.id.btn_calendar:
                         Intent intent2=new Intent(getActivity(), CalendarActivity.class);
                         startActivity(intent2);
@@ -92,8 +97,9 @@ public class HomeFragment extends Fragment {
                                     for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
                                         Map<String, Object> shot = snap.getData();
                                         String title = String.valueOf(shot.get(EmployID.title));
-                                        String board_part=String.valueOf(shot.get(EmployID.board_part));
-                                        Home_Post data = new Home_Post(board_part,title);
+                                        //String board_part=String.valueOf(shot.get(EmployID.board_part));
+                                        String writer_name=String.valueOf(shot.get(EmployID.writer_name));
+                                        Home_Post data = new Home_Post(writer_name,title);
                                         mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
                                     }
                                     mAdapter = new HomeAdapter(getContext(),mDatas);//mDatas라는 생성자를 넣어줌
@@ -101,5 +107,6 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         });
+
     }
 }

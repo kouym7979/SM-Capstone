@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity  implements View.OnClickListener, BoardAdapter.EventListener{
 
-    private Button btn_home,btn_mypage,btn_calendar,btn_board;
+    private Button btn_home,btn_mypage,btn_calendar,btn_static;
     private FirebaseAuth Auth = FirebaseAuth.getInstance();
     private Context context;
     private RecyclerView dynamicBoard;//동적게시판
@@ -47,7 +47,6 @@ public class HomeActivity extends AppCompatActivity  implements View.OnClickList
         btn_calendar=findViewById(R.id.btn_calendar);
         btn_Dyboard.setOnClickListener(this);
         btn_calendar.setOnClickListener(this);
-
     }
 
     @Override
