@@ -67,7 +67,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                                         String documentId = String.valueOf(shot.get(EmployID.documentId));
                                         String title = String.valueOf(shot.get(EmployID.title));
                                         String contents = String.valueOf(shot.get(EmployID.contents));
-                                        String writer_name = String.valueOf(shot.get(EmployID.writer_name));
+                                        String writer_name = String.valueOf(shot.get(EmployID.name));
                                         String post_id=String.valueOf(shot.get(EmployID.post_id));
                                         String post_photo=String.valueOf(shot.get(EmployID.post_photo));
                                         String board_part=String.valueOf(shot.get(EmployID.board_part));
