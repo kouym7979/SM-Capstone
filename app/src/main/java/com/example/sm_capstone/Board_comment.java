@@ -133,7 +133,8 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (mAuth.getCurrentUser() != null) {//새로 Comment란 컬렉션에 넣어줌
+        if (mAuth.getCurrentUser() != null
+                && comment_edit.getText().toString().replace(" ","").equals("")) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid());//유저 고유번호
             data.put(EmployID.comment,comment_edit.getText().toString());//게시글 내용

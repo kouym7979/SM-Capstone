@@ -33,6 +33,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dynamic"
+            android:textSize="20dp"
+            android:text="동적게시판"
+            android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_recyclerview2"
@@ -41,10 +48,39 @@
             android:background="@drawable/buttonround"
             android:backgroundTint="#FFFFFF"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/logo" />
+
+            app:layout_constraintBottom_toTopOf="@id/logo"
+            />
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:background="@drawable/comment_item_shape"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout3"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/layout2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/staticboard"
+            android:textSize="20dp"
+            android:text="정적게시판"
+            android:textStyle="bold"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_recyclerview3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/home_recyclerview2"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -57,10 +93,10 @@
         android:background="#f8f8f8"
         android:id="@+id/layout1">
         <Button
-            android:id="@+id/btn_home"
+            android:id="@+id/btn_staticboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="home"
+            android:text="static_board"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -70,7 +106,7 @@
             android:text="board"
             android:id="@+id/btn_board"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/btn_home"/>
+            app:layout_constraintLeft_toRightOf="@id/btn_staticboard"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
