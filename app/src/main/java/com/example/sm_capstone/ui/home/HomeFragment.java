@@ -3,6 +3,7 @@ package com.example.sm_capstone.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,14 +89,20 @@ public class HomeFragment extends Fragment {
         S_board.setOnClickListener(onClickListener);
         h_dynamicBoard=(RecyclerView)root.findViewById(R.id.home_recyclerview2);
         static_board=(RecyclerView) root.findViewById(R.id.home_recyclerview3);
+        sDatas=new ArrayList<>();//정적게시판용
+        sDatas.addAll(_list.createRecyclerviewList());
+//        Log.d("확인",sDatas.get(0).toString());
+
+        sAdapter= new SHomeAdapter(getContext(),sDatas);
+        static_board.setAdapter(sAdapter);
         return root;
     }
     @Override
     public void onStart() {
         super.onStart();
        mDatas = new ArrayList<>();//동적게시판 용
-        sDatas=new ArrayList<>();//정적게시판용
-        mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
+        //sDatas.addAll(_list.createRecyclerviewList());
+         mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
                // .whereEqualTo("board_part","동적게시판")//1은 동적, 2는 정적 게시판
                 .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
                 .addSnapshotListener(
