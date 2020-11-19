@@ -132,19 +132,6 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                                     Log.d("확인","password:"+ passEdit.getText().toString());
                                     Log.d("확인","employ:"+ EmployID.user);
                                     mstore.collection(EmployID.user).document(user.getUid()).set(userMap, SetOptions.merge());
-                                    /*mstore.collection("User").add(userMap)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    Log.d("확인","데이터 전송완료"+documentReference.getId());
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.d("확인","실패햇습니다",e);
-                                                }
-                                            });*/
                                     finish();
                                 }
                             } else {

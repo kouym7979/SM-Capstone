@@ -4,13 +4,21 @@ public class Home_Post {
 
     private String board_part;
     private String title;
-
+    private String writer_name;
     public Home_Post(){
 
     }
 
-    public Home_Post(String board_part, String title) {
-        this.board_part = board_part;
+    public String getWriter_name() {
+        return writer_name;
+    }
+
+    public void setWriter_name(String writer_name) {
+        this.writer_name = writer_name;
+    }
+
+    public Home_Post(String writer_name, String title) {
+        this.writer_name=writer_name;
         this.title = title;
     }
 
@@ -33,8 +41,8 @@ public class Home_Post {
     @Override
     public String toString() {
         return "Home_Post{" +
-                "board_part='" + board_part + '\'' +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
+                ", writer_name='" + writer_name + '\'' +
                 '}';
     }
 }
