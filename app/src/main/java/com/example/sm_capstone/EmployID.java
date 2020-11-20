@@ -24,7 +24,12 @@ public class EmployID {
 
 
 
-
+    public static String schedule_num="schedule_num"; //스케줄 고유번호
+    public static String schedule_id="schedule_id";
+    public static String start_time;
+    public static String end_time;
+    public static String date;
+    public static String reference;
         //캘린더에 사용할 객체입니다.
 
 
