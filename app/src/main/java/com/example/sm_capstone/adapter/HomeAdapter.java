@@ -35,7 +35,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         Home_Post data=datas.get(position);
-        holder.board_part.setText(datas.get(position).getBoard_part());
+        holder.writer_name.setText(datas.get(position).getWriter_name());
         holder.title.setText(datas.get(position).getTitle());
 
         final int pos=holder.getAdapterPosition();//몇번째 항목을 클릭했는지
@@ -60,13 +60,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     class HomeViewHolder extends RecyclerView.ViewHolder{
        private TextView title;
-       private TextView board_part;
+       private TextView writer_name;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title=itemView.findViewById(R.id.post_contents);
-            board_part=itemView.findViewById(R.id.check_post);
+            writer_name=itemView.findViewById(R.id.check_post);
         }
     }
 }
