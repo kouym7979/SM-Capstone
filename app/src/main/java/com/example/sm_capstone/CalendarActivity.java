@@ -99,32 +99,32 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         super.onStart();
 
         mDatas = new ArrayList<>();
-        mStore.collection("Schedule") //리사이클러뷰에 띄울 파이어베이스 테이블 경로
-                .addSnapshotListener(
-                        new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                if(queryDocumentSnapshots != null){
-                                    mDatas.clear();
-                                    for(DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()){
-                                        Map<String, Object> shot = snap.getData();
-                                        String documentId = String.valueOf(shot.get(EmployID.documentId));
-                                        String writer_name = String.valueOf(shot.get(EmployID.writer_name));
-                                        String schedule_id = String.valueOf(shot.get(EmployID.schedule_id));
-                                        String writer_id = String.valueOf(shot.get(EmployID.writer_id));
-                                        String date = String.valueOf(shot.get(EmployID.date));
-                                        String start_time = String.valueOf(shot.get(EmployID.start_time));
-                                        String end_time = String.valueOf(shot.get(EmployID.end_time));
-                                        String mreference = String.valueOf(shot.get(EmployID.reference));
-                                        CalendarPost data = new CalendarPost(documentId, writer_name, schedule_id, date, start_time, end_time, mreference);
-                                        mDatas.add(data);
-                                    }
-                                    scheduleAdapter = new ScheduleAdapter(CalendarActivity.this, mDatas);
-                                    Schedule.setAdapter(scheduleAdapter);
-                                }
-                            }
-                        }
-                );
+//        mStore.collection("CalendarPost") //리사이클러뷰에 띄울 파이어베이스 테이블 경로
+//                .addSnapshotListener(
+//                        new EventListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//                                if(queryDocumentSnapshots != null){
+//                                    mDatas.clear();
+//                                    for(DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()){
+//                                        Map<String, Object> shot = snap.getData();
+//                                        String documentId = String.valueOf(shot.get(EmployID.documentId));
+//                                        String writer_name = String.valueOf(shot.get(EmployID.writer_name));
+//                                        String schedule_id = String.valueOf(shot.get(EmployID.schedule_id));
+//                                        String writer_id = String.valueOf(shot.get(EmployID.writer_id));
+//                                        String date = String.valueOf(shot.get(EmployID.date));
+//                                        String start_time = String.valueOf(shot.get(EmployID.start_time));
+//                                        String end_time = String.valueOf(shot.get(EmployID.end_time));
+//                                        String mreference = String.valueOf(shot.get(EmployID.reference));
+//                                        CalendarPost data = new CalendarPost(documentId, writer_name, schedule_id, date, start_time, end_time, mreference);
+//                                        mDatas.add(data);
+//                                    }
+//                                    scheduleAdapter = new ScheduleAdapter(CalendarActivity.this, mDatas);
+//                                    Schedule.setAdapter(scheduleAdapter);
+//                                }
+//                            }
+//                        }
+//                );
     }
 
     private void setMonthText() {
