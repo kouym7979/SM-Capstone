@@ -66,19 +66,21 @@
         android:id="@+id/tp_starttime"
         android:layout_width="300dp"
         android:layout_height="110dp"
-        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_date" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_date"
+        android:timePickerMode="spinner"
+        />
 
     <TimePicker
         android:id="@+id/tp_endtime"
         android:layout_width="300dp"
         android:layout_height="110dp"
-        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tp_starttime" />
+        app:layout_constraintTop_toBottomOf="@+id/tp_starttime"
+        android:timePickerMode="spinner"
+        />
 
 <!--    설정된 date, time 표시-->
     <TextView
