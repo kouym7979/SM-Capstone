@@ -121,48 +121,42 @@
         android:layout_marginRight="20dp"
         android:id="@+id/layout1">
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_staticboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#f8f8f8"
-            android:src="@drawable/icon_home"
+
             android:text="static"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_board"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+
             android:text="board"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/btn_staticboard" />
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_calendar"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+
+
             android:text="calendar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/btn_board" />
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_my_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_mypage"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+
             android:text="my_page"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/btn_calendar"

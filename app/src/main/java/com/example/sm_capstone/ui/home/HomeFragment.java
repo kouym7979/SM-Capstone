@@ -90,13 +90,13 @@ public class HomeFragment extends Fragment {
         static_board=(RecyclerView) root.findViewById(R.id.home_recyclerview3);
         return root;
     }
-    @Override
+
     public void onStart() {
         super.onStart();
-       mDatas = new ArrayList<>();//동적게시판 용
+        mDatas = new ArrayList<>();//동적게시판 용
         sDatas=new ArrayList<>();//정적게시판용
         mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
-               // .whereEqualTo("board_part","동적게시판")//1은 동적, 2는 정적 게시판
+                // .whereEqualTo("board_part","동적게시판")//1은 동적, 2는 정적 게시판
                 .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
                 .addSnapshotListener(
                         new EventListener<QuerySnapshot>() {
