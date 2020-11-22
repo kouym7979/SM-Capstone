@@ -116,6 +116,7 @@ public class HomeFragment extends Fragment {
                                     mAdapter = new HomeAdapter(getContext(),mDatas);//mDatas라는 생성자를 넣어줌
                                     h_dynamicBoard.setAdapter(mAdapter);
 
+                                    
                                 }
                             }
                         });
