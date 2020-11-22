@@ -34,6 +34,6 @@ public class EmployID {
     public static String post_url="post_url";
     public static String comment="comment";//댓글
     public static String comment_post="comment_post";
-
+    public static String w_comment="w_comment";
 
 }

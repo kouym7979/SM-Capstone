@@ -73,20 +73,8 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         board_name=intent.getStringExtra("post_num");//동적게시판인지 정적게시판인지
 
         //게시글에 첨부된 사진
-        String spost_photo=intent.getExtras().getString("photo_url");
-        Log.d("String spost값", spost_photo);
-        if ( !spost_photo.equals("null")) {
-            Log.d("피포토사진있음", intent.getExtras().getString("photo_url"));
-            Picasso.get()
-                    .load(intent.getStringExtra("photo_url"))
-                    .into(img2);
-        }
-        else
-        {
-            Log.d("사진빔", "사진이 비어있어요");
-            img2.getLayoutParams().height= 0;
-            img2.setVisibility(View.GONE);
-        }
+        getPostPhoto();
+
         if(mAuth.getCurrentUser()!=null){//유저의 이름을 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
                     .get()
@@ -95,6 +83,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.getResult()!=null){
                                user_name=(String)task.getResult().getData().get(EmployID.name);//
+                                Log.d("확인","현재 사용자 이름입니다"+user_name);
                             }
                         }
                     });
@@ -116,11 +105,12 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                             mcomment.clear();//미리 생성된 게시글들을 다시 불러오지않게 데이터를 한번 정리
                             for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
                                 Map<String, Object> shot = snap.getData();
+                                String w_name=String.valueOf(shot.get(EmployID.w_comment));
                                 String documentId = String.valueOf(shot.get(EmployID.documentId));
                                 String comment = String.valueOf(shot.get(EmployID.comment));
                                 String board_part= String.valueOf(shot.get(EmployID.board_part));
                                 String num_comment=String.valueOf(shot.get(EmployID.comment_post));
-                                Comment data = new Comment(user_name,comment, documentId,board_part,num_comment);
+                                Comment data = new Comment(w_name,comment, documentId,board_part,num_comment);
                                 mcomment.add(data);//여기까지가 게시글에 해당하는 데이터 적용
                             }
                         }
@@ -134,12 +124,12 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (mAuth.getCurrentUser() != null
-                && comment_edit.getText().toString().replace(" ","").equals("")) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
+                ) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid());//유저 고유번호
             data.put(EmployID.comment,comment_edit.getText().toString());//게시글 내용
             data.put(EmployID.timestamp, FieldValue.serverTimestamp());//파이어베이스 시간을 저장 그래야 게시글 정렬이 시간순가능
-
+            data.put(EmployID.w_comment,user_name);
             Intent intent = getIntent();//데이터 전달받기
             //data.put(EmployID.title,post_t);//게시글의 제목을 넣어준다 비교하기위해서
 
@@ -156,6 +146,24 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
             }
             finish();
             startActivity(intent);
+        }
+    }
+
+    public void getPostPhoto(){
+        Intent intent = getIntent();//데이터 전달받기
+         String spost_photo=intent.getExtras().getString("photo_url");
+        Log.d("String spost값", spost_photo);
+        if ( !spost_photo.equals("null")) {
+            Log.d("피포토사진있음", intent.getExtras().getString("photo_url"));
+            Picasso.get()
+                    .load(intent.getStringExtra("photo_url"))
+                    .into(img2);
+        }
+        else
+        {
+            Log.d("사진빔", "사진이 비어있어요");
+            img2.getLayoutParams().height= 0;
+            img2.setVisibility(View.GONE);
         }
     }
 }
