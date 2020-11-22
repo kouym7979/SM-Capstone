@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.content.SharedPreferences;
+
+import com.example.sm_capstone.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,7 +44,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_register).setOnClickListener(this);
 
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         a = LoginActivity.this;
         loading = findViewById(R.id.loadingBar);

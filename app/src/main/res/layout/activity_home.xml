@@ -7,6 +7,7 @@
     tools:context=".HomeActivity"
     android:background="@color/graybackground">
 
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="70dp"
@@ -164,6 +165,7 @@
             app:layout_constraintLeft_toRightOf="@id/btn_calendar"
             app:layout_constraintRight_toRightOf="parent" />
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
