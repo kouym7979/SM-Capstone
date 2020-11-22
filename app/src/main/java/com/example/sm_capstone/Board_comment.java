@@ -2,22 +2,28 @@ package com.example.sm_capstone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sm_capstone.Board_Post.Comment;
 import com.example.sm_capstone.adapter.CommentAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -48,7 +54,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     private String post_t,board_name,comment_post;//게시글의 제목, 게시판 위치(동적,정적),게시글의 uid
     int com_pos=0;
     private String photoUrl,post_id,current_user,user_name;
-
+    private ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,9 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         post_id=intent.getStringExtra("post_id");//어떤 게시글인지
         current_user=mAuth.getCurrentUser().getUid();//현재 사용자의 uid
         board_name=intent.getStringExtra("post_num");//동적게시판인지 정적게시판인지
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
 
         //게시글에 첨부된 사진
         getPostPhoto();
@@ -89,6 +98,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                     });
         }
         findViewById(R.id.comment_button).setOnClickListener(this);
+
     }
     @Override
     protected void onStart() {
@@ -165,5 +175,47 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
             img2.getLayoutParams().height= 0;
             img2.setVisibility(View.GONE);
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.comment_toolbar, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){//게시글 작성자와 현재 사용자와의 uid가 같으면 기능 수행가능하게
+        Intent intent = getIntent();//데이터 전달받기
+        String p_writer=intent.getExtras().getString("writer_name");
+        switch (item.getItemId()){
+            case R.id.first:
+                if(p_writer.equals(user_name)) {
+                    mStore.collection("Post").document(post_id)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("확인", "삭제되었습니다.");
+                                    finish();
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            /*case R.id.second:
+                if(p_writer.equals(user_name)) {
+                    Intent intent1=new Intent(this,Board_Update.class);
+                    intent1.putExtra("post_id",post_id);
+                    startActivity(intent);//게시글 수정
+                }
+                else
+                {
+                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+                break;*/
+        }
+        return true;
     }
 }
