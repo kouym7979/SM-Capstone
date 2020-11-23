@@ -50,7 +50,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         setContentView(R.layout.activity_signup_acitivity);
         setTitle("회원가입");
         a = SignupActivity.this;
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         val_Button = findViewById(R.id.valButton);
         regButton = findViewById(R.id.regButton);
