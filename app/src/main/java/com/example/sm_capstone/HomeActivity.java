@@ -41,7 +41,6 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private TextView dynamic,staticboard;
     private RecyclerView h_dynamicBoard,static_board;//동적게시판
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
