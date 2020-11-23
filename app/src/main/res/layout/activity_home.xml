@@ -27,6 +27,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    
     <LinearLayout
         android:background="@drawable/comment_item_shape"
         android:layout_width="match_parent"
