@@ -2,22 +2,28 @@ package com.example.sm_capstone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sm_capstone.Board_Post.Comment;
 import com.example.sm_capstone.adapter.CommentAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -48,7 +54,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     private String post_t,board_name,comment_post;//게시글의 제목, 게시판 위치(동적,정적),게시글의 uid
     int com_pos=0;
     private String photoUrl,post_id,current_user,user_name;
-
+    private ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,22 +77,13 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         post_id=intent.getStringExtra("post_id");//어떤 게시글인지
         current_user=mAuth.getCurrentUser().getUid();//현재 사용자의 uid
         board_name=intent.getStringExtra("post_num");//동적게시판인지 정적게시판인지
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
 
         //게시글에 첨부된 사진
-        String spost_photo=intent.getExtras().getString("photo_url");
-        Log.d("String spost값", spost_photo);
-        if ( !spost_photo.equals("null")) {
-            Log.d("피포토사진있음", intent.getExtras().getString("photo_url"));
-            Picasso.get()
-                    .load(intent.getStringExtra("photo_url"))
-                    .into(img2);
-        }
-        else
-        {
-            Log.d("사진빔", "사진이 비어있어요");
-            img2.getLayoutParams().height= 0;
-            img2.setVisibility(View.GONE);
-        }
+        getPostPhoto();
+
         if(mAuth.getCurrentUser()!=null){//유저의 이름을 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
                     .get()
@@ -95,11 +92,13 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.getResult()!=null){
                                user_name=(String)task.getResult().getData().get(EmployID.name);//
+                                Log.d("확인","현재 사용자 이름입니다"+user_name);
                             }
                         }
                     });
         }
         findViewById(R.id.comment_button).setOnClickListener(this);
+
     }
     @Override
     protected void onStart() {
@@ -116,11 +115,12 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                             mcomment.clear();//미리 생성된 게시글들을 다시 불러오지않게 데이터를 한번 정리
                             for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
                                 Map<String, Object> shot = snap.getData();
+                                String w_name=String.valueOf(shot.get(EmployID.w_comment));
                                 String documentId = String.valueOf(shot.get(EmployID.documentId));
                                 String comment = String.valueOf(shot.get(EmployID.comment));
                                 String board_part= String.valueOf(shot.get(EmployID.board_part));
                                 String num_comment=String.valueOf(shot.get(EmployID.comment_post));
-                                Comment data = new Comment(user_name,comment, documentId,board_part,num_comment);
+                                Comment data = new Comment(w_name,comment, documentId,board_part,num_comment);
                                 mcomment.add(data);//여기까지가 게시글에 해당하는 데이터 적용
                             }
                         }
@@ -134,12 +134,12 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (mAuth.getCurrentUser() != null
-                && comment_edit.getText().toString().replace(" ","").equals("")) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
+                ) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid());//유저 고유번호
             data.put(EmployID.comment,comment_edit.getText().toString());//게시글 내용
             data.put(EmployID.timestamp, FieldValue.serverTimestamp());//파이어베이스 시간을 저장 그래야 게시글 정렬이 시간순가능
-
+            data.put(EmployID.w_comment,user_name);
             Intent intent = getIntent();//데이터 전달받기
             //data.put(EmployID.title,post_t);//게시글의 제목을 넣어준다 비교하기위해서
 
@@ -157,5 +157,65 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
             finish();
             startActivity(intent);
         }
+    }
+
+    public void getPostPhoto(){
+        Intent intent = getIntent();//데이터 전달받기
+         String spost_photo=intent.getExtras().getString("photo_url");
+        Log.d("String spost값", spost_photo);
+        if ( !spost_photo.equals("null")) {
+            Log.d("피포토사진있음", intent.getExtras().getString("photo_url"));
+            Picasso.get()
+                    .load(intent.getStringExtra("photo_url"))
+                    .into(img2);
+        }
+        else
+        {
+            Log.d("사진빔", "사진이 비어있어요");
+            img2.getLayoutParams().height= 0;
+            img2.setVisibility(View.GONE);
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.comment_toolbar, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){//게시글 작성자와 현재 사용자와의 uid가 같으면 기능 수행가능하게
+        Intent intent = getIntent();//데이터 전달받기
+        String p_writer=intent.getExtras().getString("writer_name");
+        switch (item.getItemId()){
+            case R.id.first:
+                if(p_writer.equals(user_name)) {
+                    mStore.collection("Post").document(post_id)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("확인", "삭제되었습니다.");
+                                    finish();
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            /*case R.id.second:
+                if(p_writer.equals(user_name)) {
+                    Intent intent1=new Intent(this,Board_Update.class);
+                    intent1.putExtra("post_id",post_id);
+                    startActivity(intent);//게시글 수정
+                }
+                else
+                {
+                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+                break;*/
+        }
+        return true;
     }
 }

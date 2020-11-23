@@ -5,52 +5,51 @@ import java.util.Date;
 
 public class CalendarPost {
 
-    private String scheduleId;
-    private String time;
-    private String date;
-    private String writer_name;
-    private String comments;
+    private String documentId; //작성자의 uid
+    private String writer_name;  //작성자 이름
+    private String schedule_id;  //스케줄의 uid
+    private String date;       //스케줄 날짜
+    private String start_time;   //출근 시간
+    private String end_time;     //퇴근 시간
+    private String reference;  //스케줄 참고사항
+
+    public String getDocumentId() { return documentId; }
+    public void setDocumentId(String documentId) { this.documentId = documentId; }
+    public String getWriter_name() { return writer_name; }
+    public void setWriter_name(String writer_name) { this.writer_name = writer_name;  }
+    public String getSchedule_id() { return schedule_id;    }
+    public void setSchedule_id(String schedule_id) { this.schedule_id = schedule_id;    }
+    public String getStart_time() { return start_time;    }
+    public void setStart_time(String start_time) { this.start_time = start_time;    }
+    public String getEnd_time() { return end_time;    }
+    public void setEnd_time(String end_time) { this.end_time = end_time;    }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
+    public String getReference() { return reference; }
+    public void setReference(String reference) { this.reference = reference; }
 
     //빈 생성자
     public CalendarPost(){    }
 
-    public String getScheduleId() { return scheduleId; }
-
-    public void setScheduleId(String scheduleId) { this.scheduleId = scheduleId; }
-
-    public String getTime() { return time; }
-
-    public void setTime(String time) { this.time = time; }
-
-    public String getDate() { return date; }
-
-    public void setDate(String date) { this.date = date; }
-
-    public String getWriter_name() { return writer_name; }
-
-    public void setWriter_name(String writer_name) { this.writer_name = writer_name; }
-
-    public String getComments() { return comments; }
-
-    public void setComments(String comments) { this.comments = comments; }
-
-    public CalendarPost(String scheduleId, String writer_name, String date, String time, String commnets){
-        this.scheduleId = scheduleId;
+    public CalendarPost(String documentId, String writer_name, String schedule_id, String date, String start_time, String end_time, String reference){
+        this.documentId = documentId;
         this.writer_name = writer_name;
+        this.schedule_id = schedule_id;
         this.date = date;
-        this.time = time;
-        this.comments = comments;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.reference = reference;
     }
 
     public String toString(){
         return "Schedule{" +
-                "scheduleId='"+scheduleId+'\'' +
+                "documentId='"+documentId+'\'' +
                 ", writer_name='" + writer_name + '\''+
+                ", schedule_id='" + schedule_id + '\''+
                 ", date='" + date + '\''+
-                ", time='" + time + '\''+
-                ", comments='" + comments +
+                ", start_time='" + start_time + '\''+
+                ", end_time='" + end_time + '\''+
+                ", reference='" + reference +
                 '}';
-
-
     }
 }
