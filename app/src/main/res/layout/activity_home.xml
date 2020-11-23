@@ -8,6 +8,8 @@
     android:background="@color/graybackground">
 
 
+
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="70dp"
@@ -139,7 +141,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-
             android:text="board"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/btn_staticboard" />
@@ -159,13 +160,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-
             android:text="my_page"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/btn_calendar"
             app:layout_constraintRight_toRightOf="parent" />
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
