@@ -7,9 +7,6 @@
     tools:context=".HomeActivity"
     android:background="@color/graybackground">
 
-
-
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="70dp"

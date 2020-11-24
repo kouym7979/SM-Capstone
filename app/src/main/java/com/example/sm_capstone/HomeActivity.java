@@ -81,6 +81,10 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                         intent3.putExtra("board_part","정적게시판");//1은 동적게시판,2는 정적게시판
                         startActivity(intent3);
                         break;
+                    case R.id.btn_my_page:
+                        Intent intent4=new Intent(HomeActivity.this,MyPageActivity.class);
+                        startActivity(intent4);
+                        break;
                 }
             }
         };
