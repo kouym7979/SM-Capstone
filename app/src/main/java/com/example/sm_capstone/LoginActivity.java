@@ -65,7 +65,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         if(autoCheck.isChecked()==true)
         {
             if (currentUser != null) {
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, HomeActivity.class));
                 finish();
             }
         }

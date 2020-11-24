@@ -75,7 +75,7 @@
         android:textSize="12sp"
         android:ems="8"
         android:background="@null"
-        android:layout_marginStart="11dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toTopOf="@id/nameBlank"
         app:layout_constraintStart_toStartOf="@id/nameBlank"
@@ -111,7 +111,7 @@
         android:textSize="12sp"
         android:ems="8"
         android:background="@null"
-        android:layout_marginStart="11dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toTopOf="@id/phoneBlank"
         app:layout_constraintStart_toStartOf="@id/phoneBlank"
@@ -194,13 +194,23 @@
         app:layout_constraintTop_toTopOf="@id/storeNumBlank"/>
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="67dp"
-        android:layout_height="21dp"
+        android:id="@+id/modify_btn"
+        android:layout_width="100dp"
+        android:layout_height="33dp"
+        android:background="@color/graybackground"
+        app:srcCompat="@drawable/modify"
+        android:layout_marginTop="23.6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/logout_btn"
+        app:layout_constraintTop_toBottomOf="@id/myPageImage3"/>
+    <ImageButton
+        android:id="@+id/logout_btn"
+        android:layout_width="100dp"
+        android:layout_height="33dp"
         android:background="@color/graybackground"
         app:srcCompat="@drawable/logout"
         android:layout_marginTop="23.6dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/modify_btn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/myPageImage3"/>
 
