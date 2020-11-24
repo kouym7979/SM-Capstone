@@ -44,4 +44,11 @@ public class GlobalMethod extends Application {
                 .setMessage("ID중복검사를 확인하세요")
                 .show();
     }
+    public void modifyOK(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.emplobackground)
+                .setMessage("수정 되었습니다.")
+                .show();
+    }
 }
