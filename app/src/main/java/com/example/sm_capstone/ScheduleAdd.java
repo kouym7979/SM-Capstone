@@ -56,7 +56,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
     TextView dateAndTimeLabel;
     TextView startTimeLabel, endTimeLabel;
     Calendar dateAndTime = Calendar.getInstance(); //현재의 시간으로 Calendar객체 생성
-//    TimePicker startTimeLabel, endTimeLabel;
+    TextView name;
 
 
     //Listener설정과 설정된 날자를 Calendar 객체에 설정 : set눌렀을 때 처리
@@ -117,6 +117,10 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
                                 writer_id=(String)task.getResult().getData().get(EmployID.documentId);
                                 Log.d("확인","현재 사용자 uid입니다:"+writer_id);
                                 Log.d("확인","현재 사용자 이름입니다"+writer_name);
+
+                                name = (TextView) findViewById(R.id.txt_add_name);
+                                name.setText(writer_name);
+
                             }
                         }
                     });
@@ -152,6 +156,8 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
         end_time = (TimePicker)findViewById(R.id.tp_endtime);
         endTimeLabel.setText(hourOfDay2+":"+minute2);
         end_time.setOnTimeChangedListener(this);
+
+
 
 
         dateAndTimeLabel = (TextView) findViewById(R.id.dateAndTime);
