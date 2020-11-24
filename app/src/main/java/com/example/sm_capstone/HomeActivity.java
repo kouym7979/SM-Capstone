@@ -91,9 +91,11 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
         Button D_board = (Button)findViewById(R.id.btn_board) ;
         Button Calendar=(Button)findViewById(R.id.btn_calendar);
         Button S_board=findViewById(R.id.btn_staticboard);
+        Button MyPageButton = findViewById(R.id.btn_my_page);
         Calendar.setOnClickListener(onClickListener);
         D_board.setOnClickListener(onClickListener) ;
         S_board.setOnClickListener(onClickListener);
+        MyPageButton.setOnClickListener(onClickListener);
         h_dynamicBoard=(RecyclerView)findViewById(R.id.home_recyclerview2);
         static_board=(RecyclerView)findViewById(R.id.home_recyclerview3);
 
