@@ -21,16 +21,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     private List<CalendarPost> datas;
     private Context mcontext;
 
-    //생성자
-    public ScheduleAdapter(Context mcontext, List<CalendarPost> datas) {
+    public ScheduleAdapter(List<CalendarPost> datas, Context mcontext) {
         this.datas = datas;
-        this.mcontext=mcontext;
+        this.mcontext = mcontext;
     }
 
     @NonNull
     @Override
     public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ScheduleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
+        ScheduleViewHolder holder = new ScheduleViewHolder(view);
+
+        return holder;
     }
 
     @Override
@@ -39,20 +41,16 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.start_time.setText(datas.get(position).getStart_time());
         holder.end_time.setText(datas.get(position).getEnd_time());
         holder.writer_name.setText(datas.get(position).getWriter_name());
+        holder.reference.setText(datas.get(position).getReference());
 
-        final int pos=holder.getAdapterPosition();
-//        holder.itemView.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Context context = v.getContext();
-//                if(pos != RecyclerView.NO_POSITION){
-//                }
-//            }
-//        });
     }
 
     @Override
-    public int getItemCount() { return datas.size(); }
+    public int getItemCount() {
+        //삼항 연산자
+        //arrayList값이 null이 아니면 size반환
+        return (datas != null ? datas.size() : 0);
+    }
 
     public interface EventListener<QuerySnapshot>{
         boolean onOptionItemSelected(MenuItem item);

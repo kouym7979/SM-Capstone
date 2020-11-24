@@ -6,7 +6,6 @@ public class MonthItem {
     public int getDay() {
         return day;
     }
-
     public void setDay(int day) {
         this.day = day;
     }

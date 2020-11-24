@@ -91,13 +91,10 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
     public ScheduleAdd(@NonNull Context context) {
         super(context);
         this.context = context;
+
+
     }
 
-    public ScheduleAdd(Context context, View.OnClickListener positiveListener, View.OnClickListener negativeListener){
-        super(context);
-        this.mPositiveListener = positiveListener;
-        this.mNegativeListener = negativeListener;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +103,8 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
 
         mreference=findViewById(R.id.schedule_reference); //참고사항
 
-//        btn_add_exit = (Button) findViewById(R.id.btn_add_exit);
-//        btn_add_submit = (Button) findViewById(R.id.btn_add_submit);
-
-        findViewById(R.id.btn_add_submit).setOnClickListener(this);
+        btn_add_submit = (Button)findViewById(R.id.btn_add_submit);
+        btn_add_submit.setOnClickListener(this);
 
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
@@ -127,9 +122,6 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
                     });
         }
 
-        //클릭 리스너 셋팅 (클릭 버튼이 동작하도록)
-//        btn_add_exit.setOnClickListener(mNegativeListener);
-//        btn_add_submit.setOnClickListener(mPositiveListener);
 
         Button btn_date = (Button) findViewById(R.id.btn_date);
         btn_date.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +179,11 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
             mStore.collection("CalendarPost").document(ScheduleID).set(data); //CalendarPost이라는 테이블에 데이터를 입력
 
         }
+
+        if(v==btn_add_submit){
+            dismiss();
+        }
+
     }
 
     @Override
