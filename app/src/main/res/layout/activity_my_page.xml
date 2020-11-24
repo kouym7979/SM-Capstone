@@ -19,10 +19,11 @@
         android:id="@+id/myPageImage2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        app:layout_constraintStart_toStartOf="@id/mypageImage1"
+
+        app:layout_constraintLeft_toLeftOf="@id/mypageImage1"
+        app:layout_constraintRight_toRightOf="@id/mypageImage1"
         app:layout_constraintTop_toBottomOf="@id/mypageImage1"
+        app:layout_constraintHorizontal_bias="0.5"
         app:srcCompat="@drawable/mypage2" />
 
     <ImageView
@@ -54,14 +55,27 @@
         app:layout_constraintRight_toRightOf="@id/myPageImage2"
         app:layout_constraintTop_toBottomOf="@id/myPageUserText" />
 
+    <TextView
+        android:id="@+id/nametv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="이름"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/nameBlank"
+        app:layout_constraintTop_toTopOf="@id/nameBlank" />
+
     <EditText
         android:id="@+id/nameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:textSize="13sp"
+        android:textSize="12sp"
+        android:ems="8"
         android:background="@null"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toTopOf="@id/nameBlank"
         app:layout_constraintStart_toStartOf="@id/nameBlank"
@@ -77,14 +91,27 @@
         app:layout_constraintTop_toBottomOf="@id/myPageUserText"
         />
 
+    <TextView
+        android:id="@+id/phoneNumtv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="전화번호"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/phoneBlank"
+        app:layout_constraintTop_toTopOf="@id/phoneBlank" />
+
     <EditText
         android:id="@+id/phoneEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:textSize="13sp"
+        android:textSize="12sp"
+        android:ems="8"
         android:background="@null"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toTopOf="@id/phoneBlank"
         app:layout_constraintStart_toStartOf="@id/phoneBlank"
@@ -130,6 +157,19 @@
         app:layout_constraintLeft_toLeftOf="@id/myPageImage3"
         app:layout_constraintTop_toBottomOf="@id/myPageStoreText" />
 
+    <TextView
+        android:id="@+id/storeNametv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="매장명"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/storeNameBlank"
+        app:layout_constraintTop_toTopOf="@id/storeNameBlank"/>
+
     <ImageView
         android:id="@+id/storeNumBlank"
         android:layout_width="150dp"
@@ -140,6 +180,18 @@
         app:layout_constraintLeft_toLeftOf="@id/myPageImage3"
         app:layout_constraintTop_toBottomOf="@id/myPageStoreText"
         />
+    <TextView
+        android:id="@+id/storeNumtv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="매장번호"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/storeNumBlank"
+        app:layout_constraintTop_toTopOf="@id/storeNumBlank"/>
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -151,5 +203,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/myPageImage3"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
