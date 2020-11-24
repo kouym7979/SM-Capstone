@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyPageActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
@@ -27,7 +31,7 @@ public class MyPageActivity extends AppCompatActivity {
     private EditText nameEdit, phoneEdit, storeNameEdit, storeNumEdit;
     String name, phoneNum, StoreName, StoreNum;
     private ImageButton logout_btn, modify_btn;
-
+    Activity a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,7 @@ public class MyPageActivity extends AppCompatActivity {
         phoneEdit = findViewById(R.id.phoneEdit);
         logout_btn = findViewById(R.id.logout_btn);
         modify_btn = findViewById(R.id.modify_btn);
+        a = MyPageActivity.this;
         if(user!=null){
             mStore.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -80,7 +85,15 @@ public class MyPageActivity extends AppCompatActivity {
         modify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Map<String, Object> userMap = new HashMap<>();
+                userMap.put(EmployID.name, nameEdit.getText().toString());
+                userMap.put(EmployID.phone_number, phoneEdit.getText().toString());
+                mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        ((GlobalMethod)getApplicationContext()).modifyOK(a);
+                    }
+                });
             }
         });
 
