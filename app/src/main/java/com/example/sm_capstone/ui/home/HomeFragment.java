@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     private TextView dynamic,staticboard;
     CreateList _list=new CreateList(getContext());
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    /*public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -133,5 +133,5 @@ public class HomeFragment extends Fragment {
                             }
                         });
 
-    }
+    }*/
 }
