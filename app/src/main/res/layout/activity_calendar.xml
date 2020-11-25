@@ -8,6 +8,7 @@
     tools:context=".CalendarActivity">
 
 
+
     <!--    새로 정의한 월별 캘린더 뷰 추가-->
     <CalendarView
         android:layout_width="match_parent"
