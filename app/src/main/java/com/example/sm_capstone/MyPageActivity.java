@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -19,6 +20,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.KakaoParameterException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +42,8 @@ public class MyPageActivity extends AppCompatActivity {
     String name, phoneNum, StoreName, StoreNum;
     private ImageButton logout_btn, modify_btn;
     Activity a;
+    private Button kakao_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +122,43 @@ public class MyPageActivity extends AppCompatActivity {
                 dlg.show();
             }
         });
+        /*kakao_btn=findViewById(R.id.kakao_btn);
+        kakao_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                try {
+                     KakaoLink kakaolink=KakaoLink.getKakaoLink(this);
+                     KakaoTalkLinkMessageBuilder builder=kakaolink.createKakaoTalkLinkMessageBuilder();
 
+                    builder.addText("링크테스트");//
+                    builder.addAppButton("앱 실행하기");//앱실행버튼
+
+                    kakaolink.sendMessage(builder,this);//메시지발송
+
+                } catch (KakaoParameterException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });*/
+    }
+    public void kakaoLink(View view){
+        FeedTemplate params = FeedTemplate.
+                newBuilder(ContentObject.newBuilder("Emplo","https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
+                        LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                .setMobileWebUrl("https://developers.kakao.com").build()).build())
+                .addButton(new ButtonObject("앱에서보기", LinkObject.newBuilder()
+                        .setMobileWebUrl("https://developers.kakao.com")
+                        .setAndroidExecutionParams("key1=value1")
+                        .setIosExecutionParams("key1=value1").build()))
+                .build();
+        KakaoLinkService.getInstance().sendDefault(this, params, new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {}
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
+            }
+        });
     }
 }

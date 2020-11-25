@@ -2,6 +2,7 @@ package com.example.sm_capstone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +36,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
     private Button val_Button;//중복확인버튼
     private Button regButton;
     private EditText nameEdit, passEdit,passChkEdit,phoneNumEdit,emailEdit;
-
+    private EditText numLayout, nameLayout;
     private FirebaseAuth mAuth= FirebaseAuth.getInstance();
     private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     Activity a;
@@ -60,6 +62,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         passChkEdit = findViewById(R.id.passCheck);
         phoneNumEdit = findViewById(R.id.phoneNum);
         emailEdit = findViewById(R.id.email);
+        nameLayout = findViewById(R.id.storeNameLayout);
+        numLayout = findViewById(R.id.storeNumLayout);
 
         //checkBox
         manager = (CheckBox) findViewById(R.id.manager);
