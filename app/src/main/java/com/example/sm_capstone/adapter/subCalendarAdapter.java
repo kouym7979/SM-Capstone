@@ -3,6 +3,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,25 +30,35 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         CalendarPost data=datas.get(position);
-        holder.name.setText(datas.get(position).getWriter_name());
-        holder.date.setText(datas.get(position).getDate());
+        holder.writer_name.setText(datas.get(position).getWriter_name());
+        holder.start_time.setText(datas.get(position).getStart_time());
+        holder.end_time.setText(datas.get(position).getEnd_time());
+        holder.reference.setText(datas.get(position).getReference());
+
+
         //아래에 선언한 버튼클릭리스너를 여기에 구현하시면 됩니다!
         //아마 포지션도 고려를 해야할거에요
     }
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return (null != datas ? datas.size() : 0);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private TextView date;
+        private TextView writer_name;
+        private TextView start_time;
+        private TextView end_time;
+        private TextView reference;
+
+
         //여기에 calendar_list에 있는 버튼을 선언!!
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            name=itemView.findViewById(R.id.calendar_name);
-            date=itemView.findViewById(R.id.calendar_date);
+            writer_name=itemView.findViewById(R.id.calendar_name);
+            start_time=itemView.findViewById(R.id.calendar_starttime);
+            end_time=itemView.findViewById(R.id.calendar_endtime);
+            reference=itemView.findViewById(R.id.calendar_reference);
         }
     }
 }

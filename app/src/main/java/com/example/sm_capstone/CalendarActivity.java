@@ -56,6 +56,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     private Button btn_modify, btn_delete; //일정 수정, 삭제버튼
     private Button btn_request; //대타 요청 버튼
     private String date;
+    private TextView schedule_date; //선택된 날짜 표시
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,8 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {//선택한 날짜를 문자열 형태로 전환
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                 date=String.format("%d. %d. %d",year,month+1,dayOfMonth);
+                 date=String.format("%d. %d. %d.",year,month+1,dayOfMonth);
+                 schedule_date.setText(date);
                 Log.d("확인",date);
                loadSchedule(date);
             }
@@ -75,6 +77,13 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         //monthText = this.findViewById(R.id.monthText);
         //this.setMonthText();
         loadSchedule(date);
+
+        Log.d("확인","date확인:"+date);
+        schedule_date = findViewById(R.id.schedule_date);
+        if(date==null){
+            schedule_date.setText("DATE");
+        }
+
 
         //일정추가 버튼
         btn_scheduleAdd=findViewById(R.id.btn_scheduleAdd);
@@ -87,18 +96,6 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         Schedule.setLayoutManager(ScheduleLayoutManager);
 
 
-       /* //수정버튼
-        btn_modify = findViewById(R.id.btn_modify);
-        btn_modify.setOnClickListener(this);
-
-        //삭제버튼
-        btn_delete = findViewById(R.id.btn_delete);
-        btn_delete.setOnClickListener(this);
-
-        //대타 요청 버튼
-        btn_request = findViewById(R.id.btn_request);
-        btn_request.setOnClickListener(this);
-*/
 
     }
 
@@ -132,8 +129,8 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         datas = new ArrayList<>();  //Calendar Post 객체를 담을 ArrayList (어댑터쪽으로)
         Log.d("확인","확인날짜:"+date);
         mStore.collection("CalendarPost")
-                //.whereEqualTo("date", date)
-                //.orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
+                .whereEqualTo("date", date)
+//                .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
                 .addSnapshotListener(
                         new EventListener<QuerySnapshot>() {
                             @Override
