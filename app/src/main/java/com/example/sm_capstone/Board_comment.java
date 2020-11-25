@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -209,19 +211,16 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     }
 
     public void deleteDialog(final String writer){
-        AlertDialog.Builder builder =new AlertDialog.Builder(this);
-        builder.setTitle("삭제하기").setMessage("삭제하시겠습니까?");
+        final Dialog builder =new Dialog(this);
+        //builder.setTitle("삭제하기").setMessage("삭제하시겠습니까?");
+        builder.setContentView(R.layout.custom_dialog);
+        builder.show();
 
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+        final Button yesbtn=(Button)builder.findViewById(R.id.yesButton);
+        final Button nobtn=(Button)builder.findViewById(R.id.noButton);
+        yesbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //삭제 부분 추가
+            public void onClick(View v) {
                 if(writer.equals(user_name)) {
                     mStore.collection("Post").document(post_id)
                             .delete()
@@ -237,10 +236,15 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                 {
                     Toast.makeText(getApplicationContext(),"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
                 }
+                builder.dismiss();
+            }
+        });
+        nobtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
             }
         });
 
-        AlertDialog alertDialog=builder.create();
-        alertDialog.show();
     }
 }
