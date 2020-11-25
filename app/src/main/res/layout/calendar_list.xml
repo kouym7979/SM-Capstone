@@ -32,6 +32,16 @@
                 tools:text="퇴근시간" />
         </LinearLayout>
 
+    <TextView
+        android:id="@+id/calendar_reference"
+        android:layout_width="300dp"
+        android:layout_height="25dp"
+        android:text="참조"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp" />
+
+
+
         <TextView
             android:id="@+id/calendar_name"
             android:layout_width="200dp"

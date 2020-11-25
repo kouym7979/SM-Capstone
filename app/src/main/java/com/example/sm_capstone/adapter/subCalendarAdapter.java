@@ -33,6 +33,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         holder.writer_name.setText(datas.get(position).getWriter_name());
         holder.start_time.setText(datas.get(position).getStart_time());
         holder.end_time.setText(datas.get(position).getEnd_time());
+        holder.reference.setText(datas.get(position).getReference());
 
 
         //아래에 선언한 버튼클릭리스너를 여기에 구현하시면 됩니다!
@@ -48,6 +49,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         private TextView writer_name;
         private TextView start_time;
         private TextView end_time;
+        private TextView reference;
 
 
         //여기에 calendar_list에 있는 버튼을 선언!!
@@ -56,6 +58,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             writer_name=itemView.findViewById(R.id.calendar_name);
             start_time=itemView.findViewById(R.id.calendar_starttime);
             end_time=itemView.findViewById(R.id.calendar_endtime);
+            reference=itemView.findViewById(R.id.calendar_reference);
         }
     }
 }
