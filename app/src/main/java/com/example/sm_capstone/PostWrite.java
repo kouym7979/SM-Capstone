@@ -89,20 +89,8 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             }
         });
         //회원 개인사진 불러오기
-        FirebaseUser user= mAuth.getCurrentUser();
-        if(user!=null) {
+        loadUserPhoto();
 
-            if (user.getPhotoUrl() == null) {
-                Log.d("사진", "포토유알엘이 비어있어요.");
-
-
-
-
-            }
-            if (user.getPhotoUrl() != null) {
-                photoUrl = user.getPhotoUrl().toString();
-            }
-        }
     }
 
     @Override
@@ -189,6 +177,18 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
 
                         }
                     });
+        }
+    }
+
+    public void loadUserPhoto(){
+        FirebaseUser user= mAuth.getCurrentUser();
+        if(user!=null) {
+            if (user.getPhotoUrl() == null) {
+                Log.d("사진", "포토유알엘이 비어있어요.");
+            }
+            if (user.getPhotoUrl() != null) {
+                photoUrl = user.getPhotoUrl().toString();
+            }
         }
     }
 }

@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:srcCompat="@mipmap/ic_camera_round" />
+            app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
         <View
             android:id="@+id/view"
