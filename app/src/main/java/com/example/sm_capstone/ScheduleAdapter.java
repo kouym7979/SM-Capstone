@@ -57,6 +57,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         void onItemClicked(int position);
     }
 
+
+
     class ScheduleViewHolder extends RecyclerView.ViewHolder{
 
         private TextView writer_name;
