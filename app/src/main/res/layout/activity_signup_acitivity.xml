@@ -239,8 +239,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:inputType="phone" />
 
-
-
     <CheckBox
         android:id="@+id/manager"
         android:layout_width="wrap_content"
