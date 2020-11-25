@@ -86,6 +86,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         ScheduleLayoutManager = new LinearLayoutManager(this);
         Schedule.setLayoutManager(ScheduleLayoutManager);
 
+
        /* //수정버튼
         btn_modify = findViewById(R.id.btn_modify);
         btn_modify.setOnClickListener(this);
@@ -159,4 +160,5 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                         }
                 );
     }
+
 }
