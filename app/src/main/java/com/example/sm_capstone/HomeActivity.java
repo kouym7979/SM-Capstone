@@ -19,6 +19,7 @@ import com.example.sm_capstone.Board_Post.Post;
 import com.example.sm_capstone.adapter.BoardAdapter;
 import com.example.sm_capstone.adapter.HomeAdapter;
 
+import com.example.sm_capstone.adapter.SHomeAdapter;
 import com.example.sm_capstone.ui.home.HomeFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private RecyclerView dynamicBoard;//동적게시판
 
     private HomeAdapter mAdapter;
+    private SHomeAdapter sAdapter;
     private List<Home_Post> mDatas, sDatas;
 
     private Button btn_Dyboard,btn_logou;//동적게시판으로 이동하는 버튼
@@ -115,18 +117,25 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                                 if (queryDocumentSnapshots != null) {
                                     mDatas.clear();//미리 생성된 게시글들을 다시 불러오지않게 데이터를 한번 정리
+                                    sDatas.clear();
                                     for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
                                         Map<String, Object> shot = snap.getData();
                                         String title = String.valueOf(shot.get(EmployID.title));
                                         //String board_part=String.valueOf(shot.get(EmployID.board_part));
                                         String writer_name=String.valueOf(shot.get(EmployID.name));
                                         Home_Post data = new Home_Post(writer_name,title);
-                                        mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
-
+                                        String board_type = (String) snap.getData().get("board_part");
+                                        if(board_type == null)
+                                        {System.out.println("스킵");}
+                                        else if(board_type.equals("동적게시판"))
+                                            mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
+                                        else if(board_type.equals("정적게시판"))
+                                            sDatas.add(data);
                                     }
                                     mAdapter = new HomeAdapter(getApplicationContext(),mDatas);//mDatas라는 생성자를 넣어줌
+                                    sAdapter = new SHomeAdapter(getApplicationContext(),sDatas);
                                     h_dynamicBoard.setAdapter(mAdapter);
-
+                                    static_board.setAdapter(sAdapter);
                                 }
                             }
                         });
