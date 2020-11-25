@@ -76,7 +76,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
 
         post_id=intent.getStringExtra("post_id");//어떤 게시글인지
         current_user=mAuth.getCurrentUser().getUid();//현재 사용자의 uid
-        board_name=intent.getStringExtra("post_num");//동적게시판인지 정적게시판인지
+        board_name=intent.getStringExtra("board_part");//동적게시판인지 정적게시판인지
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -133,8 +133,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (mAuth.getCurrentUser() != null
-                ) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
+        if (mAuth.getCurrentUser() != null) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid());//유저 고유번호
             data.put(EmployID.comment,comment_edit.getText().toString());//게시글 내용
@@ -204,17 +203,19 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
                 }
                 break;
-            /*case R.id.second:
+            case R.id.second:
                 if(p_writer.equals(user_name)) {
                     Intent intent1=new Intent(this,Board_Update.class);
                     intent1.putExtra("post_id",post_id);
-                    startActivity(intent);//게시글 수정
+                    Log.d("확인","board_part확인:"+board_name);
+                    intent1.putExtra("board_part","동적게시판");
+                    startActivity(intent1);//게시글 수정
                 }
                 else
                 {
                     Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
                 }
-                break;*/
+                break;
         }
         return true;
     }
