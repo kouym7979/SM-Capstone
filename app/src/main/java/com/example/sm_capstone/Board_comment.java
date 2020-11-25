@@ -3,11 +3,13 @@ package com.example.sm_capstone;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -187,21 +189,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         String p_writer=intent.getExtras().getString("writer_name");
         switch (item.getItemId()){
             case R.id.first:
-                if(p_writer.equals(user_name)) {
-                    mStore.collection("Post").document(post_id)
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("확인", "삭제되었습니다.");
-                                    finish();
-                                }
-                            });
-                }
-                else
-                {
-                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
-                }
+                deleteDialog(p_writer);
                 break;
             case R.id.second:
                 if(p_writer.equals(user_name)) {
@@ -218,5 +206,41 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                 break;
         }
         return true;
+    }
+
+    public void deleteDialog(final String writer){
+        AlertDialog.Builder builder =new AlertDialog.Builder(this);
+        builder.setTitle("삭제하기").setMessage("삭제하시겠습니까?");
+
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //삭제 부분 추가
+                if(writer.equals(user_name)) {
+                    mStore.collection("Post").document(post_id)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("확인", "삭제되었습니다.");
+                                    finish();
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
     }
 }
