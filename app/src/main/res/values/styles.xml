@@ -8,7 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+    <style name="boardTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/emplobackground</item>
+        <item name="colorPrimaryDark">@color/emplobackground</item>
+        <item name="colorAccent">@color/emplobackground</item>
 
+    </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
