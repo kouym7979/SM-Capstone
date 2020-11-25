@@ -72,10 +72,8 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                loadSchedule(date);
             }
         });
-        monthText = this.findViewById(R.id.monthText);
-        this.setMonthText();
+        
         loadSchedule(date);
-
 
         //일정추가 버튼
         btn_scheduleAdd=findViewById(R.id.btn_scheduleAdd);
@@ -86,6 +84,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
 
         ScheduleLayoutManager = new LinearLayoutManager(this);
         Schedule.setLayoutManager(ScheduleLayoutManager);
+
 
        /* //수정버튼
         btn_modify = findViewById(R.id.btn_modify);
@@ -99,7 +98,6 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         btn_request = findViewById(R.id.btn_request);
         btn_request.setOnClickListener(this);
 */
-
 
     }
 
@@ -160,4 +158,5 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                         }
                 );
     }
+
 }
