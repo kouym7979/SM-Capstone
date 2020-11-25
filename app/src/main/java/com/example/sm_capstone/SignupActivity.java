@@ -108,7 +108,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         if (val_Button.isEnabled()) {
             ((GlobalMethod)getApplicationContext()).idChkPlz(a);
         } else {
-            Toast.makeText(getApplicationContext(), "현재 회원가입 중", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
             mAuth.createUserWithEmailAndPassword(emailEdit.getText().toString(), passEdit.getText().toString()).
                     addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override

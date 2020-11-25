@@ -46,6 +46,7 @@ public class MyPageActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()){
+                        System.out.println(user.getUid());
                         DocumentSnapshot document = task.getResult();
                         name = (String) document.getData().get(EmployID.name);
                         phoneNum = (String) document.getData().get(EmployID.phone_number);
@@ -85,15 +86,28 @@ public class MyPageActivity extends AppCompatActivity {
         modify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> userMap = new HashMap<>();
-                userMap.put(EmployID.name, nameEdit.getText().toString());
-                userMap.put(EmployID.phone_number, phoneEdit.getText().toString());
-                mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                AlertDialog.Builder dlg = new AlertDialog.Builder(MyPageActivity.this);
+                dlg.setMessage("수정 하시겠습니까?");
+                dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        ((GlobalMethod)getApplicationContext()).modifyOK(a);
+                    public void onClick(DialogInterface dialog, int which) {
+                        Map<String, Object> userMap = new HashMap<>();
+                        userMap.put(EmployID.name, nameEdit.getText().toString());
+                        userMap.put(EmployID.phone_number, phoneEdit.getText().toString());
+                        mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                ((GlobalMethod)getApplicationContext()).modifyOK(a);
+                            }
+                        });
                     }
                 });
+                dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                dlg.show();
             }
         });
 
