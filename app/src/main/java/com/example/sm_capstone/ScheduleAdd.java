@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
@@ -181,7 +182,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
             data.put(EmployID.start_time, startTimeLabel.getText().toString()); //출근시간
             data.put(EmployID.end_time, endTimeLabel.getText().toString()); //퇴근시간
             data.put(EmployID.reference, mreference.getText().toString()); //참고사항
-
+            data.put(EmployID.timestamp, FieldValue.serverTimestamp());//파이어베이스 시간을 저장 그래야 게시글 정렬이 시간순가능
             mStore.collection("CalendarPost").document(ScheduleID).set(data); //CalendarPost이라는 테이블에 데이터를 입력
 
         }
