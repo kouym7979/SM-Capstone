@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.android.support:design:29.1.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'org.aviran.cookiebar2:cookiebar2:1.1.4'
-
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

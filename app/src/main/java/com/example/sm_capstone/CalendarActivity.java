@@ -56,6 +56,8 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     private Button btn_monthPrevious, btn_monthNext;  //월 이동 버튼
     private Button btn_scheduleAdd; //Add버튼 (일정추가)
     private ScheduleAdd scheduleAdd; //일정추가 다이얼로그
+    private Button btn_modify, btn_delete; //일정 수정, 삭제버튼
+    private Button btn_request; //대타 요청 버튼
 
     // day=27  date=2020. 11. 27
     String year; //클릭된 날짜에 해당 년도
@@ -118,6 +120,19 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
 
         ScheduleLayoutManager = new LinearLayoutManager(this);
         Schedule.setLayoutManager(ScheduleLayoutManager);
+
+        //수정버튼
+        btn_modify = findViewById(R.id.btn_modify);
+        btn_modify.setOnClickListener(this);
+
+        //삭제버튼
+        btn_delete = findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(this);
+
+        //대타 요청 버튼
+        btn_request = findViewById(R.id.btn_request);
+        btn_request.setOnClickListener(this);
+
 
 
         //realtime database test
@@ -210,6 +225,12 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                 scheduleAdd.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                 scheduleAdd.show();
                 scheduleAdd = new ScheduleAdd(this);
+                break;
+            case R.id.btn_modify:
+                break;
+            case R.id.btn_delete:
+                break;
+            case R.id.btn_request:
                 break;
         }
     }

@@ -3,11 +3,14 @@ package com.example.sm_capstone;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,7 +80,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
 
         post_id=intent.getStringExtra("post_id");//어떤 게시글인지
         current_user=mAuth.getCurrentUser().getUid();//현재 사용자의 uid
-        board_name=intent.getStringExtra("post_num");//동적게시판인지 정적게시판인지
+        board_name=intent.getStringExtra("board_part");//동적게시판인지 정적게시판인지
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -133,8 +137,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (mAuth.getCurrentUser() != null
-                ) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
+        if (mAuth.getCurrentUser() != null) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid());//유저 고유번호
             data.put(EmployID.comment,comment_edit.getText().toString());//게시글 내용
@@ -188,7 +191,37 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         String p_writer=intent.getExtras().getString("writer_name");
         switch (item.getItemId()){
             case R.id.first:
+                deleteDialog(p_writer);
+                break;
+            case R.id.second:
                 if(p_writer.equals(user_name)) {
+                    Intent intent1=new Intent(this,Board_Update.class);
+                    intent1.putExtra("post_id",post_id);
+                    Log.d("확인","board_part확인:"+board_name);
+                    intent1.putExtra("board_part","동적게시판");
+                    startActivity(intent1);//게시글 수정
+                }
+                else
+                {
+                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        return true;
+    }
+
+    public void deleteDialog(final String writer){
+        final Dialog builder =new Dialog(this);
+        //builder.setTitle("삭제하기").setMessage("삭제하시겠습니까?");
+        builder.setContentView(R.layout.custom_dialog);
+        builder.show();
+
+        final Button yesbtn=(Button)builder.findViewById(R.id.yesButton);
+        final Button nobtn=(Button)builder.findViewById(R.id.noButton);
+        yesbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(writer.equals(user_name)) {
                     mStore.collection("Post").document(post_id)
                             .delete()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -201,21 +234,17 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
                 }
                 else
                 {
-                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
                 }
-                break;
-            /*case R.id.second:
-                if(p_writer.equals(user_name)) {
-                    Intent intent1=new Intent(this,Board_Update.class);
-                    intent1.putExtra("post_id",post_id);
-                    startActivity(intent);//게시글 수정
-                }
-                else
-                {
-                    Toast.makeText(this,"작성자가 아닙니다.",Toast.LENGTH_SHORT).show();
-                }
-                break;*/
-        }
-        return true;
+                builder.dismiss();
+            }
+        });
+        nobtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+
     }
 }

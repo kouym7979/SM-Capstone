@@ -11,39 +11,39 @@
         android:id="@+id/mypageImage1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mypage1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mypage1" />
 
     <ImageView
         android:id="@+id/myPageImage2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="@id/mypageImage1"
         app:layout_constraintRight_toRightOf="@id/mypageImage1"
         app:layout_constraintTop_toBottomOf="@id/mypageImage1"
-        app:layout_constraintHorizontal_bias="0.5"
         app:srcCompat="@drawable/mypage2" />
 
     <ImageView
         android:id="@+id/myPageImage4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mypage4"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="@id/myPageImage2"
-        app:layout_constraintTop_toTopOf="@id/myPageImage2"/>
+        app:layout_constraintTop_toTopOf="@id/myPageImage2"
+        app:srcCompat="@drawable/mypage4" />
 
     <TextView
         android:id="@+id/myPageUserText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="100dp"
         android:text="User"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="15dp"
         app:layout_constraintRight_toRightOf="@id/myPageImage2"
         app:layout_constraintTop_toTopOf="@id/myPageImage2" />
 
@@ -51,9 +51,9 @@
         android:id="@+id/nameBlank"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/blankbar"
         app:layout_constraintRight_toRightOf="@id/myPageImage2"
-        app:layout_constraintTop_toBottomOf="@id/myPageUserText" />
+        app:layout_constraintTop_toBottomOf="@id/myPageUserText"
+        app:srcCompat="@drawable/blankbar" />
 
     <TextView
         android:id="@+id/nametv"
@@ -71,25 +71,23 @@
         android:id="@+id/nameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:textSize="12sp"
-        android:ems="8"
-        android:background="@null"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toTopOf="@id/nameBlank"
+        android:background="@null"
+        android:ems="8"
+        android:inputType="textPersonName"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/nameBlank"
-        />
+        app:layout_constraintTop_toTopOf="@id/nameBlank" />
 
     <ImageView
         android:id="@+id/phoneBlank"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/blankbar"
         android:layout_marginTop="30dp"
         app:layout_constraintRight_toRightOf="@id/myPageImage2"
         app:layout_constraintTop_toBottomOf="@id/myPageUserText"
-        />
+        app:srcCompat="@drawable/blankbar" />
 
     <TextView
         android:id="@+id/phoneNumtv"
@@ -107,55 +105,52 @@
         android:id="@+id/phoneEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:textSize="12sp"
-        android:ems="8"
-        android:background="@null"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toTopOf="@id/phoneBlank"
+        android:background="@null"
+        android:ems="8"
+        android:inputType="textPersonName"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/phoneBlank"
-        />
+        app:layout_constraintTop_toTopOf="@id/phoneBlank" />
 
     <ImageView
         android:id="@+id/myPageImage3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mypage3"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/myPageImage2"
         app:layout_constraintTop_toBottomOf="@id/myPageImage2"
-         />
+        app:srcCompat="@drawable/mypage3" />
 
     <TextView
         android:id="@+id/myPageStoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="23dp"
         android:text="Store"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:layout_marginTop="23dp"
-        android:layout_marginLeft="27dp"
-        app:layout_constraintTop_toTopOf="@id/myPageImage3"
-        app:layout_constraintLeft_toLeftOf="@id/myPageImage3" />
+        app:layout_constraintLeft_toLeftOf="@id/myPageImage3"
+        app:layout_constraintTop_toTopOf="@id/myPageImage3" />
 
     <ImageView
         android:id="@+id/myPageImage5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mypage5"
         app:layout_constraintBottom_toBottomOf="@id/myPageImage3"
         app:layout_constraintRight_toRightOf="@id/myPageImage3"
-        />
+        app:srcCompat="@drawable/mypage5" />
 
     <ImageView
         android:id="@+id/storeNameBlank"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/blankbar"
         android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toLeftOf="@id/myPageImage3"
-        app:layout_constraintTop_toBottomOf="@id/myPageStoreText" />
+        app:layout_constraintTop_toBottomOf="@id/myPageStoreText"
+        app:srcCompat="@drawable/blankbar" />
 
     <TextView
         android:id="@+id/storeNametv"
@@ -182,17 +177,17 @@
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="@id/storeNameBlank"
         app:layout_constraintStart_toStartOf="@id/storeNameBlank"
-        />
+
 
     <ImageView
         android:id="@+id/storeNumBlank"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/blankbar"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="@id/myPageImage3"
         app:layout_constraintTop_toBottomOf="@id/myPageStoreText"
+
         />
 
     <EditText
@@ -208,39 +203,53 @@
         app:layout_constraintTop_toTopOf="@id/storeNumBlank"
         app:layout_constraintStart_toStartOf="@id/storeNumBlank"
         />
+
     <TextView
         android:id="@+id/storeNumtv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-black"
         android:text="매장번호"
         android:textColor="#000000"
         android:textSize="10sp"
+
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/storeNumBlank"
+
         app:layout_constraintTop_toTopOf="@id/storeNumBlank" />
 
     <ImageButton
         android:id="@+id/modify_btn"
         android:layout_width="100dp"
         android:layout_height="33dp"
-        android:background="@color/graybackground"
-        app:srcCompat="@drawable/modify"
         android:layout_marginTop="23.6dp"
+        android:background="@color/graybackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/logout_btn"
-        app:layout_constraintTop_toBottomOf="@id/myPageImage3"/>
+        app:layout_constraintTop_toBottomOf="@id/myPageImage3"
+        app:srcCompat="@drawable/modify" />
+
     <ImageButton
         android:id="@+id/logout_btn"
         android:layout_width="100dp"
         android:layout_height="33dp"
-        android:background="@color/graybackground"
-        app:srcCompat="@drawable/logout"
         android:layout_marginTop="23.6dp"
+        android:background="@color/graybackground"
         app:layout_constraintLeft_toRightOf="@id/modify_btn"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myPageImage3"/>
+        app:layout_constraintTop_toBottomOf="@id/myPageImage3"
+        app:srcCompat="@drawable/logout" />
 
+    <Button
+        android:id="@+id/kakao_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="초대하기"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:onClick="kakaoLink"
+        app:layout_constraintTop_toBottomOf="@id/modify_btn"
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
