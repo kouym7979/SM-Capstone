@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnClickListener {
@@ -31,6 +33,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
     private CheckBox autoLogin;
 
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
     private FirebaseUser currentUser;
     private CheckBox autoCheck;
     Activity a;
@@ -55,7 +58,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         autoCheck.setChecked(pref.getBoolean("autocheck",false));
-
+        checkStoreNum();
     }
     @Override// 자동로그인 메소드 추가예정->xml linearlayout형태로 바꿔야함
     public void onStart(){
@@ -116,7 +119,22 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         });
     }
 
-
-
+    public void checkStoreNum(){
+        DocumentReference docIdRef = mstore.collection("Store").document("1234");
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists())
+                        System.out.println("체크"+documentSnapshot.exists());
+                    else
+                        System.out.println("체크2"+documentSnapshot.exists());
+                }
+                else
+                    System.out.println("실패");
+            }
+        });
+    }
 
 }

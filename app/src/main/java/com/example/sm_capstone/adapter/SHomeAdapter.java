@@ -38,7 +38,7 @@ public class SHomeAdapter extends RecyclerView.Adapter<SHomeAdapter.SHomeViewHol
 
     @Override
     public int getItemCount() {
-        return 0;
+        return (null != datas ? datas.size() : 0);
     }
 
 
