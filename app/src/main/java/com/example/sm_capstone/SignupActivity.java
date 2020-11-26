@@ -128,6 +128,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                                     userMap.put(EmployID.email, emailEdit.getText().toString());
                                     userMap.put(EmployID.password, passEdit.getText().toString());
                                     userMap.put(EmployID.type, type);
+                                    userMap.put(EmployID.storeName,nameLayout.getText().toString());
+                                    userMap.put(EmployID.storeNum,numLayout.getText().toString());
                                     Log.d("확인","가입자 형식:"+type);
                                     Log.d("확인","documentId:"+mAuth.getCurrentUser().getUid());
                                     Log.d("확인","name:"+nameEdit.getText().toString());
