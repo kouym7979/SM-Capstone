@@ -137,7 +137,6 @@ public class MyPageActivity extends AppCompatActivity {
                                 ((GlobalMethod)getApplicationContext()).modifyOK(a);
                             }
                         });
-                        mStore.collection("Store").document(storeNumEdit)
                     }
                 });
                 dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {

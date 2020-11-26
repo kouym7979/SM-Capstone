@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.sm_capstone.adapter.subCalendarAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -157,10 +158,14 @@ public class ScheduleModify extends Dialog implements View.OnClickListener, Time
     @Override
     public void onClick(View v) {
         if(mAuth.getCurrentUser()!=null){
-            intent = new Intent(getContext(), CalendarActivity.class);
+            intent = new Intent(getContext(), subCalendarAdapter.class);
             getContext().startActivity(intent);
 
+
             schedule_id = intent.getStringExtra("schedule_id");
+
+            Log.d("aaa", "스케줄수정하는 id값:"+schedule_id);
+
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid()); //유저 고유번호
             data.put(EmployID.writer_name, writer_name); //작성자 이름
@@ -176,7 +181,10 @@ public class ScheduleModify extends Dialog implements View.OnClickListener, Time
                     Toast.makeText(getContext(), "update complete", Toast.LENGTH_SHORT).show();
                 }
             });
-            dismiss();
+
+            if(v==btn_add_submit) {
+                dismiss();
+            }
         }
 
     }
