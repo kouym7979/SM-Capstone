@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,7 +40,9 @@ public class MyPageActivity extends AppCompatActivity {
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private EditText nameEdit, phoneEdit, storeNameEdit, storeNumEdit;
+    private TextView postv;
     String name, phoneNum, storeName, storeNum;
+    String pos; //직원인지 매니저인지 감지
     private ImageButton logout_btn, modify_btn;
     Activity a;
     private Button kakao_btn;
@@ -52,6 +55,7 @@ public class MyPageActivity extends AppCompatActivity {
         phoneEdit = findViewById(R.id.phoneEdit);
         storeNameEdit = findViewById(R.id.mpStoreNameEdit);
         storeNumEdit = findViewById(R.id.mpStoreNumEdit);
+        postv = findViewById(R.id.postv);
         logout_btn = findViewById(R.id.logout_btn);
         modify_btn = findViewById(R.id.modify_btn);
         a = MyPageActivity.this;
@@ -66,15 +70,24 @@ public class MyPageActivity extends AppCompatActivity {
                         phoneNum = (String) document.getData().get(EmployID.phone_number);
                         storeName = (String) document.getData().get(EmployID.storeName);
                         storeNum = (String) document.getData().get(EmployID.storeNum);
+                        pos = (String) document.getData().get(EmployID.type);
                         nameEdit.setText(name);
                         phoneEdit.setText(phoneNum);
                         storeNameEdit.setText(storeName);
                         storeNumEdit.setText(storeNum);
+                        postv.setText(pos);
                     }
                 }
             });
-
         }
+        //매니저는 가입할 때 고유번호를 설정하기 때문에 고유매장번호 변경을 할 수 없고 매장명만 변경가능함
+        if(pos.equals("manager")){
+            storeNumEdit.setEnabled(false);
+        }
+        else if(pos.equals("employee")){
+            storeNumEdit.setEnabled(true);
+        }
+        //직원은 매니저의 승인을 받고 매장번호 변경이 가능함
 
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +124,8 @@ public class MyPageActivity extends AppCompatActivity {
                         Map<String, Object> userMap = new HashMap<>();
                         userMap.put(EmployID.name, nameEdit.getText().toString());
                         userMap.put(EmployID.phone_number, phoneEdit.getText().toString());
+                        userMap.put(EmployID.storeName, storeNameEdit.getText().toString());
+                        userMap.put(EmployID.storeNum, storeNumEdit.getText().toString());
                         mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

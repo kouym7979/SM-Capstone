@@ -29,6 +29,20 @@ public class GlobalMethod extends Application {
                 .setMessage("이미 사용중인 아이디 입니다")
                 .show();
     }
+    public void storeDuplicate(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.warningColor)
+                .setMessage("이미 사용중인 매장번호입니다")
+                .show();
+    }
+    public void storeChkPlz(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.BOTTOM)
+                .setBackgroundColor(R.color.warningColor)
+                .setMessage("매장 중복검사를 진행하세요")
+                .show();
+    }
 
     public void idPossible(Activity a){
         CookieBar.build(a)
