@@ -55,8 +55,10 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     private ScheduleAdd scheduleAdd; //일정추가 다이얼로그
     private Button btn_modify, btn_delete; //일정 수정, 삭제버튼
     private Button btn_request; //대타 요청 버튼
+
     private String date;
     private TextView schedule_date; //선택된 날짜 표시
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,19 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
 
         ScheduleLayoutManager = new LinearLayoutManager(this);
         Schedule.setLayoutManager(ScheduleLayoutManager);
+
+        //수정버튼
+        btn_modify = findViewById(R.id.btn_modify);
+        btn_modify.setOnClickListener(this);
+
+        //삭제버튼
+        btn_delete = findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(this);
+
+        //대타 요청 버튼
+        btn_request = findViewById(R.id.btn_request);
+        btn_request.setOnClickListener(this);
+
 
 
 
@@ -159,3 +174,4 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     }
 
 }
+
