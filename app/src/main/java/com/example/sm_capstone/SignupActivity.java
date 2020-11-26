@@ -142,6 +142,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                             val_Button.setTextColor(Color.GREEN);
                             val_Button.setText("사용가능");
                         }
+                        else if(emailEdit.getText().toString()=="")
+                            Toast.makeText(getApplicationContext(), "아이디를 입력하세요",Toast.LENGTH_SHORT).show();
                         else{
                             ((GlobalMethod)getApplicationContext()).idDuplicate(a);
                         }
@@ -158,11 +160,12 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()) //매장번호가 이미 존재하면
                     {
-                        ((GlobalMethod)getApplicationContext()).idDuplicate(a);
+                        ((GlobalMethod)getApplicationContext()).storeDuplicate(a);
                         storeCheck = 1;
                     }
                     else //없으면
                     {
+                        ((GlobalMethod)getApplicationContext()).storePossible(a);
                         storeCheck = 2;
                         val_Button2.setEnabled(false);
                         val_Button2.setTextColor(Color.GREEN);
@@ -177,8 +180,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         if (val_Button.isEnabled()) {
             ((GlobalMethod)getApplicationContext()).idChkPlz(a);
         }
-        else if( storeCheck == 1) ((GlobalMethod)getApplicationContext()).storeDuplicate(a);
-        else if( storeCheck == 0) ((GlobalMethod)getApplicationContext()).storeChkPlz(a);
+        else if(manager.isChecked() && val_Button2.isEnabled())
+            ((GlobalMethod)getApplicationContext()).storeChkPlz(a);
         else {
             Toast.makeText(getApplicationContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
             mAuth.createUserWithEmailAndPassword(emailEdit.getText().toString(), passEdit.getText().toString()).

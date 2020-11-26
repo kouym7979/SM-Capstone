@@ -46,6 +46,7 @@ public class MyPageActivity extends AppCompatActivity {
     private ImageButton logout_btn, modify_btn;
     Activity a;
     private Button kakao_btn;
+    private boolean permit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +82,17 @@ public class MyPageActivity extends AppCompatActivity {
             });
         }
         //매니저는 가입할 때 고유번호를 설정하기 때문에 고유매장번호 변경을 할 수 없고 매장명만 변경가능함
-        if(pos.equals("manager")){
+        if(pos == null)
+        {/*로딩되는동안 null일수 있어서 패스*/}
+        else if(pos.equals("manager")){
             storeNumEdit.setEnabled(false);
         }
+        //추후에 허용기능이 추가되면 permit=true인 employee만 수정할 수 있게 함
+        //직원은 매니저의 승인을 받고 매장번호 변경이 가능함
         else if(pos.equals("employee")){
             storeNumEdit.setEnabled(true);
         }
-        //직원은 매니저의 승인을 받고 매장번호 변경이 가능함
+
 
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
