@@ -10,6 +10,8 @@ public class EmployID {
     public static String id="id";
     public static String phone_number="phone_number";
     public static String name="name";
+    public static String storeName = "storeName";
+    public static String storeNum = "storeNum";
 
     public static String board="board";
     public static String title="title";

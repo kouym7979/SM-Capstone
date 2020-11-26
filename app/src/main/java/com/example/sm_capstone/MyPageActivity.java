@@ -39,7 +39,7 @@ public class MyPageActivity extends AppCompatActivity {
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private EditText nameEdit, phoneEdit, storeNameEdit, storeNumEdit;
-    String name, phoneNum, StoreName, StoreNum;
+    String name, phoneNum, storeName, storeNum;
     private ImageButton logout_btn, modify_btn;
     Activity a;
     private Button kakao_btn;
@@ -50,6 +50,8 @@ public class MyPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_page);
         nameEdit = findViewById(R.id.nameEdit);
         phoneEdit = findViewById(R.id.phoneEdit);
+        storeNameEdit = findViewById(R.id.mpStoreNameEdit);
+        storeNumEdit = findViewById(R.id.mpStoreNumEdit);
         logout_btn = findViewById(R.id.logout_btn);
         modify_btn = findViewById(R.id.modify_btn);
         a = MyPageActivity.this;
@@ -62,9 +64,12 @@ public class MyPageActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         name = (String) document.getData().get(EmployID.name);
                         phoneNum = (String) document.getData().get(EmployID.phone_number);
-                        System.out.println("확인"+name);
+                        storeName = (String) document.getData().get(EmployID.storeName);
+                        storeNum = (String) document.getData().get(EmployID.storeNum);
                         nameEdit.setText(name);
                         phoneEdit.setText(phoneNum);
+                        storeNameEdit.setText(storeName);
+                        storeNumEdit.setText(storeNum);
                     }
                 }
             });
