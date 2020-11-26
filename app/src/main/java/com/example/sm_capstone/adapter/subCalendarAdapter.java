@@ -1,20 +1,37 @@
 package com.example.sm_capstone.adapter;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sm_capstone.CalendarActivity;
 import com.example.sm_capstone.CalendarPost;
 import com.example.sm_capstone.R;
+import com.example.sm_capstone.ScheduleModify;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+
+import static com.example.sm_capstone.EmployID.schedule_id;
+import static com.example.sm_capstone.EmployID.writer_name;
 
 public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.ItemViewHolder> {
     private List<CalendarPost> datas;
     private Context mcontext;
+    private ScheduleModify scheduleModify;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     public  subCalendarAdapter(Context mcontext, List<CalendarPost> datas) {
         this.mcontext=mcontext;
@@ -28,12 +45,44 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder,final int position) {
+
         CalendarPost data=datas.get(position);
         holder.writer_name.setText(datas.get(position).getWriter_name());
         holder.start_time.setText(datas.get(position).getStart_time());
         holder.end_time.setText(datas.get(position).getEnd_time());
         holder.reference.setText(datas.get(position).getReference());
+
+        Button btn_modify = holder.btn_modify;
+        btn_modify.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d("aaa", "modify버튼위치"+position);
+
+                scheduleModify = new ScheduleModify(mcontext);
+                scheduleModify.setCanceledOnTouchOutside(true);
+                scheduleModify.setCancelable(true);
+                scheduleModify.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                scheduleModify.show();
+            }
+        });
+
+        Button btn_delete = holder.btn_delete;
+        btn_delete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d("aaa", "delete버튼위치"+position);
+                deleteDialog(writer_name);
+            }
+        });
+
+        Button btn_request = holder.btn_request;
+        btn_request.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d("aaa", "request버튼위치"+position);
+            }
+        });
 
 
         //아래에 선언한 버튼클릭리스너를 여기에 구현하시면 됩니다!
@@ -50,6 +99,9 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         private TextView start_time;
         private TextView end_time;
         private TextView reference;
+        public Button btn_modify;
+        public Button btn_delete;
+        public Button btn_request;
 
 
         //여기에 calendar_list에 있는 버튼을 선언!!
@@ -59,6 +111,43 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             start_time=itemView.findViewById(R.id.calendar_starttime);
             end_time=itemView.findViewById(R.id.calendar_endtime);
             reference=itemView.findViewById(R.id.calendar_reference);
+
+            btn_modify = (Button)itemView.findViewById(R.id.btn_modify);
+            btn_delete = (Button)itemView.findViewById(R.id.btn_delete);
+            btn_request = (Button)itemView.findViewById(R.id.btn_request);
+
+
         }
+    }
+
+    public void deleteDialog(final String writer){
+        final Dialog builder = new Dialog(mcontext);
+        builder.setContentView(R.layout.dialog_schedule_delete);
+        builder.show();
+
+        final Button delete_yes = (Button)builder.findViewById(R.id.delete_yes);
+        final Button delete_no = (Button)builder.findViewById(R.id.delete_no);
+
+        delete_yes.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mStore.collection("CalendarPost").document(schedule_id)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("확인", "삭제되었습니다");
+
+                            }
+                        });
+                builder.dismiss();
+            }
+        });
+        delete_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
     }
 }
