@@ -131,6 +131,7 @@
         android:layout_marginTop="23dp"
         android:text="Store"
         android:textColor="#000000"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/myPageImage3"
         app:layout_constraintTop_toTopOf="@id/myPageImage3" />
@@ -252,5 +253,16 @@
         android:onClick="kakaoLink"
         app:layout_constraintTop_toBottomOf="@id/modify_btn"
          />
+
+    <TextView
+        android:id="@+id/postv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text=""
+        android:textSize="12sp"
+        android:textColor="#f3e7d5"
+        app:layout_constraintLeft_toRightOf="@id/myPageStoreText"
+        app:layout_constraintTop_toTopOf="@id/myPageStoreText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
