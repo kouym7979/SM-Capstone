@@ -9,16 +9,16 @@
 
     <ImageView
         android:id="@+id/mypageImage1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="409.6dp"
+        android:layout_height="327.8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mypage1" />
 
     <ImageView
         android:id="@+id/myPageImage2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="337dp"
+        android:layout_height="123dp"
 
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="@id/mypageImage1"
@@ -28,8 +28,8 @@
 
     <ImageView
         android:id="@+id/myPageImage4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="181.8dp"
+        android:layout_height="114.8dp"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="@id/myPageImage2"
         app:layout_constraintTop_toTopOf="@id/myPageImage2"
@@ -116,8 +116,8 @@
 
     <ImageView
         android:id="@+id/myPageImage3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="337dp"
+        android:layout_height="123dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/myPageImage2"
         app:layout_constraintTop_toBottomOf="@id/myPageImage2"
@@ -138,8 +138,8 @@
 
     <ImageView
         android:id="@+id/myPageImage5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="171.5dp"
+        android:layout_height="103.6dp"
         app:layout_constraintBottom_toBottomOf="@id/myPageImage3"
         app:layout_constraintRight_toRightOf="@id/myPageImage3"
         app:srcCompat="@drawable/mypage5" />
