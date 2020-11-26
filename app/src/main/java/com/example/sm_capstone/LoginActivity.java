@@ -51,7 +51,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
 
         a = LoginActivity.this;
         loading = findViewById(R.id.loadingBar);
-        loading.setVisibility(View.INVISIBLE);
+        //loading.setVisibility(View.INVISIBLE);
         emailEdit = findViewById(R.id.emailEdit);
         passEdit = findViewById(R.id.passEdit);
         autoCheck=(CheckBox)findViewById(R.id.btn_chklogin);

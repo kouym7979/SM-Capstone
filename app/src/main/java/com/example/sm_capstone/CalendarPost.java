@@ -1,5 +1,7 @@
 package com.example.sm_capstone;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -12,7 +14,8 @@ public class CalendarPost {
     private String start_time;   //출근 시간
     private String end_time;     //퇴근 시간
     private String reference;  //스케줄 참고사항
-
+    @ServerTimestamp
+    private Date caldender_date;
     public String getDocumentId() { return documentId; }
     public void setDocumentId(String documentId) { this.documentId = documentId; }
     public String getWriter_name() { return writer_name; }
@@ -28,6 +31,14 @@ public class CalendarPost {
     public String getReference() { return reference; }
     public void setReference(String reference) { this.reference = reference; }
 
+    public Date getCaldender_date() {
+        return caldender_date;
+    }
+
+    public void setCaldender_date(Date caldender_date) {
+        this.caldender_date = caldender_date;
+    }
+
     //빈 생성자
     public CalendarPost(){    }
 
@@ -41,15 +52,17 @@ public class CalendarPost {
         this.reference = reference;
     }
 
-    public String toString(){
-        return "Schedule{" +
-                "documentId='"+documentId+'\'' +
-                ", writer_name='" + writer_name + '\''+
-                ", schedule_id='" + schedule_id + '\''+
-                ", date='" + date + '\''+
-                ", start_time='" + start_time + '\''+
-                ", end_time='" + end_time + '\''+
-                ", reference='" + reference +
+    @Override
+    public String toString() {
+        return "CalendarPost{" +
+                "documentId='" + documentId + '\'' +
+                ", writer_name='" + writer_name + '\'' +
+                ", schedule_id='" + schedule_id + '\'' +
+                ", date='" + date + '\'' +
+                ", start_time='" + start_time + '\'' +
+                ", end_time='" + end_time + '\'' +
+                ", reference='" + reference + '\'' +
+                ", caldender_date=" + caldender_date +
                 '}';
     }
 }
