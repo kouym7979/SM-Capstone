@@ -137,6 +137,7 @@ public class MyPageActivity extends AppCompatActivity {
                                 ((GlobalMethod)getApplicationContext()).modifyOK(a);
                             }
                         });
+
                         //강호동 : 직원 or  송민호: 매니저 이런식으로 표시할 예정
                         //storeMap.put(user.getEmail(), pos);
                         System.out.println("이메일"+user.getEmail());
@@ -146,6 +147,7 @@ public class MyPageActivity extends AppCompatActivity {
 
                             }
                         });
+
                     }
                 });
                 dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {

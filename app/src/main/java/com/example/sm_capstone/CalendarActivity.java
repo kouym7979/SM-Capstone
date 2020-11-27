@@ -98,16 +98,16 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         Schedule.setLayoutManager(ScheduleLayoutManager);
 
         //수정버튼
-        btn_modify = findViewById(R.id.btn_modify);
-        btn_modify.setOnClickListener(this);
-
-        //삭제버튼
-        btn_delete = findViewById(R.id.btn_delete);
-        btn_delete.setOnClickListener(this);
-
-        //대타 요청 버튼
-        btn_request = findViewById(R.id.btn_request);
-        btn_request.setOnClickListener(this);
+//        btn_modify = findViewById(R.id.btn_modify);
+//        btn_modify.setOnClickListener(this);
+//
+//        //삭제버튼
+//        btn_delete = findViewById(R.id.btn_delete);
+//        btn_delete.setOnClickListener(this);
+//
+//        //대타 요청 버튼
+//        btn_request = findViewById(R.id.btn_request);
+//        btn_request.setOnClickListener(this);
 
 
 
