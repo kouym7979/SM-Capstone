@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,8 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-import static com.example.sm_capstone.EmployID.schedule_id;
-import static com.example.sm_capstone.EmployID.writer_name;
 
 public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.ItemViewHolder> {
     private List<CalendarPost> datas;
@@ -32,6 +32,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     private ScheduleModify scheduleModify;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    String writer_name;
+    String schedule_id;
 
     public  subCalendarAdapter(Context mcontext, List<CalendarPost> datas) {
         this.mcontext=mcontext;
@@ -52,6 +54,9 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         holder.start_time.setText(datas.get(position).getStart_time());
         holder.end_time.setText(datas.get(position).getEnd_time());
         holder.reference.setText(datas.get(position).getReference());
+
+        writer_name = datas.get(position).getWriter_name();
+        schedule_id = datas.get(position).getSchedule_id();
 
         Button btn_modify = holder.btn_modify;
         btn_modify.setOnClickListener(new View.OnClickListener(){
@@ -131,15 +136,21 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         delete_yes.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                mStore.collection("CalendarPost").document(schedule_id)
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("확인", "삭제되었습니다");
+                if(writer.equals(writer_name)){
+                    mStore.collection("CalendarPost").document(schedule_id)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("확인", "삭제되었습니다");
+                                }
+                            });
+                }
+                else
+                {
+                    Toast.makeText(mcontext, "작성자가 아닙니다", Toast.LENGTH_SHORT).show();
+                }
 
-                            }
-                        });
                 builder.dismiss();
             }
         });
