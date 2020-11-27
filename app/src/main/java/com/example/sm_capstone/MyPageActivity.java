@@ -137,7 +137,15 @@ public class MyPageActivity extends AppCompatActivity {
                                 ((GlobalMethod)getApplicationContext()).modifyOK(a);
                             }
                         });
-                        mStore.collection("Store").document(storeNumEdit)
+                        //강호동 : 직원 or  송민호: 매니저 이런식으로 표시할 예정
+                        //storeMap.put(user.getEmail(), pos);
+                        System.out.println("이메일"+user.getEmail());
+                        mStore.collection("Store").document(storeNumEdit.getText().toString()).update(nameEdit.getText().toString(),pos).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                            }
+                        });
                     }
                 });
                 dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
