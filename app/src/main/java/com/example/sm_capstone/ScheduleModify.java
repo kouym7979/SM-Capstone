@@ -85,6 +85,12 @@ public class ScheduleModify extends Dialog implements View.OnClickListener, Time
         this.context = context;
     }
 
+    public ScheduleModify(@NonNull Context context, String schedule_id) {
+        super(context);
+        this.context = context;
+        this.schedule_id = schedule_id;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -158,18 +164,18 @@ public class ScheduleModify extends Dialog implements View.OnClickListener, Time
     @Override
     public void onClick(View v) {
         if(mAuth.getCurrentUser()!=null){
-            intent = new Intent(getContext(), subCalendarAdapter.class);
-            getContext().startActivity(intent);
+//            intent = new Intent(getContext(), subCalendarAdapter.class);
+//            getContext().startActivity(intent);
+//            Intent intent=getIntent();
+//            schedule_id = intent.getStringExtra(schedule_id);
 
-
-            schedule_id = intent.getStringExtra("schedule_id");
-
+            Log.d("aaa", "스케줄수정하는 사람:"+writer_name);
             Log.d("aaa", "스케줄수정하는 id값:"+schedule_id);
 
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid()); //유저 고유번호
             data.put(EmployID.writer_name, writer_name); //작성자 이름
-            data.put(EmployID.schedule_id, schedule_id); //스케줄 고유번호
+//            data.put(EmployID.schedule_id, schedule_id); //스케줄 고유번호
             data.put(EmployID.writer_id,writer_id); //작성자 id
             data.put(EmployID.date, dateAndTimeLabel.getText().toString()); //날짜
             data.put(EmployID.start_time, startTimeLabel.getText().toString()); //출근시간

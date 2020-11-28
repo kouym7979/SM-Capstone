@@ -6,7 +6,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ScheduleDelete">
+    tools:context=".adapter.subCalendarAdapter">
 
     <LinearLayout
         android:layout_width="match_parent"
