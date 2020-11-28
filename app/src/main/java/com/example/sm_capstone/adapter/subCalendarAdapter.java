@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sm_capstone.CalendarActivity;
 import com.example.sm_capstone.CalendarPost;
+import com.example.sm_capstone.EmployID;
 import com.example.sm_capstone.R;
 import com.example.sm_capstone.ScheduleModify;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -63,8 +68,12 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             @Override
             public void onClick(View v) {
                 Log.d("aaa", "modify버튼위치"+position);
+                Log.d("aaa","선택한스케줄ID"+schedule_id);
 
-                scheduleModify = new ScheduleModify(mcontext);
+//                Intent intent = new Intent(mcontext, ScheduleModify.class);
+//                intent.putExtra(schedule_id, schedule_id);
+
+                scheduleModify = new ScheduleModify(mcontext, schedule_id);
                 scheduleModify.setCanceledOnTouchOutside(true);
                 scheduleModify.setCancelable(true);
                 scheduleModify.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
