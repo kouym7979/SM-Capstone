@@ -41,7 +41,7 @@ public class MyPageActivity extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private EditText nameEdit, phoneEdit, storeNameEdit, storeNumEdit;
     private TextView postv;
-    String name, phoneNum, storeName, storeNum;
+    String name, phoneNum, storeName, storeNum,store_id;
     String pos; //직원인지 매니저인지 감지
     private ImageButton logout_btn, modify_btn;
     Activity a;
@@ -77,6 +77,7 @@ public class MyPageActivity extends AppCompatActivity {
                         storeNameEdit.setText(storeName);
                         storeNumEdit.setText(storeNum);
                         postv.setText(pos);
+                        store_id=(String)task.getResult().getData().get(EmployID.documentId);
                     }
                 }
             });
