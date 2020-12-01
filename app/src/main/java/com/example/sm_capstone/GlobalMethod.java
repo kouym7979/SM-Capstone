@@ -10,37 +10,58 @@ import org.aviran.cookiebar2.CookieBar;
 public class GlobalMethod extends Application {
     public void LoginBlank(Activity a){
         CookieBar.build(a)
-                .setCookiePosition(CookieBar.BOTTOM)
+                .setCookiePosition(CookieBar.TOP)
                 .setBackgroundColor(R.color.default_bg_color)
                 .setMessage("아이디 비밀번호를 입력하세요")
                 .show();
     }
     public void LoginFail(Activity a){
         CookieBar.build(a)
-                .setCookiePosition(CookieBar.BOTTOM)
+                .setCookiePosition(CookieBar.TOP)
                 .setBackgroundColor(R.color.warningColor)
                 .setMessage("아이디, 비밀번호를 확인하세요")
                 .show();
     }
     public void idDuplicate(Activity a){
         CookieBar.build(a)
-                .setCookiePosition(CookieBar.BOTTOM)
-                .setBackgroundColor(R.color.warningColor)
+                .setCookiePosition(CookieBar.TOP)
+                .setBackgroundColor(R.color.emplobackground)
                 .setMessage("이미 사용중인 아이디 입니다")
+                .show();
+    }
+    public void storeDuplicate(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.TOP)
+                .setBackgroundColor(R.color.emplobackground)
+                .setMessage("이미 사용중인 매장번호입니다")
+                .show();
+    }
+    public void storeChkPlz(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.TOP)
+                .setBackgroundColor(R.color.design_default_color_primary_variant)
+                .setMessage("매장 중복검사를 진행하세요")
                 .show();
     }
 
     public void idPossible(Activity a){
         CookieBar.build(a)
-                .setCookiePosition(CookieBar.BOTTOM)
+                .setCookiePosition(CookieBar.TOP)
                 .setBackgroundColor(R.color.welcomeColor)
                 .setMessage("사용 가능한 아이디 입니다")
                 .show();
     }
+    public void storePossible(Activity a){
+        CookieBar.build(a)
+                .setCookiePosition(CookieBar.TOP)
+                .setBackgroundColor(R.color.welcomeColor)
+                .setMessage("사용 가능한 매장아이디 입니다")
+                .show();
+    }
     public void idChkPlz(Activity a){
         CookieBar.build(a)
-                .setCookiePosition(CookieBar.BOTTOM)
-                .setBackgroundColor(R.color.warningColor)
+                .setCookiePosition(CookieBar.TOP)
+                .setBackgroundColor(R.color.design_default_color_primary_variant)
                 .setMessage("ID중복검사를 확인하세요")
                 .show();
     }
