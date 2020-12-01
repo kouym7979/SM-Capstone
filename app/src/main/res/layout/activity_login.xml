@@ -35,47 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idText" />
 
-    <TextView
-        android:id="@+id/storeNumText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="30dp"
-        android:text="매장번호"
-        android:textColor="@color/emplobackground"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passText" />
-
-    <ImageView
-        android:id="@+id/storeNumImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passImage"
-        app:srcCompat="@drawable/blankbar" />
-
-    <EditText
-        android:id="@+id/storeNumEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:ems="10"
-
-        android:inputType="number"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passImage" />
 
     <ImageView
         android:id="@+id/passImage"
@@ -173,7 +132,7 @@
         android:layout_marginTop="10dp"
         android:text="자동로그인"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/storeNumImage" />
+        app:layout_constraintTop_toBottomOf="@+id/passImage" />
 
     <CheckBox
         android:id="@+id/btn_idmemo"
