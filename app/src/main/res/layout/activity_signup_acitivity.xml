@@ -268,7 +268,7 @@
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginTop="6dp"
-        android:layout_marginStart="135dp"
+        android:layout_marginStart="125dp"
         android:text="중복확인"
         android:textSize="7sp"
         app:layout_constraintStart_toStartOf="@id/username"

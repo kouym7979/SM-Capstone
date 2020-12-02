@@ -71,6 +71,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                             if(task.getResult()!=null){
                                 writer_name=(String)task.getResult().getData().get(EmployID.name);//
                                 writer_id=(String)task.getResult().getData().get(EmployID.documentId);
+
                                 Log.d("확인","현재 사용자 uid입니다:"+writer_id);
                                 Log.d("확인","현재 사용자 이름입니다"+writer_name);
                             }
@@ -98,7 +99,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
         if(mAuth.getCurrentUser()!=null){
             String PostID=mStore.collection("Post").document().getId();//제목이 같아도 게시글이 겹치지않게
             Intent intent=getIntent();
-            board_part=intent.getStringExtra("board_part");//동적게시판은 1 정적게시판은 2 예정
+            board_part=intent.getStringExtra("board_part");//동적게시판은 store_num 정적게시판은 2 예정
 
             Log.d("확인","여기는 게시글 작성:"+board_part);
             Map<String,Object> data=new HashMap<>();

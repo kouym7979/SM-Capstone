@@ -1,5 +1,6 @@
 package com.example.sm_capstone;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -27,6 +28,8 @@ import com.example.sm_capstone.adapter.HomeAdapter;
 import com.example.sm_capstone.adapter.SHomeAdapter;
 import com.example.sm_capstone.ui.home.HomeFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -51,12 +54,12 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private HomeAdapter mAdapter;
     private SHomeAdapter sAdapter;
     private List<Home_Post> mDatas, sDatas;
-
+    private String store_num;
     private Button btn_Dyboard,btn_logou;//동적게시판으로 이동하는 버튼
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private TextView dynamic,staticboard;
     private RecyclerView h_dynamicBoard,static_board;//동적게시판
-
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance();//사용자 정보 가져오기
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +73,19 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
 
         btn_calendar=findViewById(R.id.btn_calendar);
 
-
+        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
+                                Log.d("확인","store_num"+store_num);
+                            }
+                        }
+                    });
+        }
 
         Button.OnClickListener onClickListener=new Button.OnClickListener(){
 
@@ -79,7 +94,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                 switch(v.getId()){
                     case R.id.btn_board:
                         Intent intent=new Intent(HomeActivity.this,DynamicBoard.class);
-                        intent.putExtra("board_part","동적게시판");//1은 동적게시판,2는 정적게시판
+                        intent.putExtra("board_part",store_num);//1은 동적게시판,2는 정적게시판
                         startActivity(intent);
                         break;
                     case R.id.btn_calendar:
@@ -135,7 +150,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                                         String board_type = (String) snap.getData().get("board_part");
                                         if(board_type == null)
                                         {System.out.println("스킵");}
-                                        else if(board_type.equals("동적게시판"))
+                                        else if(board_type.equals(store_num))
                                             mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
                                         else if(board_type.equals("정적게시판"))
                                             sDatas.add(data);
