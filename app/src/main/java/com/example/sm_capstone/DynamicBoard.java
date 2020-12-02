@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.sm_capstone.Board_Post.Post;
 import com.example.sm_capstone.adapter.BoardAdapter;
@@ -35,16 +37,18 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     private String board_part;
     private RecyclerView.LayoutManager mlayoutManager;
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
+    private Button write_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_board);
         Board=findViewById(R.id.recyclerview);
-        FloatingActionButton fab=findViewById(R.id.edit_button);//글 작성
-        fab.setOnClickListener(this);
 
+        write_btn=findViewById(R.id.write_btn);
         mlayoutManager = new LinearLayoutManager(this);
         Board.setLayoutManager(mlayoutManager);
+
+        write_btn.setOnClickListener(this);
 
     }
     @Override
