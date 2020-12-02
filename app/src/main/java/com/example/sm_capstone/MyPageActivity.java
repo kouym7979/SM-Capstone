@@ -77,7 +77,6 @@ public class MyPageActivity extends AppCompatActivity {
                         storeNameEdit.setText(storeName);
                         storeNumEdit.setText(storeNum);
                         postv.setText(pos);
-                        store_id=(String)task.getResult().getData().get(EmployID.documentId);
                     }
                 }
             });
@@ -159,31 +158,16 @@ public class MyPageActivity extends AppCompatActivity {
                 dlg.show();
             }
         });
-        /*kakao_btn=findViewById(R.id.kakao_btn);
-        kakao_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                try {
-                     KakaoLink kakaolink=KakaoLink.getKakaoLink(this);
-                     KakaoTalkLinkMessageBuilder builder=kakaolink.createKakaoTalkLinkMessageBuilder();
 
-                    builder.addText("링크테스트");//
-                    builder.addAppButton("앱 실행하기");//앱실행버튼
-
-                    kakaolink.sendMessage(builder,this);//메시지발송
-
-                } catch (KakaoParameterException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });*/
     }
     public void kakaoLink(View view){
         FeedTemplate params = FeedTemplate.
                 newBuilder(ContentObject.newBuilder("Emplo","https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",
                         LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
-                                .setMobileWebUrl("https://developers.kakao.com").build()).build())
+                                .setMobileWebUrl("https://developers.kakao.com").build())
+                        .setDescrption("매장번호를 입력해주세요:"+storeNum)
+                        .build())
+
                 .addButton(new ButtonObject("앱에서보기", LinkObject.newBuilder()
                         .setMobileWebUrl("https://developers.kakao.com")
                         .setAndroidExecutionParams("key1=value1")
