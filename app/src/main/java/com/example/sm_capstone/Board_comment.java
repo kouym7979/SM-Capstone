@@ -70,7 +70,6 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         comment_edit = (EditText) findViewById(R.id.Edit_comment);//댓글 작성 내용
         //img1 = (ImageView) findViewById(R.id.Comment_photo); //작성자 프로필 이미지
         img2 =  (ImageView) findViewById(R.id.Comment_photo2); //작성자가 올린 이미지
-
         mCommentRecyclerView = findViewById(R.id.comment_recycler);//코멘트 리사이클러뷰
         Intent intent = getIntent();//데이터 전달받기
         com_pos = intent.getExtras().getInt("position");
