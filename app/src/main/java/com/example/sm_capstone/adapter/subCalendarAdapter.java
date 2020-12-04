@@ -32,7 +32,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.sm_capstone.EmployID.board_part;
 import static com.example.sm_capstone.EmployID.end_time;
@@ -76,15 +78,17 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         schedule_id = datas.get(position).getSchedule_id();
         start_time = datas.get(position).getStart_time();
         end_time = datas.get(position).getEnd_time();
+        request = datas.get(position).getRequest();
 
+        ////////////////////수정버튼//////////////////////
         Button btn_modify = holder.btn_modify;
         btn_modify.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Log.d("aaa", "modify버튼위치"+position);
-                Log.d("aaa","선택한스케줄ID"+schedule_id);
-                Log.d("aaa", "start_time변수값:"+start_time);
-                Log.d("aaa", "end_time변수값:"+end_time);
+                Log.d("subCalendarAdapter", "modify버튼위치"+position);
+                Log.d("subCalendarAdapter","선택한스케줄ID"+schedule_id);
+                Log.d("subCalendarAdapter", "start_time변수값:"+start_time);
+                Log.d("subCalendarAdapter", "end_time변수값:"+end_time);
 
 //                Intent intent = new Intent(mcontext, ScheduleModify.class);
 //                intent.putExtra(schedule_id, schedule_id);
@@ -97,6 +101,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             }
         });
 
+
+        ///////////////////삭제버튼/////////////////////////////
         Button btn_delete = holder.btn_delete;
         btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -106,24 +112,29 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             }
         });
 
+        ///////////////////////요청버튼////////////////////////////////////////
         Button btn_request = holder.btn_request;
-
         Log.d("확인", "request값:" + request);
-        if(request=="0") {
-            Log.d("확인", "request=0일때" + request);
+        if(request.equals("0")) {
+            Log.d("subCalendarAdapter", "request=0일때" + request);
             btn_request.setText("request");
         }
-        if(request=="1"){
-            Log.d("확인", "request=1일때" + request);
+        if(request.equals("1")){
+            Log.d("subCalendarAdapter", "request=1일때" + request);
             btn_request.setText("accept");
         }
 
         btn_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("aaa", "request버튼위치" + position);
-                Log.d("확인", "넘겨지는 schedule_id는" + schedule_id);
-                requestDialog(writer_name, schedule_id);
+                Log.d("subCalendarAdapter", "request버튼위치" + position);
+                Log.d("subCalendarAdapter", "넘겨지는 schedule_id는" + schedule_id);
+                if(request.equals("0")) {
+                    requestDialog(writer_name, schedule_id);
+                }
+                if(request.equals("1")){
+                    acceptDialog(writer_name, schedule_id, request);
+                }
             }
         });
 
@@ -236,4 +247,45 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             }
         });
     }
+
+    public void acceptDialog(final String writer, final String schedule_id, final String request){
+        final Dialog builder = new Dialog(mcontext);
+        builder.setContentView(R.layout.dialog_schedule_accept);
+        builder.show();
+
+        final Button accept_yes = (Button)builder.findViewById(R.id.accept_yes);
+        final Button accept_no = (Button)builder.findViewById(R.id.accept_no);
+
+        accept_yes.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                if(mAuth.getCurrentUser()!=null){
+                    Log.d("subCalendarAdapter","요청수락할 schedule_id:"+schedule_id);
+
+                    Map<String, Object> data = new HashMap<>();
+                    data.put(EmployID.documentId, mAuth.getCurrentUser().getUid());
+//                    data.put(EmployID.writer_id, mAuth.getCurrentUser().getUid());
+                    data.put(EmployID.writer_name, writer_name);
+                    data.put(EmployID.request, "0");
+                    mStore.collection("CalendarPost").document(schedule_id).update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(mcontext.getApplicationContext(), "Accept complete", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                builder.dismiss();
+            }
+        });
+
+        accept_no.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+    }
+
 }

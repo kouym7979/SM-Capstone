@@ -142,8 +142,10 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                                         String start_time = String.valueOf(shot.get(EmployID.start_time));
                                         String end_time = String.valueOf(shot.get(EmployID.end_time));
                                         String reference = String.valueOf(shot.get(EmployID.reference));
+                                        String request = String.valueOf(shot.get(EmployID.request));
+                                        String storeNum = String.valueOf(shot.get(EmployID.storeNum));
 
-                                        CalendarPost data = new CalendarPost(documentId, writer_name, schedule_id, date, start_time, end_time, reference);
+                                        CalendarPost data = new CalendarPost(documentId, writer_name, schedule_id, date, start_time, end_time, reference,request, storeNum);
                                         datas.add(data);
                                     }
                                     _calendarAdapter = new subCalendarAdapter(CalendarActivity.this,datas);

@@ -69,11 +69,11 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
                             if(task.getResult()!=null){
                                 writer_name=(String)task.getResult().getData().get(EmployID.name);//
                                 writer_id=(String)task.getResult().getData().get(EmployID.documentId);
-                                Log.d("확인","현재 사용자 uid입니다:"+writer_id);
-                                Log.d("확인","현재 사용자 이름입니다"+writer_name);
-                                Log.d("확인", "현재 스케줄 id입니다:"+schedule_id);
-                                Log.d("확인", "현재 스케줄 start_time입니다:"+start_time);
-                                Log.d("확인", "현재 스케줄 end_time입니다:"+end_time);
+                                Log.d("ScheduleRequest","현재 사용자 uid입니다:"+writer_id);
+                                Log.d("ScheduleRequest","현재 사용자 이름입니다"+writer_name);
+                                Log.d("ScheduleRequest", "현재 스케줄 id입니다:"+schedule_id);
+                                Log.d("ScheduleRequest", "현재 스케줄 start_time입니다:"+start_time);
+                                Log.d("ScheduleRequest", "현재 스케줄 end_time입니다:"+end_time);
                             }
                         }
                     });
