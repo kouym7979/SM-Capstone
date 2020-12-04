@@ -49,6 +49,7 @@ public class Board_Update extends AppCompatActivity implements View.OnClickListe
     private String postImageUrl;
     private static final int CHOOSE_IMAGE = 101;
     private String writer_name;//작성자
+    private String store_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class Board_Update extends AppCompatActivity implements View.OnClickListe
                             if(task.getResult()!=null){
                                 writer_name=(String)task.getResult().getData().get(EmployID.name);//
                                 writer_id=(String)task.getResult().getData().get(EmployID.documentId);
+                                store_num= (String) task.getResult().getData().get(EmployID.storeNum);
                                 Log.d("확인","현재 사용자 uid입니다:"+writer_id);
                                 Log.d("확인","현재 사용자 이름입니다"+writer_name);
                             }
@@ -106,6 +108,7 @@ public class Board_Update extends AppCompatActivity implements View.OnClickListe
             data.put(EmployID.board_part,board_part);
             data.put(EmployID.writer_id,writer_id);
             data.put(EmployID.post_url,photoUrl);
+            data.put(EmployID.storeNum,store_num);
             if(!TextUtils.isEmpty(postImageUrl))
             {
                 data.put(EmployID.post_photo,postImageUrl);//게시글에 포함된 사진

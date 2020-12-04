@@ -1,5 +1,6 @@
 package com.example.sm_capstone;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.sm_capstone.Board_Post.Post;
 import com.example.sm_capstone.adapter.BoardAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,7 +33,7 @@ import java.util.Map;
 
 public class DynamicBoard extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseAuth Auth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private Context context;
     private RecyclerView Board;//동적게시판
     private BoardAdapter mAdapter;
@@ -38,13 +42,26 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     private RecyclerView.LayoutManager mlayoutManager;
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
     private Button write_btn;
+    private String store_num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_board);
         Board=findViewById(R.id.recyclerview);
-
         write_btn=findViewById(R.id.write_btn);
+        mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.getResult()!=null){
+                            store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
+                            System.out.println("여기");
+                            Log.d("확인","store_num"+store_num);
+                        }
+                    }
+                });
+
         mlayoutManager = new LinearLayoutManager(this);
         Board.setLayoutManager(mlayoutManager);
 
@@ -75,8 +92,16 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                                         String post_id=String.valueOf(shot.get(EmployID.post_id));
                                         String post_photo=String.valueOf(shot.get(EmployID.post_photo));
                                         String board_part=String.valueOf(shot.get(EmployID.board_part));
-                                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part);
-                                        mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
+                                        String post_storenum=String.valueOf(shot.get(EmployID.storeNum));
+                                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part,post_storenum);
+                                        System.out.println("스토어 넘버는:"+post_storenum);
+                                        if(store_num == null)
+                                        {System.out.println("확인");}
+                                        else if(store_num.equals(post_storenum))
+                                        {
+                                            mDatas.add(data);
+                                        }
+                                        //여기까지가 게시글에 해당하는 데이터 적용
                                     }
                                     mAdapter = new BoardAdapter(DynamicBoard.this,mDatas);//mDatas라는 생성자를 넣어줌
                                     Board.setAdapter(mAdapter);
@@ -91,4 +116,27 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
         finish();
     }
+    public void onBackPressed(){
+        Intent intent = new Intent(DynamicBoard.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void checkNum(){
+        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
+                                System.out.println("여기");
+                                Log.d("확인","store_num"+store_num);
+                            }
+                        }
+                    });
+        }
+    }
+
 }

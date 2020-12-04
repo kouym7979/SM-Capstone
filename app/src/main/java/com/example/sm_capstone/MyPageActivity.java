@@ -160,6 +160,13 @@ public class MyPageActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(MyPageActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void kakaoLink(View view){
         FeedTemplate params = FeedTemplate.
                 newBuilder(ContentObject.newBuilder("Emplo","https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/191/791/81191791_1555664874860_1_600x600.JPG",

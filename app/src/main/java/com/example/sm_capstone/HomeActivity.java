@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sm_capstone.Board_Post.Home_Post;
 import com.example.sm_capstone.Board_Post.Post;
@@ -57,6 +58,8 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private String store_num;
     private Button btn_Dyboard,btn_logou;//동적게시판으로 이동하는 버튼
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private long backKeyPressedTime = 0;
+    private Toast toast;
     private TextView dynamic,staticboard;
     private RecyclerView h_dynamicBoard,static_board;//동적게시판
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();//사용자 정보 가져오기
@@ -64,7 +67,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        System.out.println("지금 여기실행");
         dynamic=findViewById(R.id.dynamic);
         staticboard=findViewById(R.id.staticboard);
 
@@ -82,6 +85,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                             if(task.getResult()!=null){
                                 store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
                                 Log.d("확인","store_num"+store_num);
+
                             }
                         }
                     });
@@ -94,8 +98,9 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                 switch(v.getId()){
                     case R.id.btn_board:
                         Intent intent=new Intent(HomeActivity.this,DynamicBoard.class);
-                        intent.putExtra("board_part",store_num);//1은 동적게시판,2는 정적게시판
+                        intent.putExtra("board_part","동적게시판");//1은 동적게시판,2는 정적게시판
                         startActivity(intent);
+                        finish();
                         break;
                     case R.id.btn_calendar:
                         Intent intent2=new Intent(HomeActivity.this, CalendarActivity.class);
@@ -109,6 +114,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                     case R.id.btn_my_page:
                         Intent intent4=new Intent(HomeActivity.this,MyPageActivity.class);
                         startActivity(intent4);
+                        finish();
                         break;
                 }
             }
@@ -146,13 +152,14 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                                         String title = String.valueOf(shot.get(EmployID.title));
                                         //String board_part=String.valueOf(shot.get(EmployID.board_part));
                                         String writer_name=String.valueOf(shot.get(EmployID.name));
+                                        String post_storenum = String.valueOf(shot.get(EmployID.storeNum));
                                         Home_Post data = new Home_Post(writer_name,title);
                                         String board_type = (String) snap.getData().get("board_part");
-                                        if(board_type == null)
+                                        if(board_type == null || post_storenum == null)
                                         {System.out.println("스킵");}
-                                        else if(board_type.equals(store_num))
+                                        else if(board_type.equals("동적게시판") && post_storenum.equals(store_num))
                                             mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
-                                        else if(board_type.equals("정적게시판"))
+                                        else if(board_type.equals("정적게시판") && post_storenum.equals(store_num))
                                             sDatas.add(data);
                                     }
                                     mAdapter = new HomeAdapter(getApplicationContext(),mDatas);//mDatas라는 생성자를 넣어줌
@@ -176,4 +183,17 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
 
     }
 
+    @Override
+    public void onBackPressed(){
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
+            finish();
+            toast.cancel();
+        }
+    }
 }

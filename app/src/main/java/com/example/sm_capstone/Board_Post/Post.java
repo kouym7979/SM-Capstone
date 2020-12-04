@@ -16,10 +16,11 @@ public class Post {
     private String post_photo;//게시글에 등록할 사진
    // private String user_photo;//게시글 작성자의 사진
     private String board_part;//동적게시판인지, 정적게시판인지
+    private String store_num;
 
 
 
-    public Post(String documentId, String title, String contents, String post_id, String writer_name, String post_photo,String board_part) {
+    public Post(String documentId, String title, String contents, String post_id, String writer_name, String post_photo,String board_part, String store_num) {
         this.documentId = documentId;
         this.title = title;
         this.contents = contents;
@@ -27,12 +28,16 @@ public class Post {
         this.writer_name = writer_name;
         this.post_photo = post_photo;
         this.board_part=board_part;
+        this.store_num=store_num;
     }
 
 
     public Post(){//빈생성자 생성
 
     }
+
+    public String getStore_num() {return store_num;}
+    public void setStore_num(String store_num){this.store_num=store_num;}
 
     public String getDocumentId() {
         return documentId;
@@ -111,6 +116,7 @@ public class Post {
                 ", writer_name='" + writer_name + '\'' +
                 ", date=" + date +
                 ", post_photo='" + post_photo + '\'' +
+                ", store_num='" + store_num + '\'' +
                 ", board_part='" + board_part + '\'' +
                 '}';
     }
