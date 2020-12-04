@@ -48,6 +48,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
     private String postImageUrl;
     private static final int CHOOSE_IMAGE = 101;
     private String writer_name;//작성자
+    private String store_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                             if(task.getResult()!=null){
                                 writer_name=(String)task.getResult().getData().get(EmployID.name);//
                                 writer_id=(String)task.getResult().getData().get(EmployID.documentId);
+                                store_num= (String) task.getResult().getData().get(EmployID.storeNum);
 
                                 Log.d("확인","현재 사용자 uid입니다:"+writer_id);
                                 Log.d("확인","현재 사용자 이름입니다"+writer_name);
@@ -113,11 +115,14 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             data.put(EmployID.board_part,board_part);
             data.put(EmployID.writer_id,writer_id);
             data.put(EmployID.post_url,photoUrl);
+            data.put(EmployID.storeNum,store_num);
             if(!TextUtils.isEmpty(postImageUrl))
             {
                 data.put(EmployID.post_photo,postImageUrl);//게시글에 포함된 사진
             }
             mStore.collection("Post").document(PostID).set(data);//Post라는 테이블에 데이터를 입력하는것/
+            Intent intent2 = new Intent(PostWrite.this, HomeActivity.class);
+            startActivity(intent2);
             finish();
         }
     }

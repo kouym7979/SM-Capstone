@@ -33,7 +33,8 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
     private CheckBox autoLogin;
 
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
-    private FirebaseFirestore mstore = FirebaseFirestore.getInstance();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private String store_num;
     private FirebaseUser currentUser;
     private CheckBox autoCheck;
     Activity a;
@@ -43,6 +44,20 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
+                                System.out.println("스플래쉬 매장:"+store_num);
+
+                            }
+                        }
+                    });
+        }
 
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_register).setOnClickListener(this);
@@ -51,14 +66,13 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
 
         a = LoginActivity.this;
         loading = findViewById(R.id.loadingBar);
-//        loading.setVisibility(View.INVISIBLE);
+        loading.setVisibility(View.INVISIBLE);
         emailEdit = findViewById(R.id.emailEdit);
         passEdit = findViewById(R.id.passEdit);
         autoCheck=(CheckBox)findViewById(R.id.btn_chklogin);
         SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         autoCheck.setChecked(pref.getBoolean("autocheck",false));
-        checkStoreNum();
     }
     @Override// 자동로그인 메소드 추가예정->xml linearlayout형태로 바꿔야함
     public void onStart(){
@@ -119,22 +133,5 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         });
     }
 
-    public void checkStoreNum(){
-        DocumentReference docIdRef = mstore.collection("Store").document("1234");
-        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot.exists())
-                        System.out.println("체크"+documentSnapshot.exists());
-                    else
-                        System.out.println("체크2"+documentSnapshot.exists());
-                }
-                else
-                    System.out.println("실패");
-            }
-        });
-    }
 
 }
