@@ -18,9 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sm_capstone.CalendarActivity;
 import com.example.sm_capstone.CalendarPost;
+import com.example.sm_capstone.DynamicBoard;
 import com.example.sm_capstone.EmployID;
+import com.example.sm_capstone.PostWrite;
 import com.example.sm_capstone.R;
+import com.example.sm_capstone.ScheduleAdd;
 import com.example.sm_capstone.ScheduleModify;
+import com.example.sm_capstone.ScheduleRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +33,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+
+import static com.example.sm_capstone.EmployID.board_part;
+import static com.example.sm_capstone.EmployID.end_time;
+import static com.example.sm_capstone.EmployID.start_time;
 
 
 public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.ItemViewHolder> {
@@ -39,6 +47,10 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     String writer_name;
     String schedule_id;
+    String start_time;
+    String end_time;
+    String date;
+    String request;
 
     public  subCalendarAdapter(Context mcontext, List<CalendarPost> datas) {
         this.mcontext=mcontext;
@@ -62,6 +74,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
 
         writer_name = datas.get(position).getWriter_name();
         schedule_id = datas.get(position).getSchedule_id();
+        start_time = datas.get(position).getStart_time();
+        end_time = datas.get(position).getEnd_time();
 
         Button btn_modify = holder.btn_modify;
         btn_modify.setOnClickListener(new View.OnClickListener(){
@@ -69,6 +83,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             public void onClick(View v) {
                 Log.d("aaa", "modify버튼위치"+position);
                 Log.d("aaa","선택한스케줄ID"+schedule_id);
+                Log.d("aaa", "start_time변수값:"+start_time);
+                Log.d("aaa", "end_time변수값:"+end_time);
 
 //                Intent intent = new Intent(mcontext, ScheduleModify.class);
 //                intent.putExtra(schedule_id, schedule_id);
@@ -91,10 +107,23 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         });
 
         Button btn_request = holder.btn_request;
-        btn_request.setOnClickListener(new View.OnClickListener(){
+
+        Log.d("확인", "request값:" + request);
+        if(request=="0") {
+            Log.d("확인", "request=0일때" + request);
+            btn_request.setText("request");
+        }
+        if(request=="1"){
+            Log.d("확인", "request=1일때" + request);
+            btn_request.setText("accept");
+        }
+
+        btn_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("aaa", "request버튼위치"+position);
+                Log.d("aaa", "request버튼위치" + position);
+                Log.d("확인", "넘겨지는 schedule_id는" + schedule_id);
+                requestDialog(writer_name, schedule_id);
             }
         });
 
@@ -164,6 +193,43 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             }
         });
         delete_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+    }
+
+
+    public void requestDialog(final String writer,final String schedule_id){
+        final Dialog builder = new Dialog(mcontext);
+        builder.setContentView(R.layout.dialog_schedule_request);
+        builder.show();
+
+        final Button request_yes = (Button)builder.findViewById(R.id.request_yes);
+        final Button request_no = (Button)builder.findViewById(R.id.request_no);
+
+        request_yes.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(writer.equals(writer_name)){
+                    ////request화면으로 연결
+                    Intent intent = new Intent(mcontext, ScheduleRequest.class);
+                    intent.putExtra("schedule_id", schedule_id);
+                    intent.putExtra("start_time", start_time);
+                    intent.putExtra("end_time", end_time);
+                    Log.d("확인","requestDialog넘겨지는 schedule_id는"+schedule_id);
+                    Log.d("확인","requestDialog넘겨지는 start_time는"+start_time);
+                    mcontext.startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(mcontext, "작성자가 아닙니다", Toast.LENGTH_SHORT).show();
+                }
+                builder.dismiss();
+            }
+        });
+        request_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 builder.dismiss();
