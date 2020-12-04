@@ -192,7 +192,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                         String post_id=String.valueOf(sub.get(i).getPost_id());
                         String post_photo=String.valueOf(sub.get(i).getPost_photo());
                         String board_part=String.valueOf(sub.get(i).getBoard_part());
-                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part);
+                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part, store_num);
                         mDatas.add(data);
                         Log.d("확인","포함되어있습니다"+s_title);
                     }
