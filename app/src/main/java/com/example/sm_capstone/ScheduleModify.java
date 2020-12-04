@@ -40,6 +40,7 @@ public class ScheduleModify extends Dialog implements View.OnClickListener, Time
     private String writer_name; //작성자 이름
     private String date; //날짜
     private String schedule_id; //스케즐넘버
+    private String request = "0";  //대타신청 유무
     private EditText mreference; //참고사항
     private int hourOfDay1, hourOfDay2;
     private int minute1, minute2;
@@ -181,6 +182,7 @@ public class ScheduleModify extends Dialog implements View.OnClickListener, Time
             data.put(EmployID.start_time, startTimeLabel.getText().toString()); //출근시간
             data.put(EmployID.end_time, endTimeLabel.getText().toString()); //퇴근시간
             data.put(EmployID.reference, mreference.getText().toString()); //참고사항
+            data.put(EmployID.request, request); //대타신청 유무
             mStore.collection("CalendarPost").document(schedule_id).update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

@@ -32,6 +32,7 @@ public class EmployID {
     public static String end_time="end_time";
     public static String date="date";
     public static String reference="reference";
+    public static String request="request";
         //캘린더에 사용할 객체입니다.
 
 
