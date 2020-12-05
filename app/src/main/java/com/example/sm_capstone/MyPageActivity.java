@@ -8,12 +8,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,7 +49,7 @@ public class MyPageActivity extends AppCompatActivity {
     Activity a;
     private Button kakao_btn;
     private boolean permit;
-
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,31 +62,20 @@ public class MyPageActivity extends AppCompatActivity {
         logout_btn = findViewById(R.id.logout_btn);
         modify_btn = findViewById(R.id.modify_btn);
         a = MyPageActivity.this;
-        if(user!=null){
-            mStore.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        System.out.println(user.getUid());
-                        DocumentSnapshot document = task.getResult();
-                        name = (String) document.getData().get(EmployID.name);
-                        phoneNum = (String) document.getData().get(EmployID.phone_number);
-                        storeName = (String) document.getData().get(EmployID.storeName);
-                        storeNum = (String) document.getData().get(EmployID.storeNum);
-                        pos = (String) document.getData().get(EmployID.type);
-                        nameEdit.setText(name);
-                        phoneEdit.setText(phoneNum);
-                        storeNameEdit.setText(storeName);
-                        storeNumEdit.setText(storeNum);
-                        postv.setText(pos);
-                    }
-                }
-            });
-        }
-        //매니저는 가입할 때 고유번호를 설정하기 때문에 고유매장번호 변경을 할 수 없고 매장명만 변경가능함
-        if(pos == null)
-        {/*로딩되는동안 null일수 있어서 패스*/}
-        else if(pos.equals("manager")){
+
+        preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
+        name = preferences.getString("Name","0");
+        phoneNum = preferences.getString("PhoneNum","0");
+        storeName = preferences.getString("StoreName","0");
+        storeNum = preferences.getString("StoreNum","0");
+        pos = preferences.getString("Type","0");
+        nameEdit.setText(name);
+        phoneEdit.setText(phoneNum);
+        storeNameEdit.setText(storeName);
+        storeNumEdit.setText(storeNum);
+        postv.setText(pos);
+
+        if(pos.equals("manager")){
             storeNumEdit.setEnabled(false);
         }
         //추후에 허용기능이 추가되면 permit=true인 employee만 수정할 수 있게 함
@@ -160,12 +151,6 @@ public class MyPageActivity extends AppCompatActivity {
         });
 
     }
-    @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(MyPageActivity.this, HomeActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     public void kakaoLink(View view){
         FeedTemplate params = FeedTemplate.
@@ -188,5 +173,11 @@ public class MyPageActivity extends AppCompatActivity {
             public void onSuccess(KakaoLinkResponse result) {
             }
         });
+    }
+
+    public void onBackPressed(){
+        Intent intent = new Intent(MyPageActivity.this, HomeMainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
