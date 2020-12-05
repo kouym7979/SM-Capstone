@@ -34,8 +34,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-        System.out.println("인덱스"+position);
-        System.out.println("인덱스 작성자:"+datas.get(position).getWriter_name());
+        //System.out.println("인덱스"+position);
+        //System.out.println("인덱스 작성자:"+datas.get(position).getWriter_name());
         holder.writer_name.setText(datas.get(position).getWriter_name());
         holder.title.setText(datas.get(position).getTitle());
 
@@ -56,7 +56,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public int getItemCount() {
-        return (null != datas ? datas.size() : 0);
+        if(datas.size()<8)
+            return datas.size();
+        else
+            return 8;
     }
 
     class HomeViewHolder extends RecyclerView.ViewHolder{

@@ -26,12 +26,14 @@ public class EmployID {
 
 
 
-    public static String schedule_num="schedule_num"; //스케줄 고유번호
-    public static String schedule_id="schedule_id";
-    public static String start_time="start_time";
-    public static String end_time="end_time";
-    public static String date="date";
-    public static String reference="reference";
+//    public static String schedule_num="schedule_num"; //스케줄 고유번호
+    public static String schedule_id="schedule_id";  //스케줄 고유 번호
+    public static String start_time="start_time";  //출근 시간
+    public static String end_time="end_time";  //퇴근 시간
+    public static String date="date";  //해당 날짜
+    public static String reference="reference";  //스케줄 등록할 때 설명
+    public static String request="request";  //요청중=1, 요청중 아니면=0
+    public static String request_reference="request_reference"; //대타 신청할 때 설명
         //캘린더에 사용할 객체입니다.
 
 

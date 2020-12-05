@@ -42,6 +42,8 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
     private String writer_id; //작성자넘버
     private String writer_name; //작성자 이름
     private String store_num;
+    private String request="0";
+    private String request_reference="";
     private String date; //날짜
 //    private String start_time; //출근시간
 //    private String end_time; //퇴근시간
@@ -182,6 +184,8 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
             data.put(EmployID.reference, mreference.getText().toString()); //참고사항
             data.put(EmployID.timestamp, FieldValue.serverTimestamp());//파이어베이스 시간을 저장 그래야 게시글 정렬이 시간순가능
             data.put(EmployID.storeNum, store_num);
+            data.put(EmployID.request, request);
+            data.put(EmployID.request_reference, request_reference);
             mStore.collection("CalendarPost").document(ScheduleID).set(data); //CalendarPost이라는 테이블에 데이터를 입력
 
         }
