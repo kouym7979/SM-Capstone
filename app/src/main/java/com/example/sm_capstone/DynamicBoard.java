@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.sm_capstone.Board_Post.Post;
 import com.example.sm_capstone.adapter.BoardAdapter;
@@ -43,24 +46,19 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
     private Button write_btn;
     private String store_num;
+    private TextView tv;
+    private ImageView standingImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_board);
         Board=findViewById(R.id.recyclerview);
         write_btn=findViewById(R.id.write_btn);
-        mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.getResult()!=null){
-                            store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
-                            System.out.println("여기");
-                            Log.d("확인","store_num"+store_num);
-                        }
-                    }
-                });
+        tv=findViewById(R.id.dynamic_text);
+        standingImage = findViewById(R.id.standingPicture);
+
+        SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
+        store_num = preferences.getString("StoreNum","0");
 
         mlayoutManager = new LinearLayoutManager(this);
         Board.setLayoutManager(mlayoutManager);
@@ -72,6 +70,11 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         Intent intent=getIntent();
         board_part=intent.getStringExtra("board_part");//정적 또는 동적게시판 데이터를 불러옴
+        if(board_part.equals("정적게시판"))
+        {
+            tv.setText("고정 게시판 Fixed Bulletin Board");
+            standingImage.setImageDrawable(getResources().getDrawable(R.drawable.standing2));
+        }
         super.onStart();
         mDatas = new ArrayList<>();//
         mStore.collection("Post")//리사이클러뷰에 띄울 파이어베이스 테이블 경로
@@ -95,9 +98,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                                         String post_storenum=String.valueOf(shot.get(EmployID.storeNum));
                                         Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part,post_storenum);
                                         System.out.println("스토어 넘버는:"+post_storenum);
-                                        if(store_num == null)
-                                        {System.out.println("확인");}
-                                        else if(store_num.equals(post_storenum))
+                                        if(store_num.equals(post_storenum))
                                         {
                                             mDatas.add(data);
                                         }
@@ -115,28 +116,6 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("board_part",board_part);
         startActivity(intent);
         finish();
-    }
-    public void onBackPressed(){
-        Intent intent = new Intent(DynamicBoard.this, HomeActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void checkNum(){
-        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
-            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.getResult()!=null){
-                                store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
-                                System.out.println("여기");
-                                Log.d("확인","store_num"+store_num);
-                            }
-                        }
-                    });
-        }
     }
 
 }

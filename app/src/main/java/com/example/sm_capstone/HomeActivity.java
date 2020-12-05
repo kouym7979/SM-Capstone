@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -18,6 +19,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +50,7 @@ import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.EventListener{
 
-    private Button btn_home,btn_mypage,btn_calendar,btn_static;
+    private Button btn_home,btn_mypage,btn_static;
     private FirebaseAuth Auth = FirebaseAuth.getInstance();
     private Context context;
     private RecyclerView dynamicBoard;//동적게시판
@@ -56,7 +59,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private SHomeAdapter sAdapter;
     private List<Home_Post> mDatas, sDatas;
     private String store_num;
-    private Button btn_Dyboard,btn_logou;//동적게시판으로 이동하는 버튼
+    private Button btn_logou;//동적게시판으로 이동하는 버튼
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private long backKeyPressedTime = 0;
     private Toast toast;
@@ -70,65 +73,12 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
         System.out.println("지금 여기실행");
         dynamic=findViewById(R.id.dynamic);
         staticboard=findViewById(R.id.staticboard);
-
         dynamicBoard=findViewById(R.id.recyclerview);
-        btn_Dyboard=findViewById(R.id.btn_board);
-
-        btn_calendar=findViewById(R.id.btn_calendar);
-
-        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
-            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.getResult()!=null){
-                                store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
-                                Log.d("확인","store_num"+store_num);
-
-                            }
-                        }
-                    });
-        }
-
-        Button.OnClickListener onClickListener=new Button.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                switch(v.getId()){
-                    case R.id.btn_board:
-                        Intent intent=new Intent(HomeActivity.this,DynamicBoard.class);
-                        intent.putExtra("board_part","동적게시판");//1은 동적게시판,2는 정적게시판
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case R.id.btn_calendar:
-                        Intent intent2=new Intent(HomeActivity.this, CalendarActivity.class);
-                        startActivity(intent2);
-                        break;
-                    case R.id.btn_staticboard:
-                        Intent intent3=new Intent(HomeActivity.this,DynamicBoard.class);
-                        intent3.putExtra("board_part","정적게시판");//1은 동적게시판,2는 정적게시판
-                        startActivity(intent3);
-                        break;
-                    case R.id.btn_my_page:
-                        Intent intent4=new Intent(HomeActivity.this,MyPageActivity.class);
-                        startActivity(intent4);
-                        finish();
-                        break;
-                }
-            }
-        };
-        Button D_board = (Button)findViewById(R.id.btn_board) ;
-        Button Calendar=(Button)findViewById(R.id.btn_calendar);
-        Button S_board=findViewById(R.id.btn_staticboard);
-        Button MyPageButton = findViewById(R.id.btn_my_page);
-        Calendar.setOnClickListener(onClickListener);
-        D_board.setOnClickListener(onClickListener) ;
-        S_board.setOnClickListener(onClickListener);
-        MyPageButton.setOnClickListener(onClickListener);
         h_dynamicBoard=(RecyclerView)findViewById(R.id.home_recyclerview2);
         static_board=(RecyclerView)findViewById(R.id.home_recyclerview3);
+
+        SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
+        store_num = preferences.getString("StoreNum","0");
 
     }
 
@@ -158,7 +108,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                                         if(board_type == null || post_storenum == null)
                                         {System.out.println("스킵");}
                                         else if(board_type.equals("동적게시판") && post_storenum.equals(store_num))
-                                            mDatas.add(data);//여기까지가 게시글에 해당하는 데이터 적용
+                                        {mDatas.add(data);}//여기까지가 게시글에 해당하는 데이터 적용
                                         else if(board_type.equals("정적게시판") && post_storenum.equals(store_num))
                                             sDatas.add(data);
                                     }
@@ -183,17 +133,4 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
 
     }
 
-    @Override
-    public void onBackPressed(){
-        if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
-            backKeyPressedTime = System.currentTimeMillis();
-            toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
-            toast.show();
-            return;
-        }
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
-            finish();
-            toast.cancel();
-        }
-    }
 }
