@@ -38,6 +38,7 @@ import java.util.Map;
 
 import static com.example.sm_capstone.EmployID.board_part;
 import static com.example.sm_capstone.EmployID.end_time;
+import static com.example.sm_capstone.EmployID.request_reference;
 import static com.example.sm_capstone.EmployID.start_time;
 
 
@@ -53,6 +54,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     String end_time;
     String date;
     String request;
+    String request_reference;
 
     public  subCalendarAdapter(Context mcontext, List<CalendarPost> datas) {
         this.mcontext=mcontext;
@@ -79,6 +81,15 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         start_time = datas.get(position).getStart_time();
         end_time = datas.get(position).getEnd_time();
         request = datas.get(position).getRequest();
+        request_reference = datas.get(position).getRequest_reference();
+
+        Log.d("onBindViewHolder테스트", "writer_name : "+writer_name);
+        Log.d("onBindViewHolder테스트","schedule_id : "+schedule_id);
+        Log.d("onBindViewHolder테스트", "start_time : "+start_time);
+        Log.d("onBindViewHolder테스트", "end_time : "+end_time);
+        Log.d("onBindViewHolder테스트", "request : "+request);
+        Log.d("onBindViewHolder테스트", "request_reference : "+request_reference);
+
 
         ////////////////////수정버튼//////////////////////
         Button btn_modify = holder.btn_modify;
@@ -133,7 +144,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
                     requestDialog(writer_name, schedule_id);
                 }
                 if(request.equals("1")){
-                    acceptDialog(writer_name, schedule_id, request);
+                    acceptDialog(writer_name, schedule_id, request, request_reference);
                 }
             }
         });
@@ -248,10 +259,13 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         });
     }
 
-    public void acceptDialog(final String writer, final String schedule_id, final String request){
+    public void acceptDialog(final String writer, final String schedule_id, final String request, final String request_reference){
         final Dialog builder = new Dialog(mcontext);
         builder.setContentView(R.layout.dialog_schedule_accept);
         builder.show();
+
+        TextView mreference = (TextView)builder.findViewById(R.id.request_reference);
+        mreference.setText(request_reference);
 
         final Button accept_yes = (Button)builder.findViewById(R.id.accept_yes);
         final Button accept_no = (Button)builder.findViewById(R.id.accept_no);

@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.sm_capstone.EmployID.request_reference;
+
 public class CalendarActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth Auth = FirebaseAuth.getInstance();
@@ -136,7 +138,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                                     for(DocumentSnapshot snap : value.getDocuments()){
                                         Map<String, Object> shot = snap.getData();
                                         String documentId = String.valueOf(shot.get(EmployID.documentId));
-                                        String writer_name = String.valueOf(shot.get(EmployID.name));
+                                        String writer_name = String.valueOf(shot.get(EmployID.writer_name));
                                         String schedule_id = String.valueOf(shot.get(EmployID.schedule_id));
                                         String date = String.valueOf(shot.get(EmployID.date));
                                         String start_time = String.valueOf(shot.get(EmployID.start_time));
@@ -144,8 +146,9 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
                                         String reference = String.valueOf(shot.get(EmployID.reference));
                                         String request = String.valueOf(shot.get(EmployID.request));
                                         String storeNum = String.valueOf(shot.get(EmployID.storeNum));
+                                        String request_reference = String.valueOf(shot.get(EmployID.request_reference));
 
-                                        CalendarPost data = new CalendarPost(documentId, writer_name, schedule_id, date, start_time, end_time, reference,request, storeNum);
+                                        CalendarPost data = new CalendarPost(documentId, writer_name, schedule_id, date, start_time, end_time, reference,request, storeNum, request_reference);
                                         datas.add(data);
                                     }
                                     _calendarAdapter = new subCalendarAdapter(CalendarActivity.this,datas);
