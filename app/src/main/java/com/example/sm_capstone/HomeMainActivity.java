@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class HomeMainActivity extends AppCompatActivity {
 
@@ -58,6 +60,24 @@ public class HomeMainActivity extends AppCompatActivity {
                         }
                     });
         }
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("확인", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.d("확인", token);
+                        Toast.makeText(HomeMainActivity.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         staticImage = findViewById(R.id.staticImage);
         dynamicImage = findViewById(R.id.dynamicImage);
