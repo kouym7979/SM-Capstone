@@ -86,7 +86,7 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if(mAuth.getCurrentUser()!=null){
-            String ScheduleID = mStore.collection("CalendarPost").document().getId();
+//            String ScheduleID = mStore.collection("CalendarPost").document().getId();
             Intent intent = getIntent();
             schedule_id = intent.getStringExtra("schedule_id");
 
@@ -95,6 +95,7 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId, mAuth.getCurrentUser().getUid());
             data.put(EmployID.request, "1");
+            data.put(EmployID.request_reference, request_reference.getText().toString());
             mStore.collection("CalendarPost").document(schedule_id).update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

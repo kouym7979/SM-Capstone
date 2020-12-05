@@ -16,6 +16,11 @@ public class CalendarPost {
     private String reference;  //스케줄 참고사항
     private String request;
     private String storeNum;
+    private String request_reference;
+
+    public String getRequest_reference() {return request_reference;}
+
+    public void setRequest_reference(String request_reference) {this.request_reference = request_reference;}
 
     public String getRequest() {return request;}
     public void setRequest(String request) {this.request = request;}
@@ -49,7 +54,7 @@ public class CalendarPost {
     //빈 생성자
     public CalendarPost(){    }
 
-    public CalendarPost(String documentId, String writer_name, String schedule_id, String date, String start_time, String end_time, String reference, String request, String storeNum){
+    public CalendarPost(String documentId, String writer_name, String schedule_id, String date, String start_time, String end_time, String reference, String request, String storeNum, String request_reference){
         this.documentId = documentId;
         this.writer_name = writer_name;
         this.schedule_id = schedule_id;
@@ -59,6 +64,7 @@ public class CalendarPost {
         this.reference = reference;
         this.storeNum = storeNum;
         this.request = request;
+        this.request_reference = request_reference;
     }
 
     @Override
@@ -71,9 +77,10 @@ public class CalendarPost {
                 ", start_time='" + start_time + '\'' +
                 ", end_time='" + end_time + '\'' +
                 ", reference='" + reference + '\'' +
-                ", caldender_date=" + caldender_date +
-                ", request=" + request +
-                ", storeNum=" + storeNum +
+                ", caldender_date=" + caldender_date + '\'' +
+                ", request=" + request + '\'' +
+                ", storeNum=" + storeNum + '\'' +
+                ", request_reference=" + request_reference + '\'' +
                 '}';
     }
 }
