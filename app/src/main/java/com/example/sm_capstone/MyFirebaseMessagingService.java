@@ -31,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         Map<String, String> map = remoteMessage.getData();
+        String contents = map.get("contents");
         String title = map.get("title");
         String msg = map.get("body");
         String channelId = "channel";

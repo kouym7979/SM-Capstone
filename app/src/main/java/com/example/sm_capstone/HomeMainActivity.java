@@ -9,10 +9,18 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +28,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeMainActivity extends AppCompatActivity {
 
@@ -30,6 +45,8 @@ public class HomeMainActivity extends AppCompatActivity {
     private String name, phoneNum, storeName, store_num, type; //매장번호
     private long backKeyPressedTime = 0;
     private Toast toast;
+    static RequestQueue requestQueue;
+    static String regId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +155,76 @@ public class HomeMainActivity extends AppCompatActivity {
             }
         });
 
+
+        Button pushTest = findViewById(R.id.pushTest);
+        pushTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send("하이");
+            }
+        });
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+    }
+
+    public void send(String input){
+        JSONObject requestData = new JSONObject();
+        try {
+            requestData.put("priority","high");
+
+            JSONObject dataObj = new JSONObject();
+            dataObj.put("contents", input);
+            requestData.put("data",dataObj);
+
+            JSONArray idArray = new JSONArray();
+            idArray.put(0, regId);
+            requestData.put("registration_ids",idArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://fcm.googleapis.com/fcm/send",
+                requestData,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "key=AAAAAjmqEkM:APA91bE7afelkMdIe7zS11X5i1oiXsjDf1OGhYLBda6_fZYNzmvoHMWYx_baBLulkzQQz2JqmH6jZm8TSVhPzxMrAbsvJSRJJeTk0gVAWalOFiFh-VBmZMBduJ5xR9JwVoD5l6iGYbHb");
+
+                return headers;
+            }
+
+            @Override
+            protected String getParamsEncoding() {
+                Map<String, String> params = new HashMap<String, String>();
+                return super.getParamsEncoding();
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
     }
 
     @Override
