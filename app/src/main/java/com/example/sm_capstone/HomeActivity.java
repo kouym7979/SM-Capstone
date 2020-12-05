@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private FirebaseAuth Auth = FirebaseAuth.getInstance();
     private Context context;
     private RecyclerView dynamicBoard;//동적게시판
-
+    private ImageView logo_btn;
     private HomeAdapter mAdapter;
     private SHomeAdapter sAdapter;
     private List<Home_Post> mDatas, sDatas;
@@ -79,7 +79,14 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
 
         SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
         store_num = preferences.getString("StoreNum","0");
-
+        logo_btn=findViewById(R.id.logo);
+        logo_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,HomeMainActivity.class));
+                finish();
+            }
+        });
     }
 
     @Override
