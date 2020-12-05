@@ -118,4 +118,59 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
         finish();
     }
 
+
+    public void onBackPressed(){
+        Intent intent = new Intent(DynamicBoard.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void checkNum(){
+        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                store_num=(String)task.getResult().getData().get(EmployID.storeNum);//
+                                System.out.println("여기");
+                                Log.d("확인","store_num"+store_num);
+                            }
+                        }
+                    });
+        }
+    }
+
+
+    public void search(final String s_text){
+        mDatas.clear();//문자 입력시새로 리스트 목록 활성화를 위해서
+
+        if(s_text.length()==0)
+            mDatas.addAll(sub);//다시 기존의 데이터를 넣어줌
+        else{
+                for (int i=0;i<sub.size();i++) {
+                    String s_title=sub.get(i).getTitle();
+                    Log.d("확인","제목:"+s_title);
+                    Log.d("확인","s_text: "+s_text);
+                    if (s_title.contains(s_text)) {
+                        String documentId = String.valueOf(sub.get(i).getDocumentId());
+                        String title = String.valueOf(sub.get(i).getTitle());
+                        String contents = String.valueOf(sub.get(i).getContents());
+                        String writer_name = String.valueOf(sub.get(i).getWriter_name());
+                        String post_id=String.valueOf(sub.get(i).getPost_id());
+                        String post_photo=String.valueOf(sub.get(i).getPost_photo());
+                        String board_part=String.valueOf(sub.get(i).getBoard_part());
+                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part, store_num);
+                        mDatas.add(data);
+                        Log.d("확인","포함되어있습니다"+s_title);
+                    }
+                    else Log.d("확인","확인이 안됩니다");
+                }
+            }
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+
 }
