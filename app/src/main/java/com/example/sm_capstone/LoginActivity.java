@@ -82,7 +82,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
         if(autoCheck.isChecked()==true)
         {
             if (currentUser != null) {
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, HomeMainActivity.class));
                 finish();
             }
         }
@@ -126,7 +126,7 @@ public class LoginActivity<CheckB> extends AppCompatActivity implements View.OnC
                 else{
                     currentUser =mAuth.getCurrentUser();//현재 유저확인
                     Toast.makeText(LoginActivity.this,"로그인 성공",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomeMainActivity.class));
                     finish();
                 }
             }
