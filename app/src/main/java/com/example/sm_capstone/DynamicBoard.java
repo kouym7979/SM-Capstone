@@ -140,13 +140,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
         finish();
     }
-
-
-    public void onBackPressed(){
-        Intent intent = new Intent(DynamicBoard.this, HomeActivity.class);
-        startActivity(intent);
-        finish();
-    }
+    
 
     public void checkNum(){
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서

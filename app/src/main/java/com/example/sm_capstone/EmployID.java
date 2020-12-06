@@ -12,6 +12,7 @@ public class EmployID {
     public static String name="name";
     public static String storeName = "storeName";
     public static String storeNum = "storeNum";
+    public static String tokenNum = "tokenNum";
 
     public static String board="board";
     public static String title="title";

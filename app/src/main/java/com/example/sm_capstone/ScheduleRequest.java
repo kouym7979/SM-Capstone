@@ -104,7 +104,6 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
             });
             finish();
         }
-
-
+        
     }
 }
