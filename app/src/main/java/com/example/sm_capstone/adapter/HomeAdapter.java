@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sm_capstone.Board_Post.Home_Post;
+import com.example.sm_capstone.Board_comment;
 import com.example.sm_capstone.R;
 
 import java.util.List;
