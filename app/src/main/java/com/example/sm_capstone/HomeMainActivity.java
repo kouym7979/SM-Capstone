@@ -1,6 +1,7 @@
 package com.example.sm_capstone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,17 +10,35 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeMainActivity extends AppCompatActivity {
 
@@ -30,6 +49,9 @@ public class HomeMainActivity extends AppCompatActivity {
     private String name, phoneNum, storeName, store_num, type; //매장번호
     private long backKeyPressedTime = 0;
     private Toast toast;
+    static RequestQueue requestQueue;
+    static String regId;
+    private JSONArray idArray = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +70,7 @@ public class HomeMainActivity extends AppCompatActivity {
                                 phoneNum=(String)task.getResult().getData().get(EmployID.phone_number);
                                 storeName=(String)task.getResult().getData().get(EmployID.storeName);
                                 type = (String)task.getResult().getData().get(EmployID.type);
+                                findStoreCollegue(store_num);
                                 SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("StoreNum",store_num);
@@ -61,6 +84,8 @@ public class HomeMainActivity extends AppCompatActivity {
                     });
         }
 
+
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -69,13 +94,19 @@ public class HomeMainActivity extends AppCompatActivity {
                             Log.w("확인", "Fetching FCM registration token failed", task.getException());
                             return;
                         }
-
                         // Get new FCM registration token
                         String token = task.getResult();
-
-                        // Log and toast
+                        System.out.println("토큰이 발급되었습니다"+token);
+                        Map<String, Object> map = new HashMap<>();
+                        map.put(EmployID.tokenNum, token);
+                        mStore.collection(EmployID.user).document(mAuth.getCurrentUser().getUid()).update(map)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        System.out.println("발급성공");
+                                    }
+                                });
                         Log.d("확인", token);
-                        Toast.makeText(HomeMainActivity.this, token, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -138,6 +169,100 @@ public class HomeMainActivity extends AppCompatActivity {
             }
         });
 
+
+        Button pushTest = findViewById(R.id.pushTest);
+        pushTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject dataObj = new JSONObject();
+                try {
+                    dataObj.put("title","대타를 구합니다!");
+                    dataObj.put("body","2020년 12월20일(예시)");
+                    send(dataObj);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+    }
+
+    public void send(JSONObject input){
+        JSONObject requestData = new JSONObject();
+        try {
+            requestData.put("priority","high");
+
+            requestData.put("data",input);
+            System.out.println("개수는"+idArray.length());
+            requestData.put("registration_ids",idArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://fcm.googleapis.com/fcm/send",
+                requestData,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "key=AAAAAjmqEkM:APA91bE7afelkMdIe7zS11X5i1oiXsjDf1OGhYLBda6_fZYNzmvoHMWYx_baBLulkzQQz2JqmH6jZm8TSVhPzxMrAbsvJSRJJeTk0gVAWalOFiFh-VBmZMBduJ5xR9JwVoD5l6iGYbHb");
+
+                return headers;
+            }
+
+            @Override
+            protected String getParamsEncoding() {
+                Map<String, String> params = new HashMap<String, String>();
+                return super.getParamsEncoding();
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
+    }
+
+    //내 매장번호와 같은 사람들을 찾아주는 함수
+    public void findStoreCollegue(String store_num){
+        mStore.collection(EmployID.user).whereEqualTo("storeNum",store_num)
+                .addSnapshotListener(new EventListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error)
+                    {
+                        try{
+                            for(DocumentSnapshot snap : value.getDocuments()){
+                                String token = String.valueOf(snap.getData().get(EmployID.tokenNum));
+                                idArray.put(token);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     @Override

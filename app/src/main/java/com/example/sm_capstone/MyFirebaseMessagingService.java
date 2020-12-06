@@ -31,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         Map<String, String> map = remoteMessage.getData();
+        //String contents = map.get("title");
         String title = map.get("title");
         String msg = map.get("body");
         String channelId = "channel";
@@ -51,12 +52,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder = new NotificationCompat.Builder(this);
         }
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, SplashActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 101, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
+        mBuilder.setSmallIcon(R.drawable.elogowhite);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(msg);
         mBuilder.setAutoCancel(true);
