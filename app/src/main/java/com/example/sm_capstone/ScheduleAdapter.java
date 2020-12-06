@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,7 +80,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.writer_name.setText(datas.get(position).getWriter_name());
         holder.reference.setText(datas.get(position).getReference());
 
-        Button btn_modify = holder.btn_modify;
+        ImageView btn_modify = holder.btn_modify;
         btn_modify.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -87,7 +88,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             }
         });
 
-        Button btn_delete = holder.btn_delete;
+        ImageView btn_delete = holder.btn_delete;
         btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -95,7 +96,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             }
         });
 
-        Button btn_request = holder.btn_request;
+        ImageView btn_request = holder.btn_request;
         btn_request.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -125,9 +126,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         private TextView start_time;
         private TextView end_time;
         private TextView reference;
-        public Button btn_modify;
-        public Button btn_delete;
-        public Button btn_request;
+        public ImageView btn_modify;
+        public ImageView btn_delete;
+        public ImageView btn_request;
 
         public ScheduleViewHolder(@NonNull View itemView){
             super(itemView);
@@ -135,9 +136,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             start_time = itemView.findViewById(R.id.startTimeLabel);
             end_time = itemView.findViewById(R.id.endTimeLabel);
             reference = itemView.findViewById(R.id.schedule_reference);
-            btn_modify = (Button)itemView.findViewById(R.id.btn_modify);
-            btn_delete = (Button)itemView.findViewById(R.id.btn_delete);
-            btn_request = (Button)itemView.findViewById(R.id.btn_request);
+            btn_modify = itemView.findViewById(R.id.btn_modify);
+            btn_delete = itemView.findViewById(R.id.btn_delete);
+            btn_request = itemView.findViewById(R.id.btn_request);
 
             btn_modify.setOnClickListener(new View.OnClickListener(){
 
