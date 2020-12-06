@@ -50,6 +50,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
     private EditText mreference; //참고사항
     private int hourOfDay1, hourOfDay2;
     private int minute1, minute2;
+    private String token;
 
     private Calendar c1, c2;
     private TimePicker start_time, end_time;
@@ -116,6 +117,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
                                 writer_name=(String)task.getResult().getData().get(EmployID.name);//
                                 writer_id=(String)task.getResult().getData().get(EmployID.documentId);
                                 store_num=(String)task.getResult().getData().get(EmployID.storeNum);
+                                token=(String)task.getResult().getData().get(EmployID.tokenNum);
                                 Log.d("확인","현재 사용자 uid입니다:"+writer_id);
                                 Log.d("확인","현재 사용자 이름입니다"+writer_name);
 
@@ -186,6 +188,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
             data.put(EmployID.storeNum, store_num);
             data.put(EmployID.request, request);
             data.put(EmployID.request_reference, request_reference);
+            data.put(EmployID.tokenNum, token);
             mStore.collection("CalendarPost").document(ScheduleID).set(data); //CalendarPost이라는 테이블에 데이터를 입력
 
         }
