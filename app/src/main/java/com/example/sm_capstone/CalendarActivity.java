@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.example.sm_capstone.Board_Post.Post;
 import com.example.sm_capstone.adapter.subCalendarAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +43,7 @@ import static com.example.sm_capstone.EmployID.request_reference;
 
 public class CalendarActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private FirebaseAuth Auth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
 
     private Context context;
@@ -59,6 +61,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     private Button btn_request; //대타 요청 버튼
 
     private String date;
+    private String store_num;
     private TextView schedule_date; //선택된 날짜 표시
 
 
@@ -67,6 +70,20 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         calendarAdapter = new CalendarAdapter(this);
+
+        if(mAuth.getCurrentUser()!=null){
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                store_num = (String)task.getResult().getData().get(EmployID.storeNum);
+                                Log.d("CalendarActivity","store_num : "+store_num);
+                            }
+                        }
+                    });
+        }
 
         CalendarView calendar=findViewById(R.id.calendar);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {//선택한 날짜를 문자열 형태로 전환
@@ -126,8 +143,10 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     public void loadSchedule(String date){
         datas = new ArrayList<>();  //Calendar Post 객체를 담을 ArrayList (어댑터쪽으로)
         Log.d("확인","확인날짜:"+date);
+        Log.d("확인", "확인store_num : "+store_num);
         mStore.collection("CalendarPost")
                 .whereEqualTo("date", date)
+                .whereEqualTo("storeNum", store_num)
 //                .orderBy(EmployID.timestamp, Query.Direction.DESCENDING)//시간정렬순으로
                 .addSnapshotListener(
                         new EventListener<QuerySnapshot>() {

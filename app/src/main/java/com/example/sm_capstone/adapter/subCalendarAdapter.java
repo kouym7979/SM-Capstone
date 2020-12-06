@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,6 +73,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     String request;
     String request_reference;
     String user_name;
+    String store_num;
     static RequestQueue requestQueue;
     private JSONArray idArray = new JSONArray();
 
@@ -84,6 +86,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+
         if(mAuth.getCurrentUser()!=null){
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())
                .get()
@@ -92,7 +96,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                        if(task.getResult()!=null){
                            user_name = (String)task.getResult().getData().get(EmployID.name);
-
+                           store_num = (String)task.getResult().getData().get(EmployID.storeNum);
                            Log.d("확인","현재 사용자 이름입니다"+user_name);
                        }
                    }
@@ -121,10 +125,10 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
 
 
         Log.d("onBindViewHolder테스트", "writer_name : "+datas.get(pos).getWriter_name());
-        Log.d("onBindViewHolder테스트","schedule_id : "+schedule_id);
+        Log.d("onBindViewHolder테스트","schedule_id : "+datas.get(pos).getSchedule_id());
         Log.d("onBindViewHolder테스트", "start_time : "+datas.get(pos).getStart_time());
-        Log.d("onBindViewHolder테스트", "end_time : "+end_time);
-        Log.d("onBindViewHolder테스트", "request : "+request);
+        Log.d("onBindViewHolder테스트", "end_time : "+datas.get(pos).getEnd_time());
+        Log.d("onBindViewHolder테스트", "request : "+datas.get(pos).getRequest());
         Log.d("onBindViewHolder테스트", "pos.request : "+datas.get(pos).getRequest());
         Log.d("onBindViewHolder테스트", "request_reference : "+datas.get(pos).getRequest_reference());
 
@@ -429,4 +433,19 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         requestQueue.add(request);
     }
 
+    public void checkNum(){
+        if(mAuth.getCurrentUser()!=null){
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                store_num = (String)task.getResult().getData().get(EmployID.storeNum);
+                                Log.d("subCalendarAdapter", "store_num : "+store_num);
+                            }
+                        }
+                    });
+        }
+    }
 }
