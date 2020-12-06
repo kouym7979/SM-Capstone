@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/emplobackground"
     tools:context=".ScheduleModify">
 
     <!--    헤더-->
@@ -12,7 +13,10 @@
         android:id="@+id/scheduleModify_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Schedule Modify"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="Modify"
+        android:textColor="#ffffff"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +27,9 @@
     <!--    그래픽-->
     <ImageView
         android:id="@+id/calendarIMG"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_width="186dp"
+        android:layout_height="154dp"
         android:layout_marginTop="40dp"
-        android:background="#3F51B5"
         app:layout_constraintBottom_toTopOf="@+id/scheduleAdd_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -34,27 +37,81 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/profiling" />
+
+    <ImageView
+        android:layout_width="71dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginLeft="110dp"
+        app:layout_constraintTop_toTopOf="@id/calendarIMG"
+        app:layout_constraintLeft_toLeftOf="@id/calendarIMG"
+        app:srcCompat="@drawable/pro_circle1" />
+
+    <ImageView
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="129dp"
+        android:layout_marginLeft="161dp"
+        app:layout_constraintTop_toTopOf="@id/calendarIMG"
+        app:layout_constraintLeft_toLeftOf="@id/calendarIMG"
+        app:srcCompat="@drawable/pro_circle2" />
 
     <!--    name텍스트-->
     <TextView
         android:id="@+id/txt_add_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:text="name"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarIMG"
-        android:text="NAME" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarIMG" />
 
     <!--    date버튼-->
-    <Button
+
+
+    <ImageView
         android:id="@+id/btn_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="23dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.109"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_add_name"
-        android:text="Select Date" />
+        app:srcCompat="@drawable/datebutton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_add_name" />
+
+    <ImageView
+        android:id="@+id/btn_time"
+        android:layout_width="64dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_date"
+        app:srcCompat="@drawable/timebutton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="Time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_date" />
 
     <!--    time버튼-->
     <TimePicker
@@ -63,7 +120,7 @@
         android:layout_height="110dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_date"
+        app:layout_constraintTop_toBottomOf="@+id/btn_time"
         android:timePickerMode="spinner"
         />
 
@@ -71,59 +128,80 @@
         android:id="@+id/tp_endtime"
         android:layout_width="300dp"
         android:layout_height="110dp"
+        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tp_starttime"
-        android:timePickerMode="spinner"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tp_starttime" />
 
-    <!--    설정된 date, time 표시-->
     <TextView
         android:id="@+id/dateAndTime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="23dp"
+        android:text="datedate"
+        android:layout_marginRight="100dp"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tp_endtime"
-        app:layout_constraintRight_toLeftOf="@+id/startTimeLabel"/>
+        app:layout_constraintStart_toEndOf="@id/btn_date"
+        app:layout_constraintTop_toBottomOf="@id/txt_add_name" />
 
     <TextView
         android:id="@+id/startTimeLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="180dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateAndTime" />
+        android:layout_height="23dp"
+        android:text="starttime"
+        android:layout_marginTop="7dp"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toStartOf="@id/ing"
+        app:layout_constraintStart_toEndOf="@id/btn_time"
+        app:layout_constraintTop_toBottomOf="@+id/btn_date" />
+
+    <TextView
+        android:id="@+id/ing"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:text="~"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintEnd_toStartOf="@id/endTimeLabel"
+        app:layout_constraintStart_toEndOf="@id/startTimeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/btn_date" />
 
     <TextView
         android:id="@+id/endTimeLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
+        android:layout_height="23dp"
+        android:layout_marginRight="80dp"
+        android:text="endtime"
+        android:textColor="#ffffff"
+        android:layout_marginTop="7dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateAndTime" />
+        app:layout_constraintStart_toEndOf="@id/ing"
+        app:layout_constraintTop_toBottomOf="@id/btn_date" />
 
     <EditText
         android:id="@+id/schedule_reference"
         android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:hint="참고사항"
+        android:textColor="#ffffff"
+        android:textColorHighlight="#ffffff"
+        android:textColorHint="#AAB2B5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endTimeLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/tp_endtime" />
 
     <!--    제출 버튼-->
-    <Button
+    <ImageView
         android:id="@+id/btn_add_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schedule_reference"
-        android:text="Add" />
+        app:srcCompat="@drawable/modifybutton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
