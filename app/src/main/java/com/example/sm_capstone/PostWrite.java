@@ -39,7 +39,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();//사용자 정보 가져오기
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
     private EditText mTitle,mContents;//제목, 내용
-    private ImageButton post_photo;
+    private ImageView post_photo;
     private ProgressBar post_progressBar;
     private String photoUrl; //사진 저장 변수
     private String board_part,post_id,writer_id;
