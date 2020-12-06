@@ -1,6 +1,7 @@
 package com.example.sm_capstone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -25,7 +26,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
@@ -47,6 +51,7 @@ public class HomeMainActivity extends AppCompatActivity {
     private Toast toast;
     static RequestQueue requestQueue;
     static String regId;
+    private JSONArray idArray = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,7 @@ public class HomeMainActivity extends AppCompatActivity {
                                 phoneNum=(String)task.getResult().getData().get(EmployID.phone_number);
                                 storeName=(String)task.getResult().getData().get(EmployID.storeName);
                                 type = (String)task.getResult().getData().get(EmployID.type);
+                                findStoreCollegue(store_num);
                                 SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("StoreNum",store_num);
@@ -78,6 +84,8 @@ public class HomeMainActivity extends AppCompatActivity {
                     });
         }
 
+
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -86,13 +94,19 @@ public class HomeMainActivity extends AppCompatActivity {
                             Log.w("확인", "Fetching FCM registration token failed", task.getException());
                             return;
                         }
-
                         // Get new FCM registration token
                         String token = task.getResult();
-
-                        // Log and toast
+                        System.out.println("토큰이 발급되었습니다"+token);
+                        Map<String, Object> map = new HashMap<>();
+                        map.put(EmployID.tokenNum, token);
+                        mStore.collection(EmployID.user).document(mAuth.getCurrentUser().getUid()).update(map)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        System.out.println("발급성공");
+                                    }
+                                });
                         Log.d("확인", token);
-                        Toast.makeText(HomeMainActivity.this, token, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -160,24 +174,28 @@ public class HomeMainActivity extends AppCompatActivity {
         pushTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send("하이");
+                JSONObject dataObj = new JSONObject();
+                try {
+                    dataObj.put("title","대타를 구합니다!");
+                    dataObj.put("body","2020년 12월20일(예시)");
+                    send(dataObj);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
     }
 
-    public void send(String input){
+    public void send(JSONObject input){
         JSONObject requestData = new JSONObject();
         try {
             requestData.put("priority","high");
 
-            JSONObject dataObj = new JSONObject();
-            dataObj.put("contents", input);
-            requestData.put("data",dataObj);
-
-            JSONArray idArray = new JSONArray();
-            idArray.put(0, regId);
+            requestData.put("data",input);
+            System.out.println("개수는"+idArray.length());
             requestData.put("registration_ids",idArray);
 
         } catch (JSONException e) {
@@ -225,6 +243,26 @@ public class HomeMainActivity extends AppCompatActivity {
 
         request.setShouldCache(false);
         requestQueue.add(request);
+    }
+
+    //내 매장번호와 같은 사람들을 찾아주는 함수
+    public void findStoreCollegue(String store_num){
+        mStore.collection(EmployID.user).whereEqualTo("storeNum",store_num)
+                .addSnapshotListener(new EventListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error)
+                    {
+                        try{
+                            for(DocumentSnapshot snap : value.getDocuments()){
+                                String token = String.valueOf(snap.getData().get(EmployID.tokenNum));
+                                idArray.put(token);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     @Override
