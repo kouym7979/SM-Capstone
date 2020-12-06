@@ -174,23 +174,23 @@ public class HomeMainActivity extends AppCompatActivity {
         });
 
 
-        Button pushTest = findViewById(R.id.pushTest);
-        pushTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSONObject dataObj = new JSONObject();
-                try {
-                    dataObj.put("title","대타를 구합니다!");
-                    dataObj.put("body","2020년 12월20일(예시)");
-                    send(dataObj);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+//        Button pushTest = findViewById(R.id.pushTest);
+//        pushTest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                JSONObject dataObj = new JSONObject();
+//                try {
+//                    dataObj.put("title","대타를 구합니다!");
+//                    dataObj.put("body","2020년 12월20일(예시)");
+//                    send(dataObj);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        });
+//
+//        requestQueue = Volley.newRequestQueue(getApplicationContext());
     }
 
     public void send(JSONObject input){
