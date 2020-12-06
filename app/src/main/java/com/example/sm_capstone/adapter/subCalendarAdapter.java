@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -135,7 +138,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
 
 
         ////////////////////수정버튼//////////////////////
-        Button btn_modify = holder.btn_modify;
+        ImageView btn_modify = holder.btn_modify;
         btn_modify.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -164,7 +167,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
 
 
         ///////////////////삭제버튼/////////////////////////////
-        Button btn_delete = holder.btn_delete;
+        ImageView btn_delete = holder.btn_delete;
         btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -174,15 +177,15 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         });
 
         ///////////////////////요청버튼////////////////////////////////////////
-        Button btn_request = holder.btn_request;
+        ImageView btn_request = holder.btn_request;
         Log.d("확인", "request값:" + request);
         if(datas.get(pos).getRequest().equals("0")) {
             Log.d("subCalendarAdapter", "request=0일때" + datas.get(pos).getRequest());
-            btn_request.setText("request");
+            btn_request.setColorFilter(null);
         }
         if(datas.get(pos).getRequest().equals("1")){
             Log.d("subCalendarAdapter", "request=1일때" + datas.get(pos).getRequest());
-            btn_request.setText("accept");
+            btn_request.setColorFilter(Color.parseColor("#008000"), PorterDuff.Mode.SRC_IN);
         }
 
         btn_request.setOnClickListener(new View.OnClickListener() {
@@ -214,9 +217,9 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         private TextView start_time;
         private TextView end_time;
         private TextView reference;
-        public Button btn_modify;
-        public Button btn_delete;
-        public Button btn_request;
+        public ImageView btn_modify;
+        public ImageView btn_delete;
+        public ImageView btn_request;
 
 
         //여기에 calendar_list에 있는 버튼을 선언!!
@@ -227,9 +230,9 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             end_time=itemView.findViewById(R.id.calendar_endtime);
             reference=itemView.findViewById(R.id.calendar_reference);
 
-            btn_modify = (Button)itemView.findViewById(R.id.btn_modify);
-            btn_delete = (Button)itemView.findViewById(R.id.btn_delete);
-            btn_request = (Button)itemView.findViewById(R.id.btn_request);
+            btn_modify = itemView.findViewById(R.id.btn_modify);
+            btn_delete = itemView.findViewById(R.id.btn_delete);
+            btn_request = itemView.findViewById(R.id.btn_request);
 
 
         }
