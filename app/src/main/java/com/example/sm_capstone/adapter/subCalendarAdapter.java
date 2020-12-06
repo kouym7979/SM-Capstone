@@ -14,8 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sm_capstone.CalendarActivity;
 import com.example.sm_capstone.CalendarPost;
 import com.example.sm_capstone.DynamicBoard;
@@ -30,7 +38,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +68,13 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
     String start_time;
     String end_time;
     String date;
+    String start_time2;
     String request;
     String request_reference;
     String user_name;
+    static RequestQueue requestQueue;
+    private JSONArray idArray = new JSONArray();
+
 
     public  subCalendarAdapter(Context mcontext, List<CalendarPost> datas) {
         this.mcontext=mcontext;
@@ -73,6 +92,7 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                        if(task.getResult()!=null){
                            user_name = (String)task.getResult().getData().get(EmployID.name);
+
                            Log.d("확인","현재 사용자 이름입니다"+user_name);
                        }
                    }
@@ -90,7 +110,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         holder.start_time.setText(datas.get(position).getStart_time());
         holder.end_time.setText(datas.get(position).getEnd_time());
         holder.reference.setText(datas.get(position).getReference());
-
+        date = data.getDate();
+        start_time2 = data.getStart_time();
         final int pos = holder.getAdapterPosition();
 
 //        writer_name = datas.get(pos).getWriter_name();
@@ -265,6 +286,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
                     intent.putExtra("schedule_id", schedule_id);
                     intent.putExtra("start_time", start_time);
                     intent.putExtra("end_time", end_time);
+                    intent.putExtra("schedule_date",date);
+                    intent.putExtra("start_time2",start_time2);
                     Log.d("확인","requestDialog넘겨지는 schedule_id는"+schedule_id);
                     Log.d("확인","requestDialog넘겨지는 start_time는"+start_time);
                     mcontext.startActivity(intent);
@@ -288,7 +311,17 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
         final Dialog builder = new Dialog(mcontext);
         builder.setContentView(R.layout.dialog_schedule_accept);
         builder.show();
-
+        mStore.collection("CalendarPost").whereEqualTo("schedule_id",schedule_id)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        for(DocumentSnapshot snap : value.getDocuments()){
+                            String token = String.valueOf(snap.getData().get("tokenNum"));
+                            idArray.put(token);
+                            System.out.println("토큰 잘나오나"+token);
+                        }
+                    }
+                });
         TextView mreference = (TextView)builder.findViewById(R.id.request_reference);
         mreference.setText(request_reference);
 
@@ -301,6 +334,16 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             public void onClick(View v) {
                 if(mAuth.getCurrentUser()!=null){
                     Log.d("subCalendarAdapter","요청수락할 schedule_id:"+schedule_id);
+
+                    JSONObject dataObj = new JSONObject();
+                    try {
+                        dataObj.put("title","대타요청이 수락되었습니다!");
+                        dataObj.put("body",user_name + "님이 " + date + "근무 대타를 수락하였습니다.");
+
+                        send(dataObj, schedule_id);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     Map<String, Object> data = new HashMap<>();
                     data.put(EmployID.documentId, mAuth.getCurrentUser().getUid());
@@ -318,6 +361,8 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
             }
         });
 
+        requestQueue = Volley.newRequestQueue(mcontext);
+
         accept_no.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -325,6 +370,63 @@ public class subCalendarAdapter extends RecyclerView.Adapter<subCalendarAdapter.
                 builder.dismiss();
             }
         });
+    }
+
+    public void send(JSONObject input, String schedule_id){
+        JSONObject requestData = new JSONObject();
+        try {
+            requestData.put("priority","high");
+            requestData.put("data",input);
+            System.out.println("스케줄아이디:"+schedule_id);
+
+
+            requestData.put("registration_ids",idArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://fcm.googleapis.com/fcm/send",
+                requestData,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "key=AAAAAjmqEkM:APA91bE7afelkMdIe7zS11X5i1oiXsjDf1OGhYLBda6_fZYNzmvoHMWYx_baBLulkzQQz2JqmH6jZm8TSVhPzxMrAbsvJSRJJeTk0gVAWalOFiFh-VBmZMBduJ5xR9JwVoD5l6iGYbHb");
+
+                return headers;
+            }
+
+            @Override
+            protected String getParamsEncoding() {
+                Map<String, String> params = new HashMap<String, String>();
+                return super.getParamsEncoding();
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
     }
 
 }

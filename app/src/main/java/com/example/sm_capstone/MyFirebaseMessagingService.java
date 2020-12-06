@@ -24,6 +24,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token){
         super.onNewToken(token);
         Log.e(TAG, "onNewToken 호출됨: " + token);
+        System.out.println("토큰새로발급");
 
     }
     @Override

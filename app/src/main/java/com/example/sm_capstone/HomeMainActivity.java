@@ -97,6 +97,10 @@ public class HomeMainActivity extends AppCompatActivity {
                         // Get new FCM registration token
                         String token = task.getResult();
                         System.out.println("토큰이 발급되었습니다"+token);
+                        SharedPreferences preferences = getSharedPreferences("token",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("token",token);
+                        editor.commit();
                         Map<String, Object> map = new HashMap<>();
                         map.put(EmployID.tokenNum, token);
                         mStore.collection(EmployID.user).document(mAuth.getCurrentUser().getUid()).update(map)
