@@ -26,6 +26,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
     private List<Post> datas;
     private Context mcontext;
 
+
     public BoardAdapter(Context mcontext, List<Post> datas) {
         this.datas = datas;
         this.mcontext=mcontext;

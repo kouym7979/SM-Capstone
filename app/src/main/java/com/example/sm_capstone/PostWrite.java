@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,7 +50,12 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
     private static final int CHOOSE_IMAGE = 101;
     private String writer_name;//작성자
     private String store_num;
+
+    private ImageView cross_btn;
+
+
     private int comment_num=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +68,13 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
         post_imageView = findViewById(R.id.post_imageview);
         post_imageView.setVisibility(View.INVISIBLE);
         post_progressBar = findViewById(R.id.post_progressbar);
+        cross_btn = findViewById(R.id.cross_btn);
+        cross_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
