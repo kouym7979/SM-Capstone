@@ -59,6 +59,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     int com_pos=0;
     private String photoUrl,post_id,current_user,user_name;
     private ActionBar actionBar;
+    private int comment_num=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +103,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         }
         findViewById(R.id.comment_button).setOnClickListener(this);
 
+        comment_num=Integer.parseInt(intent.getStringExtra("comment_num"));
     }
     @Override
     protected void onStart() {
@@ -136,6 +138,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        comment_num++;//댓글작성시 개수 증가
         if (mAuth.getCurrentUser() != null) {//새로 Comment란 컬렉션에 넣어줌// 공백일경우 작동안됨
             Map<String, Object> data = new HashMap<>();
             data.put(EmployID.documentId,mAuth.getCurrentUser().getUid());//유저 고유번호
@@ -150,12 +153,14 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
             data.put(EmployID.post_num, Integer.toString(com_pos));//작성된 게시판의 위치를 댓글에 저장
             data.put(EmployID.comment_post,post_id);
             mStore.collection("Comment").add(data);//댓글 콜렉션에 저장
+            mStore.collection("Post").document(post_id).update("post_comment_num",Integer.toString(comment_num));
             View view = this.getCurrentFocus();//작성버튼을 누르면 에딧텍스트 키보드 내리게 하기
             if (view != null) {//댓글작성시 키보드 내리고 댓글에 작성한 내용 초기화
                 InputMethodManager hide = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 hide.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 comment_edit.setText("");
             }
+
             finish();
             startActivity(intent);
         }

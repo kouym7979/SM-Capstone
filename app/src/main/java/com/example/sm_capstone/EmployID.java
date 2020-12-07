@@ -24,7 +24,7 @@ public class EmployID {
     public static String post_id="post_id";//게시글의 uid
     public static String writer_id="writer_id";//게시글 작성자 uid저장용
     public static String writer_name="writer_name";
-
+    public static String post_comment_num="post_comment_num";
 
 
 //    public static String schedule_num="schedule_num"; //스케줄 고유번호
