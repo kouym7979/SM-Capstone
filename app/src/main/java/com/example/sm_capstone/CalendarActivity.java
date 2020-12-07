@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sm_capstone.Board_Post.Post;
@@ -55,7 +56,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
     private CalendarAdapter calendarAdapter; //캘린더adapter;
     private TextView monthText; //월 text 표시
     private Button btn_monthPrevious, btn_monthNext;  //월 이동 버튼
-    private Button btn_scheduleAdd; //Add버튼 (일정추가)
+    private ImageView btn_scheduleAdd; //Add버튼 (일정추가)
     private ScheduleAdd scheduleAdd; //일정추가 다이얼로그
     private Button btn_modify, btn_delete; //일정 수정, 삭제버튼
     private Button btn_request; //대타 요청 버튼
