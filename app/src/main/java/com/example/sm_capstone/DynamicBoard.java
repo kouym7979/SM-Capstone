@@ -47,7 +47,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     private String board_part;
     private RecyclerView.LayoutManager mlayoutManager;
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
-    private Button write_btn;
+    private ImageView write_btn;
     private String store_num;
     private TextView tv;
     private ImageView standingImage;
