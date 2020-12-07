@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,11 +51,12 @@ public class Board_Update extends AppCompatActivity implements View.OnClickListe
     private static final int CHOOSE_IMAGE = 101;
     private String writer_name;//작성자
     private String store_num;
+    private ImageView cross_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board__update);
+        setContentView(R.layout.activity_post_write);
         mTitle=findViewById(R.id.Post_write_title);//제목 , item_post.xml의 변수와 혼동주의
         mContents=findViewById(R.id.Post_write_contents);
         findViewById(R.id.Post_save).setOnClickListener(this);
@@ -62,6 +64,14 @@ public class Board_Update extends AppCompatActivity implements View.OnClickListe
         post_imageView = findViewById(R.id.post_imageview);
         post_imageView.setVisibility(View.INVISIBLE);
         post_progressBar = findViewById(R.id.post_progressbar);
+
+        cross_btn = findViewById(R.id.cross_btn);
+        cross_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
