@@ -44,7 +44,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +68,10 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
     private TextView dynamic,staticboard;
     private RecyclerView h_dynamicBoard,static_board;//동적게시판
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();//사용자 정보 가져오기
+    private TextView todaySchedule, todayTime;
+    private String user_name;
+    private String start_time, end_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,9 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
         dynamicBoard=findViewById(R.id.recyclerview);
         h_dynamicBoard=(RecyclerView)findViewById(R.id.home_recyclerview2);
         static_board=(RecyclerView)findViewById(R.id.home_recyclerview3);
+        todaySchedule=findViewById(R.id.today_schedule);
+        todayTime=findViewById(R.id.today_time);
+
 
         SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
         store_num = preferences.getString("StoreNum","0");
@@ -87,6 +96,45 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                 finish();
             }
         });
+
+
+        user_name = preferences.getString("Name", "0");
+        Log.d("onCreate", "user_name : "+user_name);
+
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MM. d.");
+        String getTime = dateFormat.format(mDate);
+        Log.d("HomeActivity", "오늘날짜 : "+getTime);
+
+        todaySchedule.setText(user_name+"님 오늘의 일정은 ");
+
+
+        mStore.collection("CalendarPost")
+                .whereEqualTo("date", getTime)
+                .whereEqualTo("writer_name", user_name)
+                .addSnapshotListener(
+                        new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                if(value != null){
+                                    for(DocumentSnapshot snap : value.getDocuments()){
+                                        Map<String, Object> shot = snap.getData();
+                                        String start_time = String.valueOf(shot.get(EmployID.start_time));
+                                        String end_time = String.valueOf(shot.get(EmployID.end_time));
+                                        Log.d("aaa", start_time + " 부터 " +end_time);
+
+
+                                        CalendarPost data = new CalendarPost(user_name, start_time, end_time);
+
+                                        todayTime.setText(start_time+"부터 "+end_time+"입니다.");
+                                    }
+                                }
+                            }
+                        }
+                );
+
+
     }
 
     @Override
@@ -126,6 +174,7 @@ public class HomeActivity extends AppCompatActivity  implements  BoardAdapter.Ev
                                 }
                             }
                         });
+
 
 
     }
