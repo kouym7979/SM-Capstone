@@ -17,10 +17,10 @@ public class Post {
    // private String user_photo;//게시글 작성자의 사진
     private String board_part;//동적게시판인지, 정적게시판인지
     private String store_num;
+    private String comment_num;
 
 
-
-    public Post(String documentId, String title, String contents, String post_id, String writer_name, String post_photo,String board_part, String store_num) {
+    public Post(String documentId, String title, String contents, String post_id, String writer_name, String post_photo,String board_part, String store_num,String comment_num) {
         this.documentId = documentId;
         this.title = title;
         this.contents = contents;
@@ -29,6 +29,7 @@ public class Post {
         this.post_photo = post_photo;
         this.board_part=board_part;
         this.store_num=store_num;
+        this.comment_num=comment_num;
     }
 
 
@@ -55,7 +56,13 @@ public class Post {
         this.title = title;
     }
 
+    public String getComment_num() {
+        return comment_num;
+    }
 
+    public void setComment_num(String comment_num) {
+        this.comment_num = comment_num;
+    }
 
     public String getBoard_part() {
         return board_part;
@@ -116,8 +123,9 @@ public class Post {
                 ", writer_name='" + writer_name + '\'' +
                 ", date=" + date +
                 ", post_photo='" + post_photo + '\'' +
-                ", store_num='" + store_num + '\'' +
                 ", board_part='" + board_part + '\'' +
+                ", store_num='" + store_num + '\'' +
+                ", comment_num='" + comment_num + '\'' +
                 '}';
     }
 

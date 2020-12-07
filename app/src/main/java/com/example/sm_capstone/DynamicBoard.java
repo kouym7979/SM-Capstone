@@ -52,6 +52,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     private TextView tv;
     private ImageView standingImage;
     private EditText Search_edit;
+    private TextView comment_n;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
 
         mlayoutManager = new LinearLayoutManager(this);
         Board.setLayoutManager(mlayoutManager);
+        comment_n=findViewById(R.id.comment_num);
 
         write_btn.setOnClickListener(this);
         Search_edit=findViewById(R.id.search_edit);
@@ -118,7 +120,8 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                                         String post_photo=String.valueOf(shot.get(EmployID.post_photo));
                                         String board_part=String.valueOf(shot.get(EmployID.board_part));
                                         String post_storenum=String.valueOf(shot.get(EmployID.storeNum));
-                                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part,post_storenum);
+                                        String comment_num=String.valueOf(shot.get(EmployID.post_comment_num));
+                                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part,post_storenum,comment_num);
                                         System.out.println("스토어 넘버는:"+post_storenum);
                                         if(store_num.equals(post_storenum))
                                         {
@@ -177,7 +180,8 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                         String post_id=String.valueOf(sub.get(i).getPost_id());
                         String post_photo=String.valueOf(sub.get(i).getPost_photo());
                         String board_part=String.valueOf(sub.get(i).getBoard_part());
-                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part, store_num);
+                        String comment_num=String.valueOf(sub.get(i).getComment_num());
+                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part, store_num,comment_num);
                         mDatas.add(data);
                         Log.d("확인","포함되어있습니다"+s_title);
                     }
