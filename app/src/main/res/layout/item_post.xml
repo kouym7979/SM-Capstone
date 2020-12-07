@@ -23,9 +23,9 @@
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="11dp"
-                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/personex" />
 
             <TextView
@@ -40,12 +40,12 @@
                 tools:text="User Name" />
         </LinearLayout>
 
-       <TextView
+        <TextView
             android:id="@+id/post_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-           android:layout_marginLeft="63dp"
+            android:layout_marginLeft="63dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="14sp"
@@ -56,13 +56,33 @@
             android:id="@+id/post_contents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_marginLeft="63dp"
+            android:layout_marginTop="3dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="10sp"
             android:textStyle="normal"
             tools:text="Contents" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginRight="10sp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/comment_num" />
+
+            <TextView
+                android:id="@+id/comment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
 

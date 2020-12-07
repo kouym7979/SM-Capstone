@@ -49,7 +49,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
     private static final int CHOOSE_IMAGE = 101;
     private String writer_name;//작성자
     private String store_num;
-
+    private int comment_num=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +116,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             data.put(EmployID.writer_id,writer_id);
             data.put(EmployID.post_url,photoUrl);
             data.put(EmployID.storeNum,store_num);
+            data.put(EmployID.post_comment_num,Integer.toString(comment_num));
             if(!TextUtils.isEmpty(postImageUrl))
             {
                 data.put(EmployID.post_photo,postImageUrl);//게시글에 포함된 사진
