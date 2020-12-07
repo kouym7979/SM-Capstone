@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +33,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,9 +53,9 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
     private static final int CHOOSE_IMAGE = 101;
     private String writer_name;//작성자
     private String store_num;
-
+    private TextView post_user_name,post_write_date;
     private ImageView cross_btn;
-
+    private String formatDate;
 
     private int comment_num=0;
 
@@ -76,6 +79,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             }
         });
 
+
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
                     .get()
@@ -94,7 +98,10 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                     });
         }
 
-
+        Intent intent=getIntent();
+        String w_name=intent.getStringExtra("w_name");
+        post_user_name=(TextView) findViewById(R.id.post_user_name);
+        post_user_name.setText(w_name);
 
 
         post_photo.setOnClickListener(new View.OnClickListener(){
@@ -107,6 +114,13 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
         //회원 개인사진 불러오기
         loadUserPhoto();
 
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        formatDate = simpleDate.format(mDate);
+
+        post_write_date=findViewById(R.id.post_write_date);
+        post_write_date.setText(formatDate);
     }
 
     @Override
@@ -130,6 +144,7 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
             data.put(EmployID.post_url,photoUrl);
             data.put(EmployID.storeNum,store_num);
             data.put(EmployID.post_comment_num,Integer.toString(comment_num));
+            data.put(EmployID.post_date,formatDate);
             if(!TextUtils.isEmpty(postImageUrl))
             {
                 data.put(EmployID.post_photo,postImageUrl);//게시글에 포함된 사진

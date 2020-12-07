@@ -46,7 +46,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         holder.contents.setText(datas.get(position).getContents());
         holder.writer.setText(datas.get(position).getWriter_name());
         holder.comment_num.setText(datas.get(position).getComment_num());
-
+        holder.post_date.setText(datas.get(position).getPost_date());
         if ( !datas.get(position).getPost_photo().isEmpty()) {
             Picasso.get()
                     .load(datas.get(position).getPost_photo())
@@ -75,6 +75,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
                     intent.putExtra("position",pos);//몇 번째 게시글인지
                     intent.putExtra("board_part",datas.get(pos).getBoard_part());//동적게시판인지, 정적게시판인지
                     intent.putExtra("time",datas.get(pos).getDate());
+                    intent.putExtra("post_date",datas.get(pos).getPost_date());
                     intent.putExtra("comment_num",datas.get(pos).getComment_num());
                     mcontext.startActivity(intent);
                 }
@@ -103,6 +104,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         private TextView writer;
         private ImageView post_photo;
         private TextView comment_num;
+        private TextView post_date;
         public BoardViewHolder(@NonNull View itemView){
             super(itemView);
             post_photo=itemView.findViewById(R.id.post_imageView);
@@ -110,6 +112,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             contents=itemView.findViewById(R.id.post_contents);
             writer=itemView.findViewById(R.id.post_writer);
             comment_num=itemView.findViewById(R.id.comment_num);
+            post_date=itemView.findViewById(R.id.post_date);
         }
     }
 }

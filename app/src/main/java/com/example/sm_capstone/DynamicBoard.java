@@ -48,7 +48,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     private RecyclerView.LayoutManager mlayoutManager;
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
     private ImageView write_btn;
-    private String store_num;
+    private String store_num,writer_name;
     private TextView tv;
     private ImageView standingImage;
     private EditText Search_edit;
@@ -68,6 +68,19 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
         mlayoutManager = new LinearLayoutManager(this);
         Board.setLayoutManager(mlayoutManager);
         comment_n=findViewById(R.id.comment_num);
+        if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
+            mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult()!=null){
+                                writer_name=(String)task.getResult().getData().get(EmployID.name);//
+                                Log.d("확인","현재 사용자 이름입니다"+writer_name);
+                            }
+                        }
+                    });
+        }
 
         write_btn.setOnClickListener(this);
         Search_edit=findViewById(R.id.search_edit);
@@ -121,7 +134,8 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                                         String board_part=String.valueOf(shot.get(EmployID.board_part));
                                         String post_storenum=String.valueOf(shot.get(EmployID.storeNum));
                                         String comment_num=String.valueOf(shot.get(EmployID.post_comment_num));
-                                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part,post_storenum,comment_num);
+                                        String post_date=String.valueOf(shot.get(EmployID.post_date));
+                                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part,post_storenum,comment_num,post_date);
                                         System.out.println("스토어 넘버는:"+post_storenum);
                                         if(store_num.equals(post_storenum))
                                         {
@@ -140,6 +154,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Intent intent = new Intent(DynamicBoard.this,PostWrite.class);
         intent.putExtra("board_part",board_part);
+        intent.putExtra("w_name",writer_name);
         startActivity(intent);
     }
     
@@ -181,7 +196,8 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
                         String post_photo=String.valueOf(sub.get(i).getPost_photo());
                         String board_part=String.valueOf(sub.get(i).getBoard_part());
                         String comment_num=String.valueOf(sub.get(i).getComment_num());
-                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part, store_num,comment_num);
+                        String post_date=String.valueOf(sub.get(i).getPost_date());
+                        Post data = new Post(documentId, title, contents,post_id,writer_name,post_photo,board_part, store_num,comment_num,post_date);
                         mDatas.add(data);
                         Log.d("확인","포함되어있습니다"+s_title);
                     }

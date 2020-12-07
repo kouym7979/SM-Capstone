@@ -38,8 +38,18 @@
         android:textColor="#000000"
         android:textSize="15sp"
         android:textStyle="normal"
+        android:id="@+id/post_user_name"
         />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/personImage"
+        app:layout_constraintTop_toBottomOf="@id/post_user_name"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/post_write_date"
+        android:textSize="7sp"
+        tools:text="날짜입니다"
+        />
     <LinearLayout
         android:id="@+id/titleLayout"
         android:layout_width="wrap_content"
