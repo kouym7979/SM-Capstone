@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,7 +39,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
     private FirebaseFirestore mStore=FirebaseFirestore.getInstance();
 
     private Context context;
-    private Button btn_add_exit, btn_add_submit; //취소버튼, 완료버튼
+    private ImageView btn_add_exit, btn_add_submit; //취소버튼, 완료버튼
     private String writer_id; //작성자넘버
     private String writer_name; //작성자 이름
     private String store_num;
@@ -104,7 +105,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
 
         mreference=findViewById(R.id.schedule_reference); //참고사항
 
-        btn_add_submit = (Button)findViewById(R.id.btn_add_submit);
+        btn_add_submit = (ImageView) findViewById(R.id.btn_add_submit);
         btn_add_submit.setOnClickListener(this);
 
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
@@ -130,7 +131,7 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
         }
 
 
-        Button btn_date = (Button) findViewById(R.id.btn_date);
+        ImageView btn_date = (ImageView) findViewById(R.id.btn_date);
         btn_date.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 new DatePickerDialog(context, d,
