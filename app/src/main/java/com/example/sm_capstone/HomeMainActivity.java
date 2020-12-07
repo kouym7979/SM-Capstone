@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -120,6 +121,9 @@ public class HomeMainActivity extends AppCompatActivity {
         boardBtn = findViewById(R.id.board_btn);
         calendarBtn = findViewById(R.id.calendar_btn);
         myPageBtn = findViewById(R.id.mypage_btn);
+
+
+
 
         staticImage.setOnClickListener(new View.OnClickListener() {
             @Override

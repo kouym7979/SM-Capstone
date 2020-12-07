@@ -67,6 +67,12 @@ public class CalendarPost {
         this.request_reference = request_reference;
     }
 
+    public CalendarPost(String writer_name, String start_time, String end_time){
+        this.writer_name = writer_name;
+        this.start_time = start_time;
+        this.end_time = end_time;
+    }
+
     @Override
     public String toString() {
         return "CalendarPost{" +
