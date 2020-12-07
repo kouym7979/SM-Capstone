@@ -50,7 +50,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     private RecyclerView mCommentRecyclerView;
-    private TextView c_title,c_text,c_writer;//게시글의 제목,내용,작성자
+    private TextView c_title,c_text,c_writer,c_date;//게시글의 제목,내용,작성자
     private ImageView img1,img2;
     private CommentAdapter commentAdapter;
     private List<Comment> mcomment;
@@ -64,7 +64,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_comment);
-
+        c_date=(TextView)findViewById(R.id.c_post_date);
         c_writer = (TextView) findViewById(R.id.Comment_writer);//본문 작성자
         c_title = (TextView) findViewById(R.id.Comment_title);//제목
         c_text = (TextView) findViewById(R.id.Comment_text);//본문
@@ -77,7 +77,7 @@ public class Board_comment extends AppCompatActivity implements View.OnClickList
         c_writer.setText(intent.getStringExtra("writer_name"));
         c_text.setText(intent.getStringExtra("content"));
         c_title.setText(intent.getStringExtra("title"));
-
+        c_date.setText(intent.getStringExtra("post_date"));
         post_id=intent.getStringExtra("post_id");//어떤 게시글인지
         current_user=mAuth.getCurrentUser().getUid();//현재 사용자의 uid
         board_name=intent.getStringExtra("board_part");//동적게시판인지 정적게시판인지

@@ -13,6 +13,7 @@ public class Post {
     private String writer_name;
     @ServerTimestamp
     private Date date;
+    private String post_date;
     private String post_photo;//게시글에 등록할 사진
    // private String user_photo;//게시글 작성자의 사진
     private String board_part;//동적게시판인지, 정적게시판인지
@@ -20,7 +21,8 @@ public class Post {
     private String comment_num;
 
 
-    public Post(String documentId, String title, String contents, String post_id, String writer_name, String post_photo,String board_part, String store_num,String comment_num) {
+    public Post(String documentId, String title, String contents, String post_id, String writer_name,
+                String post_photo,String board_part, String store_num,String comment_num,String post_date) {
         this.documentId = documentId;
         this.title = title;
         this.contents = contents;
@@ -30,11 +32,20 @@ public class Post {
         this.board_part=board_part;
         this.store_num=store_num;
         this.comment_num=comment_num;
+        this.post_date=post_date;
     }
 
 
     public Post(){//빈생성자 생성
 
+    }
+
+    public String getPost_date() {
+        return post_date;
+    }
+
+    public void setPost_date(String post_date) {
+        this.post_date = post_date;
     }
 
     public String getStore_num() {return store_num;}
@@ -122,6 +133,7 @@ public class Post {
                 ", post_id='" + post_id + '\'' +
                 ", writer_name='" + writer_name + '\'' +
                 ", date=" + date +
+                ", post_date='" + post_date + '\'' +
                 ", post_photo='" + post_photo + '\'' +
                 ", board_part='" + board_part + '\'' +
                 ", store_num='" + store_num + '\'' +
