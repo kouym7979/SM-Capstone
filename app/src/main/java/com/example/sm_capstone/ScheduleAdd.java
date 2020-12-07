@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -204,9 +205,11 @@ public class ScheduleAdd extends Dialog implements View.OnClickListener,TimePick
     public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
        if(view==start_time){
            startTimeLabel.setText(hourOfDay+":"+minute);
+           startTimeLabel.setTextColor(Color.WHITE);
        }
        else{
            endTimeLabel.setText(hourOfDay+":"+minute);
+           endTimeLabel.setTextColor(Color.WHITE);
        }
     }
 }
