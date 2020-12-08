@@ -84,6 +84,11 @@ public class HomeMainActivity extends AppCompatActivity {
                                 editor.putString("PhoneNum",phoneNum);
                                 editor.putString("Type",type);
                                 editor.commit();
+
+                                SharedPreferences preferences2 = getSharedPreferences("ContactInfo", MODE_PRIVATE);
+                                SharedPreferences.Editor editor2 = preferences.edit();
+                                editor.putString("myType", type);
+                                editor.commit();
                             }
                         }
                     });
