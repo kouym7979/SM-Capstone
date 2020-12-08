@@ -150,9 +150,6 @@ public class PostWrite extends AppCompatActivity implements View.OnClickListener
                 data.put(EmployID.post_photo,postImageUrl);//게시글에 포함된 사진
             }
             mStore.collection("Post").document(PostID).set(data);//Post라는 테이블에 데이터를 입력하는것/
-            Intent intent2 = new Intent(PostWrite.this, DynamicBoard.class);
-            intent2.putExtra("board_part",board_part);
-            startActivity(intent2);
             finish();
         }
     }
