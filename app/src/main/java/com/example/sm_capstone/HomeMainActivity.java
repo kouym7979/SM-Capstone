@@ -38,12 +38,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HomeMainActivity extends AppCompatActivity {
 
-    private ImageView homeBtn, boardBtn, calendarBtn, myPageBtn;
+    private ImageView homeBtn, contactBtn, calendarBtn, myPageBtn;
     private ImageView staticImage, dynamicImage;
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
@@ -52,7 +54,9 @@ public class HomeMainActivity extends AppCompatActivity {
     private Toast toast;
     static RequestQueue requestQueue;
     static String regId;
+    private TextView todaySchedule, todayTime;
     private JSONArray idArray = new JSONArray();
+    private String user_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +122,7 @@ public class HomeMainActivity extends AppCompatActivity {
         staticImage = findViewById(R.id.staticImage);
         dynamicImage = findViewById(R.id.dynamicImage);
         homeBtn = findViewById(R.id.home_btn);
-        boardBtn = findViewById(R.id.board_btn);
+        contactBtn = findViewById(R.id.contact_btn);
         calendarBtn = findViewById(R.id.calendar_btn);
         myPageBtn = findViewById(R.id.mypage_btn);
 
@@ -152,7 +156,7 @@ public class HomeMainActivity extends AppCompatActivity {
             }
         });
 
-        boardBtn.setOnClickListener(new View.OnClickListener() {
+        contactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeMainActivity.this, HomeActivity.class);
@@ -176,6 +180,43 @@ public class HomeMainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
+        user_name = preferences.getString("Name", "0");
+        Log.d("onCreate", "user_name : "+user_name);
+
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MM. d.");
+        String getTime = dateFormat.format(mDate);
+        Log.d("HomeActivity", "오늘날짜 : "+getTime);
+
+        todaySchedule.setText(user_name+"님 오늘의 일정은 ");
+
+
+        mStore.collection("CalendarPost")
+                .whereEqualTo("date", getTime)
+                .whereEqualTo("writer_name", user_name)
+                .addSnapshotListener(
+                        new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                if(value != null){
+                                    for(DocumentSnapshot snap : value.getDocuments()){
+                                        Map<String, Object> shot = snap.getData();
+                                        String start_time = String.valueOf(shot.get(EmployID.start_time));
+                                        String end_time = String.valueOf(shot.get(EmployID.end_time));
+                                        Log.d("aaa", start_time + " 부터 " +end_time);
+
+
+                                        CalendarPost data = new CalendarPost(user_name, start_time, end_time);
+
+                                        todayTime.setText(start_time+"부터 "+end_time+"입니다.");
+                                    }
+                                }
+                            }
+                        }
+                );
 
 
 //        Button pushTest = findViewById(R.id.pushTest);
