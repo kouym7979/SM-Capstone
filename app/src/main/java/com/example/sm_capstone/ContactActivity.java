@@ -95,8 +95,27 @@ public class ContactActivity extends AppCompatActivity {
                             }
 
                             if(myType.equals("manager"))
-                            {   mAdapter = new ContactAdapter(mArrayList);
+                            {
+                                mAdapter = new ContactAdapter(mArrayList);
                                 mRecyclerView.setAdapter(mAdapter);
+                                mAdapter.setOnDeleteClickListener(new ContactAdapter.OnDeleteClickListener() {
+                                    @Override
+                                    public void onDeleteClick(View v, int position) {
+                                        Contact item = mAdapter.getItem(position);
+                                        String id = item.getContactId();
+                                        deleteDialog(id, mAdapter);
+
+                                    }
+                                });
+
+                                mAdapter.setOnOkClickListener(new ContactAdapter.OnOkClickListener() {
+                                    @Override
+                                    public void onOkClick(View v, int position) {
+                                        Contact item = mAdapter.getItem(position);
+                                        String id = item.getContactId();
+                                        okDialog(id, mAdapter);
+                                    }
+                                });
                                 System.out.println("여기맞나?");
                             }
                             else {
@@ -109,28 +128,6 @@ public class ContactActivity extends AppCompatActivity {
                     }
                 });
 
-
-        if(myType.equals("manager"))
-        {
-            mAdapter.setOnDeleteClickListener(new ContactAdapter.OnDeleteClickListener() {
-                @Override
-                public void onDeleteClick(View v, int position) {
-                    Contact item = mAdapter.getItem(position);
-                    String id = item.getContactId();
-                    deleteDialog(id, mAdapter);
-
-                }
-            });
-
-            mAdapter.setOnOkClickListener(new ContactAdapter.OnOkClickListener() {
-                @Override
-                public void onOkClick(View v, int position) {
-                    Contact item = mAdapter.getItem(position);
-                    String id = item.getContactId();
-                    okDialog(id, mAdapter);
-                }
-            });
-        }
 
     }
 
