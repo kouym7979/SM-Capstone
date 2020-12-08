@@ -56,6 +56,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             this.ok_btn = itemView.findViewById(R.id.ok_btn);
 
 
+
             remove_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
