@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -222,6 +223,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                                         storeMap.put(EmployID.storeName, storeNameEdit.getText().toString());
                                         storeMap.put("manager", nameEdit.getText().toString());
                                         storeMap.put("managerID",user.getUid());
+                                        storeMap.put(EmployID.timestamp, FieldValue.serverTimestamp());
                                         mstore.collection("Store").document(storeNumEdit.getText().toString()).set(storeMap, SetOptions.merge());
                                     }
                                     finish();
