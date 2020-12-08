@@ -155,6 +155,7 @@ public class DynamicBoard extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(DynamicBoard.this,PostWrite.class);
         intent.putExtra("board_part",board_part);
         intent.putExtra("w_name",writer_name);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
     
