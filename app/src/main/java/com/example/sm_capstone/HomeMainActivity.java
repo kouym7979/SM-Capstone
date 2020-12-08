@@ -86,9 +86,9 @@ public class HomeMainActivity extends AppCompatActivity {
                                 editor.commit();
 
                                 SharedPreferences preferences2 = getSharedPreferences("ContactInfo", MODE_PRIVATE);
-                                SharedPreferences.Editor editor2 = preferences.edit();
-                                editor.putString("myType", type);
-                                editor.commit();
+                                SharedPreferences.Editor editor2 = preferences2.edit();
+                                editor2.putString("myType", type);
+                                editor2.commit();
                             }
                         }
                     });
@@ -165,7 +165,7 @@ public class HomeMainActivity extends AppCompatActivity {
         contactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeMainActivity.this, HomeActivity.class);
+                Intent intent = new Intent(HomeMainActivity.this, ContactActivity.class);
                 startActivity(intent);
             }
         });

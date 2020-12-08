@@ -99,6 +99,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
         holder.name.setText(mList.get(position).getName());
         holder.phoneNum.setText(mList.get(position).getPhoneNum());
+        if(mList.get(position).getAccept().equals("yes"))
+        {
+            holder.ok_btn.setVisibility(View.GONE);
+            holder.remove_btn.setVisibility(View.GONE);
+        }
     }
 
     @Override
