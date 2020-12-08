@@ -75,25 +75,25 @@
 
         <ImageView
             android:id="@+id/contact_btn"
-            android:layout_width="18dp"
+            android:layout_width="26dp"
             android:layout_height="31dp"
-            app:srcCompat="@drawable/icon_contact"
-            android:background="#f8f8f8"
             android:layout_marginLeft="45dp"
             android:layout_marginBottom="10dp"
+            android:background="#f8f8f8"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/home_btn" />
+            app:layout_constraintLeft_toRightOf="@id/home_btn"
+            app:srcCompat="@drawable/icon_contact" />
 
         <ImageView
             android:id="@+id/calendar_btn"
             android:layout_width="28dp"
             android:layout_height="31dp"
-            android:background="#f8f8f8"
             android:layout_marginLeft="45dp"
             android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/icon_calendar"
+            android:background="#f8f8f8"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/contact_btn" />
+            app:layout_constraintLeft_toRightOf="@+id/contact_btn"
+            app:srcCompat="@drawable/icon_calendar" />
 
         <ImageView
             android:id="@+id/mypage_btn"

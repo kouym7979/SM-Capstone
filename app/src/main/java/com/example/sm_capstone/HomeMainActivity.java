@@ -125,7 +125,8 @@ public class HomeMainActivity extends AppCompatActivity {
         contactBtn = findViewById(R.id.contact_btn);
         calendarBtn = findViewById(R.id.calendar_btn);
         myPageBtn = findViewById(R.id.mypage_btn);
-
+        todaySchedule = findViewById(R.id.today_schedule);
+        todayTime = findViewById(R.id.today_time);
 
 
 
