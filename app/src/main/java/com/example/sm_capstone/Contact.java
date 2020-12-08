@@ -23,9 +23,10 @@ public class Contact {
     public void setContactId(String contactId) {    this.contactId = contactId;   }
 
 
-    public Contact(String name, String phoneNum, String accept){
+    public Contact(String name, String phoneNum, String accept, String contactId){
         this.name = name;
         this.phoneNum = phoneNum;
         this.accept = accept;
+        this.contactId = contactId;
     }
 }
