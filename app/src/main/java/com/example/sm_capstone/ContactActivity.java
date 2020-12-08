@@ -56,6 +56,7 @@ public class ContactActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("ContactInfo", MODE_PRIVATE);
         myType = preferences.getString("myType","0");
+        System.out.println("내타입은:"+ myType);
         SharedPreferences preferences2 = getSharedPreferences("StoreInfo", MODE_PRIVATE);
         store_num = preferences2.getString("StoreNum","0");
 
@@ -87,16 +88,21 @@ public class ContactActivity extends AppCompatActivity {
                                 String accept = String.valueOf(map.get(EmployID.accept));
                                 String id = String.valueOf(map.get(EmployID.documentId));
                                 String black = String.valueOf(map.get(EmployID.accept));
+                                String type = String.valueOf(map.get(EmployID.type));
                                 Contact data = new Contact(name, phoneNum, accept, id);
                                 if(!black.equals("black"))
                                     mArrayList.add(data);
                             }
+
                             if(myType.equals("manager"))
                             {   mAdapter = new ContactAdapter(mArrayList);
-                                mRecyclerView.setAdapter(mAdapter);}
+                                mRecyclerView.setAdapter(mAdapter);
+                                System.out.println("여기맞나?");
+                            }
                             else {
                                 mAdapterE = new ContactAdapterVerEmployee(mArrayList);
                                 mRecyclerView.setAdapter(mAdapterE);
+                                System.out.println("여기맞나!");
                             }
 
                         }
@@ -104,24 +110,28 @@ public class ContactActivity extends AppCompatActivity {
                 });
 
 
-        mAdapter.setOnDeleteClickListener(new ContactAdapter.OnDeleteClickListener() {
-            @Override
-            public void onDeleteClick(View v, int position) {
-                Contact item = mAdapter.getItem(position);
-                String id = item.getContactId();
-                deleteDialog(id, mAdapter);
+        if(myType.equals("manager"))
+        {
+            mAdapter.setOnDeleteClickListener(new ContactAdapter.OnDeleteClickListener() {
+                @Override
+                public void onDeleteClick(View v, int position) {
+                    Contact item = mAdapter.getItem(position);
+                    String id = item.getContactId();
+                    deleteDialog(id, mAdapter);
 
-            }
-        });
+                }
+            });
 
-        mAdapter.setOnOkClickListener(new ContactAdapter.OnOkClickListener() {
-            @Override
-            public void onOkClick(View v, int position) {
-                Contact item = mAdapter.getItem(position);
-                String id = item.getContactId();
-                okDialog(id, mAdapter);
-            }
-        });
+            mAdapter.setOnOkClickListener(new ContactAdapter.OnOkClickListener() {
+                @Override
+                public void onOkClick(View v, int position) {
+                    Contact item = mAdapter.getItem(position);
+                    String id = item.getContactId();
+                    okDialog(id, mAdapter);
+                }
+            });
+        }
+
     }
 
     public void deleteDialog(final String id, final ContactAdapter adapter){

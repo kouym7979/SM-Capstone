@@ -6,6 +6,10 @@ public class Contact {
     private String time;
     private String contactId;
     private String accept;
+    private String type;
+
+    public String getType() {   return type;  }
+    public void setType(String type) {   this.type = type;   }
 
     public String getAccept() {   return accept;   }
     public void setAccept(String accept) {   this.accept = accept;  }

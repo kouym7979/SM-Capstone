@@ -229,7 +229,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                                     finish();
                                 }
                             } else {
-                                Toast.makeText(SignupActivity.this, "error.",
+                                Toast.makeText(SignupActivity.this, "비밀번호는 6자리 이상 입력해주세요",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
