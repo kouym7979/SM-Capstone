@@ -1,6 +1,7 @@
 package com.example.sm_capstone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,12 +19,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.kakao.kakaolink.v2.KakaoLinkResponse;
 import com.kakao.kakaolink.v2.KakaoLinkService;
 import com.kakao.message.template.ButtonObject;
@@ -32,6 +44,10 @@ import com.kakao.message.template.LinkObject;
 import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
 import com.kakao.util.KakaoParameterException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +66,9 @@ public class MyPageActivity extends AppCompatActivity {
     private Button kakao_btn;
     private boolean permit;
     private SharedPreferences preferences;
+    static RequestQueue requestQueue;
+    private JSONArray idArray = new JSONArray();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +81,7 @@ public class MyPageActivity extends AppCompatActivity {
         logout_btn = findViewById(R.id.logout_btn);
         modify_btn = findViewById(R.id.modify_btn);
         a = MyPageActivity.this;
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
         name = preferences.getString("Name","0");
@@ -76,6 +96,9 @@ public class MyPageActivity extends AppCompatActivity {
         postv.setText(pos);
 
         if(pos.equals("manager")){
+            String storeNum2 = storeNumEdit.getText().toString();
+            storeNumEdit.setText(storeNum2+"(수정불가)");
+            storeNumEdit.setTextColor(Color.RED);
             storeNumEdit.setEnabled(false);
         }
         //추후에 허용기능이 추가되면 permit=true인 employee만 수정할 수 있게 함
@@ -112,32 +135,71 @@ public class MyPageActivity extends AppCompatActivity {
         modify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                findManager(storeNumEdit.getText().toString());
                 AlertDialog.Builder dlg = new AlertDialog.Builder(MyPageActivity.this);
                 dlg.setMessage("수정 하시겠습니까?");
                 dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Map<String, Object> userMap = new HashMap<>();
-                        userMap.put(EmployID.name, nameEdit.getText().toString());
-                        userMap.put(EmployID.phone_number, phoneEdit.getText().toString());
-                        userMap.put(EmployID.storeName, storeNameEdit.getText().toString());
-                        userMap.put(EmployID.storeNum, storeNumEdit.getText().toString());
-                        mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                ((GlobalMethod)getApplicationContext()).modifyOK(a);
+                        Map<String, Object> userMap2 = new HashMap<>();
+                        String myName = nameEdit.getText().toString();
+                        String myPhone = phoneEdit.getText().toString();
+                        String myStoreName = storeNameEdit.getText().toString();
+                        String myStoreNum = storeNumEdit.getText().toString();
+                        userMap.put(EmployID.name, myName);
+                        userMap.put(EmployID.phone_number, myPhone);
+                        userMap.put(EmployID.storeName, myStoreName);
+                        userMap2.putAll(userMap); //얕은복사
+                        userMap.put(EmployID.storeNum, myStoreNum);
+
+                        if(pos.equals("manager"))
+                        {
+                            mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    ((GlobalMethod)getApplicationContext()).modifyOK(a);
+                                }
+                            });
+                            mStore.collection("Store").document(storeNumEdit.getText().toString()).update(nameEdit.getText().toString(),pos).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                }
+                            });
+                        }
+
+                        else //직원인데
+                        {
+                            if(!storeNum.equals(myStoreName)) //변경했다면
+                            {
+                                sendPush();
+                                mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(getApplicationContext(),"매장 번호는 매니저의 수락 후 변경됩니다.",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
+                            else //똑같다면
+                            {
+                                mStore.collection("user").document(user.getUid()).update(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        ((GlobalMethod)getApplicationContext()).modifyOK(a);
+                                    }
+                                });
+                                mStore.collection("Store").document(storeNumEdit.getText().toString()).update(nameEdit.getText().toString(),pos).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
+                            }
+                        }
 
                         //강호동 : 직원 or  송민호: 매니저 이런식으로 표시할 예정
                         //storeMap.put(user.getEmail(), pos);
-                        System.out.println("이메일"+user.getEmail());
-                        mStore.collection("Store").document(storeNumEdit.getText().toString()).update(nameEdit.getText().toString(),pos).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-
-                            }
-                        });
 
                     }
                 });
@@ -150,6 +212,92 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void sendPush(){
+        JSONObject dataObj = new JSONObject();
+        try {
+            dataObj.put("title","매장 가입 요청이 들어왔습니다!");
+            dataObj.put("body",name+"님이 가입을 신청했습니다. 수락을 눌러주세요!");
+            send(dataObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void send(JSONObject input){
+        JSONObject requestData = new JSONObject();
+        try {
+            requestData.put("priority","high");
+
+            requestData.put("data",input);
+            requestData.put("registration_ids",idArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                "https://fcm.googleapis.com/fcm/send",
+                requestData,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                },
+                new Response.ErrorListener(){
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "key=AAAAAjmqEkM:APA91bE7afelkMdIe7zS11X5i1oiXsjDf1OGhYLBda6_fZYNzmvoHMWYx_baBLulkzQQz2JqmH6jZm8TSVhPzxMrAbsvJSRJJeTk0gVAWalOFiFh-VBmZMBduJ5xR9JwVoD5l6iGYbHb");
+
+                return headers;
+            }
+
+            @Override
+            protected String getParamsEncoding() {
+                Map<String, String> params = new HashMap<String, String>();
+                return super.getParamsEncoding();
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
+    }
+
+    public void findManager(String num){
+        idArray = new JSONArray();
+        mStore.collection(EmployID.user).whereEqualTo("storeNum",num)
+                .whereEqualTo(EmployID.type,"manager")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        try{
+                            for(DocumentSnapshot snap : value.getDocuments()){
+                                String token = String.valueOf(snap.getData().get(EmployID.tokenNum));
+                                System.out.println("샌드토큰은:" + token);
+                                idArray.put(token);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     public void kakaoLink(View view){

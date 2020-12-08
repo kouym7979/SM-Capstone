@@ -54,14 +54,25 @@ public class HomeMainActivity extends AppCompatActivity {
     private Toast toast;
     static RequestQueue requestQueue;
     static String regId;
-    private TextView todaySchedule, todayTime;
+    private TextView todaySchedule, todayTime, txt_today_schedule;
     private JSONArray idArray = new JSONArray();
     private String user_name;
+    private String accept;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_main);
+
+        staticImage = findViewById(R.id.staticImage);
+        dynamicImage = findViewById(R.id.dynamicImage);
+        homeBtn = findViewById(R.id.home_btn);
+        contactBtn = findViewById(R.id.contact_btn);
+        calendarBtn = findViewById(R.id.calendar_btn);
+        myPageBtn = findViewById(R.id.mypage_btn);
+        todaySchedule = findViewById(R.id.today_schedule);
+        todayTime = findViewById(R.id.today_time);
+        txt_today_schedule = findViewById(R.id.txt_today_schedule);
 
         if(mAuth.getCurrentUser()!=null){//User에 등록되어있는 작성자를 가져오기 위해서
             mStore.collection("user").document(mAuth.getCurrentUser().getUid())//
@@ -75,7 +86,20 @@ public class HomeMainActivity extends AppCompatActivity {
                                 phoneNum=(String)task.getResult().getData().get(EmployID.phone_number);
                                 storeName=(String)task.getResult().getData().get(EmployID.storeName);
                                 type = (String)task.getResult().getData().get(EmployID.type);
+                                accept=(String)task.getResult().getData().get(EmployID.accept);
                                 findStoreCollegue(store_num);
+                                todaySchedule(name);
+                                if(accept.equals("no") || accept.equals("black"))
+                                {
+                                    staticImage.setEnabled(false);
+                                    dynamicImage.setEnabled(false);
+                                    homeBtn.setEnabled(false);
+                                    contactBtn.setEnabled(false);
+                                    calendarBtn.setEnabled(false);
+                                    todaySchedule.setText("이용하시려면 매니저의 수락을 기다리세요");
+                                    txt_today_schedule.setText("이용 불가");
+                                    todayTime.setText("");
+                                }
                                 SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("StoreNum",store_num);
@@ -93,7 +117,6 @@ public class HomeMainActivity extends AppCompatActivity {
                         }
                     });
         }
-
 
 
         FirebaseMessaging.getInstance().getToken()
@@ -124,14 +147,6 @@ public class HomeMainActivity extends AppCompatActivity {
                     }
                 });
 
-        staticImage = findViewById(R.id.staticImage);
-        dynamicImage = findViewById(R.id.dynamicImage);
-        homeBtn = findViewById(R.id.home_btn);
-        contactBtn = findViewById(R.id.contact_btn);
-        calendarBtn = findViewById(R.id.calendar_btn);
-        myPageBtn = findViewById(R.id.mypage_btn);
-        todaySchedule = findViewById(R.id.today_schedule);
-        todayTime = findViewById(R.id.today_time);
 
 
 
@@ -143,6 +158,7 @@ public class HomeMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         dynamicImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,42 +203,7 @@ public class HomeMainActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences preferences = getSharedPreferences("StoreInfo",MODE_PRIVATE);
-        user_name = preferences.getString("Name", "0");
-        Log.d("onCreate", "user_name : "+user_name);
 
-        long now = System.currentTimeMillis();
-        Date mDate = new Date(now);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MM. d.");
-        String getTime = dateFormat.format(mDate);
-        Log.d("HomeActivity", "오늘날짜 : "+getTime);
-
-        todaySchedule.setText(user_name+"님 오늘의 일정은 ");
-
-
-        mStore.collection("CalendarPost")
-                .whereEqualTo("date", getTime)
-                .whereEqualTo("writer_name", user_name)
-                .addSnapshotListener(
-                        new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if(value != null){
-                                    for(DocumentSnapshot snap : value.getDocuments()){
-                                        Map<String, Object> shot = snap.getData();
-                                        String start_time = String.valueOf(shot.get(EmployID.start_time));
-                                        String end_time = String.valueOf(shot.get(EmployID.end_time));
-                                        Log.d("aaa", start_time + " 부터 " +end_time);
-
-
-                                        CalendarPost data = new CalendarPost(user_name, start_time, end_time);
-
-                                        todayTime.setText(start_time+"부터 "+end_time+"입니다.");
-                                    }
-                                }
-                            }
-                        }
-                );
 
 
 //        Button pushTest = findViewById(R.id.pushTest);
@@ -318,6 +299,44 @@ public class HomeMainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void todaySchedule(String myname){
+
+        user_name = myname;
+
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy. MM. d.");
+        String getTime = dateFormat.format(mDate);
+        Log.d("HomeActivity", "오늘날짜 : "+getTime);
+
+        todaySchedule.setText(user_name+"님 오늘의 일정은 ");
+
+
+        mStore.collection("CalendarPost")
+                .whereEqualTo("date", getTime)
+                .whereEqualTo("writer_name", user_name)
+                .addSnapshotListener(
+                        new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                if(value != null){
+                                    for(DocumentSnapshot snap : value.getDocuments()){
+                                        Map<String, Object> shot = snap.getData();
+                                        String start_time = String.valueOf(shot.get(EmployID.start_time));
+                                        String end_time = String.valueOf(shot.get(EmployID.end_time));
+                                        Log.d("aaa", start_time + " 부터 " +end_time);
+
+
+                                        CalendarPost data = new CalendarPost(user_name, start_time, end_time);
+
+                                        todayTime.setText(start_time+"부터 "+end_time+"입니다.");
+                                    }
+                                }
+                            }
+                        }
+                );
     }
 
     @Override
