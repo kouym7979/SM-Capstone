@@ -112,7 +112,7 @@
                 <TextView
                     android:id="@+id/Comment_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="40sp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20sp"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
