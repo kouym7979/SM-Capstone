@@ -63,7 +63,7 @@ public class MyPageActivity extends AppCompatActivity {
     String pos; //직원인지 매니저인지 감지
     private ImageButton logout_btn, modify_btn;
     Activity a;
-    private Button kakao_btn;
+    private ImageButton kakao_btn;
     private boolean permit;
     private SharedPreferences preferences;
     static RequestQueue requestQueue;
@@ -80,6 +80,7 @@ public class MyPageActivity extends AppCompatActivity {
         postv = findViewById(R.id.postv);
         logout_btn = findViewById(R.id.logout_btn);
         modify_btn = findViewById(R.id.modify_btn);
+        kakao_btn = findViewById(R.id.kakao_btn);
         a = MyPageActivity.this;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 

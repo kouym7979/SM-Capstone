@@ -161,7 +161,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()) //매장번호가 이미 존재하면
                     {
-                        Toast.makeText(getApplicationContext(),"이미 존재하는 매장번호 입니다",Toast.LENGTH_SHORT).show();
+                        ((GlobalMethod)getApplicationContext()).storeDuplicate(a);
                         storeCheck = 1;
                     }
                     else //없으면
