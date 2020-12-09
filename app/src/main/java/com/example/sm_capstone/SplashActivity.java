@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
             SplashActivity.this.finish();
         }
     }
-    
+
     private void getHashKey(){
         PackageInfo packageInfo = null;
         try {
