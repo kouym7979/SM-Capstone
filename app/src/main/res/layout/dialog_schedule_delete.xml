@@ -12,20 +12,20 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#DFD3B4"/>
+        android:background="#000000"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#EEEDEC"
+        android:background="@color/emplobackground"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#EEEDEC"
-            android:textColor="@color/emplobackground"
+            android:background="@color/emplobackground"
+            android:textColor="#ffffff"
             android:text="삭제하기"
             android:textSize="12dp" />
 
@@ -34,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:background="#EEEDEC"
-            android:textColor="@color/emplobackground"
+            android:background="@color/emplobackground"
+            android:textColor="#ffffff"
             android:text="일정을 삭제하시겠습니까?"
             android:textSize="20dp" />
     </LinearLayout>
@@ -43,7 +43,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#DFD3B4"/>
+        android:background="#000000"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,22 +54,22 @@
             android:id="@+id/delete_yes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#EEEDEC"
-            android:textColor="@color/emplobackground"
+            android:background="@color/emplobackground"
+            android:textColor="#ffffff"
             android:layout_weight="50"
             android:text="예" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#DFD3B4" />
+            android:background="#000000" />
 
         <Button
             android:id="@+id/delete_no"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#EEEDEC"
-            android:textColor="@color/emplobackground"
+            android:background="@color/emplobackground"
+            android:textColor="#ffffff"
             android:layout_weight="50"
             android:text="아니오" />
 
@@ -78,6 +78,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#DFD3B4"/>
+        android:background="#000000"/>
 
 </LinearLayout>
