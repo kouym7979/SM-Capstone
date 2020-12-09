@@ -51,6 +51,7 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
     private Button btn_request; //요청하기 버튼
     private TextView date;
     private TextView starttime, endtime;
+    private String select_date;
 
     private String store_num;
     private JSONArray idArray = new JSONArray();
@@ -65,6 +66,7 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
         schedule_id = intent.getStringExtra("schedule_id");
         start_time = intent.getStringExtra("start_time");
         end_time = intent.getStringExtra("end_time");
+        select_date = intent.getStringExtra("schedule_date");
 
 
         date = findViewById(R.id.request_date);     //해당 날짜
@@ -73,7 +75,7 @@ public class ScheduleRequest extends AppCompatActivity implements View.OnClickLi
         request_reference = findViewById(R.id.request_reference);         //참고사항
         findViewById(R.id.request_save).setOnClickListener(this);      //완료 버튼
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        date.setText(EmployID.date);
+        date.setText(select_date);
         starttime.setText(start_time);
         endtime.setText(end_time);
 
