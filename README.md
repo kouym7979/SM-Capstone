@@ -1,5 +1,6 @@
 # SM-capstone[Emplo]
-[![Emplo영상을 보시려면 이미지를 클릭하세요!](https://img.youtube.com/vi/ebumq5O7cdg/0.jpg)](https://www.youtube.com/watch?v=ebumq5O7cdg)
+Emplo 영상을 보려면 아래 이미지를 클릭하세요.
+[![Watch the video!](https://img.youtube.com/vi/ebumq5O7cdg/0.jpg)](https://www.youtube.com/watch?v=ebumq5O7cdg)
 #### 프로젝트 이름:emplo
 
 ---
