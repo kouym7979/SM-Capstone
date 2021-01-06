@@ -1,5 +1,5 @@
 # SM-capstone[Emplo]
-
+ {% include appvideo.html id="ebumq5O7cdg" %}  
 
 #### 프로젝트 이름:emplo
 
