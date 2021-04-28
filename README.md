@@ -21,7 +21,7 @@ Emplo 영상을 보려면 아래 이미지를 클릭하세요.
 - Java
 - Firebase
 - Picasso
-- Jeplin
+- Zeplin
 
 ---
 
